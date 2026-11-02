@@ -3135,7 +3135,7 @@ html[data-theme="dark"] {
 body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: #fff;
+  background: var(--background);
   color: var(--text);
 }
 
@@ -3332,4 +3332,89 @@ html[data-theme="dark"] .signin-apply-button {
 
 html[data-theme="dark"] .signin-apply-button:hover {
   background: #315170;
+}
+
+/* Dark mode page backgrounds */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: #101b2a;
+  color: #edf4fa;
+}
+
+html[data-theme="dark"] .dashboard,
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .signin-page,
+html[data-theme="dark"] .auth-page {
+  background-color: #101b2a;
+  color: #edf4fa;
+}
+
+/* Headings */
+html[data-theme="dark"] .dashboard-header h1,
+html[data-theme="dark"] .dashboard-header h2,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .hero h1 {
+  color: #f1f6fc;
+}
+
+/* Paragraphs */
+html[data-theme="dark"] .dashboard-header p,
+html[data-theme="dark"] .section-heading p,
+html[data-theme="dark"] .hero p {
+  color: #b0c0ce;
+}
+
+/* Cards */
+html[data-theme="dark"] .dashboard-card,
+html[data-theme="dark"] .calendar-dashboard-card,
+html[data-theme="dark"] .connect-search,
+html[data-theme="dark"] .discussion-card,
+html[data-theme="dark"] .learn-topic-card {
+  background-color: #192a3b;
+  color: #edf4fa;
+  border-color: #33495e;
+}
+
+/* Card text */
+html[data-theme="dark"] .dashboard-card h2,
+html[data-theme="dark"] .dashboard-card h3,
+html[data-theme="dark"] .learn-topic-card h3 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .dashboard-card p,
+html[data-theme="dark"] .learn-topic-card p {
+  color: #b0c0ce;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #102137;
+  color: #f8fbff;
+  border-color: #526880;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: #b3c3d7;
+}
+
+
+html[data-theme="dark"] .dashboard-banner,
+html[data-theme="dark"] .dashboard-hero {
+  background: linear-gradient(125deg, #092039, #17466b);
+  color: #ffffff;
+}
+
+
+html[data-theme="dark"] body > header,
+html[data-theme="dark"] .navbar {
+  background-color: #142638;
+}
+
+
+html[data-theme="dark"] .dashboard a:not(.signin-button):not(.card-link) {
+  color: #a9d8ff;
 }
