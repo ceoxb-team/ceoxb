@@ -84,16 +84,22 @@
             const emailDisplay = document.getElementById("email-display");
             const codeInputs = Array.from(document.querySelectorAll(".otp-box"));
     
-    function fillCode(value, startIndex = 0) {
-        const digits = value.replace(/\D/g, "").slice(0, 6 - startIndex);
-    
-        digits.split("").forEach(function(digit, index) {
-            codeInputs[startIndex + index].value = digit;
-        });
-    
-        const nextIndex = Math.min(startIndex + digits.length, 5);
-        codeInputs[nextIndex].focus();
-    }
+        function fillCode(value, startIndex = 0) {
+            const digits = value.replace(/\D/g, "").slice(0, 6 - startIndex);
+        
+            if (!digits) return;
+        
+            for (let i = startIndex; i < codeInputs.length; i++) {
+                codeInputs[i].value = "";
+            }
+        
+            digits.split("").forEach(function(digit, index) {
+                codeInputs[startIndex + index].value = digit;
+            });
+        
+            const nextIndex = Math.min(startIndex + digits.length, 5);
+            codeInputs[nextIndex].focus();
+        }
     
     codeInputs.forEach(function(input, index) {
         input.addEventListener("input", function() {
@@ -107,9 +113,15 @@
         });
     
         input.addEventListener("keydown", function(event) {
-            if (event.key === "Backspace" && !input.value && index > 0) {
-                codeInputs[index - 1].value = "";
-                codeInputs[index - 1].focus();
+            if (event.key === "Backspace") {
+                event.preventDefault();
+            
+                if (input.value) {
+                    input.value = "";
+                } else if (index > 0) {
+                    codeInputs[index - 1].value = "";
+                    codeInputs[index - 1].focus();
+                }
             }
     
             if (event.key === "ArrowLeft" && index > 0) {
