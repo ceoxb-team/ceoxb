@@ -3,74 +3,6 @@ async function getCurrentUser() {
     return data.session ? data.session.user : null;
 }
 
-const signinForm = document.getElementById("signin-form");
-
-if (signinForm) {
-    signinForm.addEventListener("submit", async function(event) {
-        event.preventDefault();
-
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-        const message = document.getElementById("signin-message");
-
-        message.textContent = "Signing in...";
-
-        const { error } = await _supabase.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-
-        if (error) {
-            message.textContent = error.message;
-            return;
-        }
-
-        window.location.href = "dashboard.html";
-    });
-}
-
-const signupForm = document.getElementById("signup-form");
-
-if (signupForm) {
-    signupForm.addEventListener("submit", async function(event) {
-        event.preventDefault();
-
-        const name = document.getElementById("signup-name").value.trim();
-        const email = document.getElementById("signup-email").value.trim();
-        const inviteCode = document.getElementById("invite-code").value.trim();
-        const password = document.getElementById("signup-password").value;
-        const confirm = document.getElementById("confirm-password").value;
-        const message = document.getElementById("signup-message");
-
-        if (password !== confirm) {
-            message.textContent = "Passwords do not match.";
-            return;
-        }
-
-        message.textContent = "Creating your account...";
-        const { data, error } = await _supabase.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: { name: name, invite_code: inviteCode }
-            }
-        });
-
-        if (error) {
-            message.textContent = error.message;
-            return;
-        }
-
-        if (data.session) {
-            window.location.href = "profile.html";
-        } else {
-            message.textContent =
-                "Account created! Check your email to confirm it, then sign in.";
-            signupForm.reset();
-        }
-    });
-}
-
 const pageName = window.location.pathname.split("/").pop();
 
 if (pageName === "dashboard.html" || pageName === "learn.html" ||
@@ -492,7 +424,7 @@ if (profileForm) {
         const user = await getCurrentUser();
 
         if (!user) {
-            window.location.replace("signin.html");
+            window.location.replace("onboarding_files/signin.html");
             return;
         }
 
