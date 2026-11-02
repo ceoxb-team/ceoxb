@@ -388,6 +388,36 @@ html[data-theme="dark"] .signin-box input:not([type="radio"])::placeholder {
   color: #b3c3d7;
 }
 
+.auth-back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px 20px;
+  border: 1px solid #8da5bc;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #082c50;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.auth-back-button:hover {
+  background: #eaf3f9;
+}
+
+html[data-theme="dark"] .auth-panel .auth-back-button {
+  background: #263e58;
+  color: #f4f9ff;
+  border-color: #8ea9c8;
+}
+
+html[data-theme="dark"] .auth-panel .auth-back-button:hover {
+  background: #315170;
+}
+
 html[data-theme="dark"] .signin-apply-button {
   background: #263e58;
   color: #f4f9ff;
