@@ -1,6 +1,50 @@
+body {
+  background: #f4f7fb;
+}
+
 .signin-box {
-  margin-top: 2rem;
-  margin-bottom: 3rem;
+  width: min(100%, 720px);
+  margin: 2rem auto 3rem;
+  padding: 40px;
+  background: #1f3550;
+  color: #eef4fb;
+  border: 1px solid #2d4969;
+  border-radius: 28px;
+  box-shadow: 0 10px 30px rgba(8, 44, 80, 0.08);
+}
+
+.signin-box h1 {
+  color: #f4f8fd;
+  margin-bottom: 14px;
+}
+
+.signin-box label {
+  color: #d9e5f2;
+  font-weight: 600;
+}
+
+.signin-box p {
+  color: #c8d7e6;
+}
+
+.signin-box input:not([type="radio"]) {
+  width: 100%;
+  padding: 14px 16px;
+  background: #ffffff;
+  color: #152c44;
+  border: 1px solid #b8c8d8;
+  border-radius: 12px;
+  font: inherit;
+}
+
+.signin-box input:not([type="radio"])::placeholder {
+  color: #8aa0b6;
+  opacity: 1;
+}
+
+.signin-box input:not([type="radio"]):focus-visible {
+  outline: 3px solid #4c96d2;
+  outline-offset: 2px;
 }
 
 .blue-round-button {
@@ -53,6 +97,35 @@
 
 .signin-body {
   margin-top: 16px;
+}
+.signin-apply-text {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #d4dfeb;
+  font-size: 0.95rem;
+}
+
+.signin-apply-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid #8ea9c8;
+  background: #ffffff;
+  color: #082c50;
+  text-decoration: none;
+  font-weight: 600;
+  text-align: center;
+}
+
+.signin-apply-button:hover {
+  background: #eef4fa;
 }
 
 .location-group {
@@ -284,6 +357,10 @@ html[data-theme="dark"] .get-started-box p {
   color: #cfdaea;
 }
 
+html[data-theme="dark"] body {
+  background: #08111d;
+}
+
 html[data-theme="dark"] .signin-box {
   background: #1c2d42;
   color: #eef5ff;
@@ -295,11 +372,32 @@ html[data-theme="dark"] .signin-box label {
   color: #f2f7ff;
 }
 
+html[data-theme="dark"] .signin-box p,
+html[data-theme="dark"] .signin-apply-text {
+  color: #cfdaea;
+}
+
 html[data-theme="dark"] .signin-box input:not([type="radio"]) {
   background: #102137;
   color: #f8fbff;
+  caret-color: #ffffff;
   border-color: #8296b1;
 }
+
+html[data-theme="dark"] .signin-box input:not([type="radio"])::placeholder {
+  color: #b3c3d7;
+}
+
+html[data-theme="dark"] .signin-apply-button {
+  background: #263e58;
+  color: #f4f9ff;
+  border-color: #8ea9c8;
+}
+
+html[data-theme="dark"] .signin-apply-button:hover {
+  background: #315170;
+}
+
 
 @media (max-width: 600px) {
   .auth-panel {
@@ -320,4 +418,16 @@ html[data-theme="dark"] .signin-box input:not([type="radio"]) {
   width: auto;
   display: inline-block;
   margin-right: 8px;
+}
+
+.signin-box input:-webkit-autofill,
+.auth-panel input:-webkit-autofill {
+  -webkit-text-fill-color: #152c44;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+}
+
+html[data-theme="dark"] .signin-box input:-webkit-autofill,
+html[data-theme="dark"] .auth-panel input:-webkit-autofill {
+  -webkit-text-fill-color: #f8fbff;
+  -webkit-box-shadow: 0 0 0 1000px #102137 inset;
 }
