@@ -53,6 +53,10 @@ submitButton.addEventListener("click", async function() {
   statusMessage.textContent = "Submitting application...";
 
   try {
+    if (typeof _supabase === "undefined") {
+      throw new Error("Application service is unavailable.");
+    }
+
     const { error } = await _supabase.from("applications").insert({
       first_name: get("firstName"),
       last_name: get("lastName"),
