@@ -108,7 +108,7 @@
             <button type="submit" id="continue" class="blue-round-button">
               Continue
             </button>
-            <p id="signin-message" class="signin-message" role="status"></p>
+            <p id="company-message" class="signin-message" role="status"></p>
           </form>
 
           <script>
@@ -125,6 +125,8 @@
                 );
             
                 if (!companyName || !website || !country || !industry) {
+                  document.getElementById("company-message").textContent =
+                  "Please complete all company fields.";
                   return;
                 }
             
