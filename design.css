@@ -1287,7 +1287,7 @@ html[data-theme="dark"] #cohort-update-summary h3 {
   text-decoration: underline;
 }
 
-html[data-theme="dark"] .signin-apply-link {
+html[data-theme="dark"] .signin-apply-button {
   background: #347ca8;
 }
 
@@ -3236,7 +3236,7 @@ body {
 
 .pill:focus-visible,
 #signin-form input:focus-visible,
-.signin-apply-link:focus-visible {
+.signin-apply-button:focus-visible {
   outline: 3px solid #5b9bd5;
   outline-offset: 2px;
 }
@@ -3285,7 +3285,7 @@ body {
   font-weight: 600;
   color: #504b4b;
 }
-.signin-apply-link {
+.signin-apply-button {
   font-size: 0.85rem;
   font-weight: 600;
   color: #504b4b;
