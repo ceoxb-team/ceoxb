@@ -432,26 +432,53 @@ html[data-theme="dark"] .auth-panel input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #102137 inset;
 }
 
-#verification-code {
-  max-width: 300px;
-  margin: 12px auto 0;
+/* Six-digit verification code */
+.otp-group {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  width: min(100%, 380px);
+  margin: 16px auto 20px;
+}
+
+.auth-panel .otp-box {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 62px;
+  padding: 0;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 0.4em;
-  border: 2px solid #7fa6cc;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(12, 76, 111, 0.12);
+  border: 2px solid #9caec2;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #152c44;
 }
 
-#verification-code:focus-visible {
+.auth-panel .otp-box:focus-visible {
   outline: none;
   border-color: #4c96d2;
-  box-shadow: 0 0 0 4px rgba(76, 150, 210, 0.2);
+  box-shadow: 0 0 0 3px rgba(76, 150, 210, 0.2);
 }
 
-html[data-theme="dark"] #verification-code {
+html[data-theme="dark"] .auth-panel .otp-box {
   background: #102137;
   color: #f8fbff;
   border-color: #8296b1;
+}
+
+html[data-theme="dark"] .auth-panel .otp-box:focus-visible {
+  border-color: #66b6f4;
+}
+
+@media (max-width: 600px) {
+  .otp-group {
+    gap: 6px;
+  }
+
+  .auth-panel .otp-box {
+    height: 52px;
+    font-size: 1.2rem;
+  }
 }
