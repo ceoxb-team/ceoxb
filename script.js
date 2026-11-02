@@ -79,7 +79,7 @@ if (pageName === "dashboard.html" || pageName === "learn.html" ||
         pageName === "calendar.html") {
     getCurrentUser().then(function(user) {
         if (!user) {
-            window.location.replace("signin.html");
+            window.location.replace("onboarding_files/signin.html");
         }
     });
 }
