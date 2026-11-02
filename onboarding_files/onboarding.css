@@ -482,3 +482,16 @@ html[data-theme="dark"] .auth-panel .otp-box:focus-visible {
     font-size: 1.2rem;
   }
 }
+
+.otp-label {
+  font-weight: 650;
+  margin: 18px 0 0;
+}
+
+.text-divider {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .text-divider {
+  color: #cfdaea;
+}
