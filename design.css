@@ -2973,13 +2973,8 @@ html[data-theme="dark"] #edit-about {
   flex-shrink: 0;
 }
 
-html {
-  background-color: white;
-}
-
 html,
 body {
-  background: #ffffff !important;
   background-color: var(--background);
 }
 
@@ -3127,10 +3122,10 @@ body {
 
 :root {
   --card-bg: #eef3fa;
-  --navy: #244e6e;
-  --text: #000;
-  --muted: #555;
-  --border: #8a8f98;
+}
+
+html[data-theme="dark"] {
+  --card-bg: #192a3b;
 }
 
 * {
@@ -3149,7 +3144,7 @@ body {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: #fff;
+  background: var(--background);
 }
 
 .signin-box {
@@ -3297,4 +3292,44 @@ body {
   text-decoration: underline;
 }
 
-/* changing google button */
+html[data-theme="dark"] body {
+  background-color: #08111d;
+}
+
+/* Sign In dark mode */
+html[data-theme="dark"] .signin-page {
+  background: #101b2a;
+}
+
+html[data-theme="dark"] .signin-box {
+  background: #1c2d42;
+  color: #eef5ff;
+  border-color: #526880;
+}
+
+html[data-theme="dark"] .signin-box h1,
+html[data-theme="dark"] #signin-form label,
+html[data-theme="dark"] .signin-apply-text {
+  color: #eef5ff;
+}
+
+html[data-theme="dark"] #signin-form input {
+  background: #102137;
+  color: #f8fbff;
+  caret-color: #ffffff;
+  border-color: #8296b1;
+}
+
+html[data-theme="dark"] #signin-form input::placeholder {
+  color: #b3c3d7;
+}
+
+html[data-theme="dark"] .signin-apply-button {
+  background: #263e58;
+  color: #f4f9ff;
+  border: 1px solid #8ea9c8;
+}
+
+html[data-theme="dark"] .signin-apply-button:hover {
+  background: #315170;
+}
