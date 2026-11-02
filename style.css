@@ -1178,9 +1178,9 @@ footer {
 
 html,
 body {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  background-color: var(--background, #ffffff);
 }
+
 .btn-pill {
   display: inline-flex;
   align-items: center;
