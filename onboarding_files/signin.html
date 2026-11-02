@@ -6,15 +6,18 @@
     <title>Signing in to Account</title>
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../design.css" />
-    <!-- <link rel="stylesheet" href="../google_button.css" /> -->
     <link rel="stylesheet" href="onboarding.css" />
+    <link rel="stylesheet" href="auth-fixes.css" />
   </head>
   <body>
     <header>
       <nav class="navbar">
-        <a href="index.html" class="logo">
+        <a href="../index.html" class="logo">
           <img src="../imgs/logo.svg" alt="CEO XB" />
         </a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+        </div>
       </nav>
     </header>
 
@@ -23,42 +26,25 @@
         <h1>Welcome back</h1>
 
         <div class="signin-body">
-          <form id="signin-form">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
-            <!-- need a type=submit so the button can have validation checks w the email -->
-            <button type="submit" id="continue" class="blue-round-button">
-              Continue
-            </button>
-            <p id="signin-message" class="signin-message" role="status"></p>
-          </form>
-
-          <script>
-            // listening to if form is submitted, checking if it is submitted, if so then it will do this
-            document
-              .getElementById("signin-form")
-              .addEventListener("submit", (event) => {
-                console.log("script loaded");
-                // stopping page from reloading, that way the form will automatically
-                // use its validation to check if the email is valid or empty or not
-                // we are preventing the automatic reloading of page so we can add extra stuff before going to next page
-                event.preventDefault();
-                console.log(
-                  "submitted",
-                  document.getElementById("email").value
-                );
-                // getting email name
-                const email = document.getElementById("email").value.trim();
-                // setting the email variable to the sessionStorage temporary data storage
-                sessionStorage.setItem("email", email);
-                window.location.href = "password.html";
-              });
-          </script>
+        <form id="signin-form">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email"
+                 placeholder="you@company.com"
+                 autocomplete="email" required />
+        
+          <button type="submit" id="continue" class="blue-round-button">
+            Continue
+          </button>
+        
+          <p id="auth-message" class="signin-message"
+             role="status" aria-live="polite"></p>
+        </form>
 
           <div class="text-divider">or</div>
 
           <!-- google button from google website -->
-          <button class="gsi-material-button" style="width: 290px">
+          <button type="button" id="google-signin"
+            class="gsi-material-button" style="width: 290px">
             <div class="gsi-material-button-state"></div>
             <div class="gsi-material-button-content-wrapper">
               <div class="gsi-material-button-icon">
@@ -113,7 +99,7 @@
           >
         </div>
 
-        <a href="index.html" class="signin-back-link">
+        <a href="../index.html" class="signin-back-link">
           <img src="../imgs/left_arrow.svg" id="left-arrow" alt="" />Back to
           Home</a
         >
@@ -126,8 +112,8 @@
 
     <!-- scripts here -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-    <script src="supabase.js"></script>
-    <script src="script.js"></script>
-    <script src="theme.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="auth.js"></script>
+    <script src="../theme.js"></script>
   </body>
 </html>
