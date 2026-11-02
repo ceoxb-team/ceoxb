@@ -2980,7 +2980,7 @@ html {
 html,
 body {
   background: #ffffff !important;
-  background-color: #ffffff !important;
+  background-color: var(--background);
 }
 
 /* CONTINUE WITH BUTTONS */
