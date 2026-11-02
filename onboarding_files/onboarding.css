@@ -183,3 +183,14 @@ p {
 .get-started-box p {
   font-size: 0.9rem;
 }
+
+.industry-fieldset {
+  border: none;
+  padding: 0;
+  margin: 15px 0;
+}
+
+.industry-fieldset legend {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
