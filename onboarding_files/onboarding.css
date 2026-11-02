@@ -1,3 +1,7 @@
+body {
+  background-color: white;
+}
+
 .signin-box {
   margin-top: 2rem;
   margin-bottom: 3rem;
@@ -17,7 +21,29 @@
   box-shadow: 0 1.636px 0 0 rgba(255, 255, 255, 0.12) inset,
     0 1.636px 3.271px 0 rgba(6, 44, 80, 0.2);
   color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
+}
+
+.blue-button {
+  margin-top: 50px;
+  width: 320px;
+  height: 42px;
+  padding: 0 var(--Spacing-space-10, 39.252px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-space-5, 13.084px);
+  border-radius: 16353.505px;
+  border: none;
+  background: #0c4c6f;
+  box-shadow: 0 1.636px 0 0 rgba(255, 255, 255, 0.12) inset,
+    0 1.636px 3.271px 0 rgba(6, 44, 80, 0.2);
+  color: white;
+  font-size: 0.95rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
 }
 
 .gray-round-button {
@@ -33,7 +59,7 @@
   box-shadow: 0 1.636px 0 0 rgba(255, 255, 255, 0.12) inset,
     0 1.636px 3.271px 0 rgba(6, 44, 80, 0.2);
   color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 #left-arrow {
@@ -123,4 +149,33 @@ p {
 .round-button-group {
   display: flex;
   justify-content: center;
+}
+
+/* GET STARTED PAGE  */
+.get-started-image-group {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+
+.get-started-image {
+  height: 95%;
+  width: 95%;
+}
+
+.get-started-box {
+  background-color: rgb(255, 255, 255);
+  width: 50%;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(8, 44, 80, 0.06);
+  background-color: #ffffff;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.get-started-box p {
+  font-size: 0.9rem;
 }
