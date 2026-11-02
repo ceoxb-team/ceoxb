@@ -3,49 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CEO XB - Sign In</title>
-
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="header.css" />
-    <link rel="stylesheet" href="design.css" />
-    <link rel="stylesheet" href="google_button.css" />
+    <title>Signing in to Account</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../design.css" />
+    <!-- <link rel="stylesheet" href="../google_button.css" /> -->
+    <link rel="stylesheet" href="onboarding.css" />
   </head>
-  <body
-    style="background-color: white !important; background: white !important"
-  >
+  <body>
     <header>
       <nav class="navbar">
         <a href="index.html" class="logo">
-          <img src="imgs/logo.svg" alt="CEO XB" />
+          <img src="../imgs/logo.svg" alt="CEO XB" />
         </a>
-        <!-- <div class="nav-links"> -->
-        <!-- <a href="index.html">Home</a> -->
-        <!-- <a href="index.html#about">About</a> -->
-        <!-- <a href="request-access.html" class="signup-btn">Request Access</a> -->
-        <!-- </div> -->
       </nav>
     </header>
 
-    <main class="signin-page">
+    <main>
       <section class="signin-box">
         <h1>Welcome back</h1>
 
         <div class="signin-body">
-          <form id="signin-form" novalidate>
+          <form id="signin-form">
             <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autocomplete="email"
-              required
-            />
-            <button type="submit" class="pill pill-primary">Continue</button>
+            <input type="email" id="email" name="email" required />
+            <!-- need a type=submit so the button can have validation checks w the email -->
+            <button type="submit" id="continue" class="blue-round-button">
+              Continue
+            </button>
             <p id="signin-message" class="signin-message" role="status"></p>
           </form>
 
+          <script>
+            // listening to if form is submitted, checking if it is submitted, if so then it will do this
+            document
+              .getElementById("signin-form")
+              .addEventListener("submit", (event) => {
+                console.log("script loaded");
+                // stopping page from reloading, that way the form will automatically
+                // use its validation to check if the email is valid or empty or not
+                // we are preventing the automatic reloading of page so we can add extra stuff before going to next page
+                event.preventDefault();
+                console.log(
+                  "submitted",
+                  document.getElementById("email").value
+                );
+                // getting email name
+                const email = document.getElementById("email").value.trim();
+                // setting the email variable to the sessionStorage temporary data storage
+                sessionStorage.setItem("email", email);
+                window.location.href = "password.html";
+              });
+          </script>
+
           <div class="text-divider">or</div>
 
+          <!-- google button from google website -->
           <button class="gsi-material-button" style="width: 290px">
             <div class="gsi-material-button-state"></div>
             <div class="gsi-material-button-content-wrapper">
@@ -94,7 +106,6 @@
           >
             Continue with Invitation Code
           </button>
-          <!-- font-family: "Roboto", arial, sans-serif; -->
 
           <p class="signin-apply-text">Don’t have an account?</p>
           <a href="request-access.html" class="signin-apply-link"
@@ -103,30 +114,19 @@
         </div>
 
         <a href="index.html" class="signin-back-link">
-          <span aria-hidden="true">←</span>Back to Home</a>
+          <img src="../imgs/left_arrow.svg" id="left-arrow"alt="" />Back to Home</a
+        >
       </section>
     </main>
 
     <footer>
       <p>CEO XB</p>
     </footer>
+
+    <!-- scripts here -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
     <script src="supabase.js"></script>
     <script src="script.js"></script>
     <script src="theme.js"></script>
-    <script>
-      document.getElementById("signin-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email");
-        const msg = document.getElementById("signin-message");
-        if (!email.checkValidity()) {
-          msg.textContent = "Enter a valid email address.";
-          email.focus();
-          return;
-        }
-        msg.textContent = "";
-        // TODO: send email to your auth endpoint
-      });
-    </script>
   </body>
 </html>
