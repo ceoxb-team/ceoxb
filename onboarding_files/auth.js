@@ -1,4 +1,3 @@
-
 (function () {
     const client = typeof _supabase !== "undefined" ? _supabase : null;
     const emailForm = document.getElementById("signin-form");
@@ -73,17 +72,65 @@
         }
     }
 
-    // Verification and password page
-    if (verificationForm) {
-        const email = sessionStorage.getItem(loginEmailKey);
-
-        if (!email) {
-            window.location.replace("signin.html");
-            return;
-        }
-
-        const emailDisplay = document.getElementById("email-display");
-        const codeInput = document.getElementById("verification-code");
+        // Verification and password page
+        if (verificationForm) {
+            const email = sessionStorage.getItem(loginEmailKey);
+    
+            if (!email) {
+                window.location.replace("signin.html");
+                return;
+            }
+    
+            const emailDisplay = document.getElementById("email-display");
+            const codeInputs = Array.from(document.querySelectorAll(".otp-box"));
+    
+    function fillCode(value, startIndex = 0) {
+        const digits = value.replace(/\D/g, "").slice(0, 6 - startIndex);
+    
+        digits.split("").forEach(function(digit, index) {
+            codeInputs[startIndex + index].value = digit;
+        });
+    
+        const nextIndex = Math.min(startIndex + digits.length, 5);
+        codeInputs[nextIndex].focus();
+    }
+    
+    codeInputs.forEach(function(input, index) {
+        input.addEventListener("input", function() {
+            const digits = input.value.replace(/\D/g, "");
+    
+            input.value = "";
+    
+            if (digits) {
+                fillCode(digits, index);
+            }
+        });
+    
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Backspace" && !input.value && index > 0) {
+                codeInputs[index - 1].value = "";
+                codeInputs[index - 1].focus();
+            }
+    
+            if (event.key === "ArrowLeft" && index > 0) {
+                event.preventDefault();
+                codeInputs[index - 1].focus();
+            }
+    
+            if (event.key === "ArrowRight" && index < 5) {
+                event.preventDefault();
+                codeInputs[index + 1].focus();
+            }
+        });
+    
+        input.addEventListener("paste", function(event) {
+            event.preventDefault();
+    
+            const pasted = event.clipboardData.getData("text");
+            fillCode(pasted, index);
+        });
+    });
+        
         const passwordInput = document.getElementById("password");
         const codeButton = document.getElementById("send-code");
         const passwordButton = document.getElementById("password-signin");
@@ -125,11 +172,12 @@
                 return;
             }
 
-            const code = codeInput.value.trim();
+            const code = codeInputs.map(input => input.value).join("");
 
             if (!/^\d{6}$/.test(code)) {
                 setNotice("Enter the six-digit code from your email.");
-                codeInput.focus();
+                const firstEmpty = codeInputs.find(input => !input.value);
+                (firstEmpty || codeInputs[0]).focus();
                 return;
             }
 
