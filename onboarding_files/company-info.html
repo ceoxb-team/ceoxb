@@ -20,12 +20,77 @@
 
     <main>
       <section class="signin-box">
-        <h1>Welcome back</h1>
+        <h1>Please share a little about your company with us.</h1>
 
         <div class="signin-body">
-          <form id="signin-form">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
+          <form id="company-info">
+            <label for="company-name">What is your company’s name?</label>
+            <input
+              type="company-name"
+              id="company-name"
+              name="company-name"
+              required
+            />
+
+            <label for="website">What is your company’s website?</label>
+            <input type="website" id="website" name="website" required />
+
+            <label for="company-country"
+              >What country is your company located in?</label
+            >
+            <input
+              type="company-country"
+              id="company-country"
+              name="company-country"
+              required
+            />
+
+            <label for="company-industry"
+              >What is your company's industry?</label
+            >
+            <input
+              type="radio"
+              id="biopharma"
+              name="company-industry"
+              required
+            />
+            <label for="biopharma">Biopharma</label><br />
+
+            <input
+              type="radio"
+              id="health-tech"
+              name="company-industry"
+              required
+            />
+            <label for="biopharma">Health Tech</label><br />
+
+            <input
+              type="radio"
+              id="medical-devices"
+              name="company-industry"
+              required
+            />
+            <label for="medical-devices">Medical Devices</label><br />
+
+            <input
+              type="radio"
+              id="digital-health"
+              name="company-industry"
+              required
+            />
+            <label for="digital-health">Digital Health</label><br />
+
+            <input
+              type="radio"
+              id="diagnostics"
+              name="company-industry"
+              required
+            />
+            <label for="digital-health">Diagnostics</label><br />
+
+            <input type="radio" id="other" name="company-industry" required />
+            <label for="digital-health">Other</label><br />
+
             <!-- need a type=submit so the button can have validation checks w the email -->
             <button type="submit" id="continue" class="blue-round-button">
               Continue
