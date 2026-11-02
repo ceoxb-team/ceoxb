@@ -93,3 +93,34 @@ p {
 .signin-body {
   margin-top: -40px;
 }
+
+.location-group {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ready {
+  background-color: #4caf50; /* Changes to green */
+  color: white;
+  cursor: pointer; /* Changes to a clickable hand icon */
+}
+
+.blue-round-button {
+  background-color: #4caf50;
+}
+
+.blue-round-button {
+  background-color: gray;
+}
+
+.round-button-group {
+  display: flex;
+  justify-content: center;
+}
