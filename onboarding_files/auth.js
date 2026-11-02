@@ -18,7 +18,7 @@
         try {
             await action();
         } catch (error) {
-            setNotice("Unable to contact the sign-in service. Please try again.");
+            setNotice(error?.message || "Unable to contact the sign-in service.");
         } finally {
             if (button) button.disabled = false;
         }
