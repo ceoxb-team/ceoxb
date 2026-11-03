@@ -3448,3 +3448,9 @@ html[data-theme="dark"] .main-btn {
 html[data-theme="dark"] .main-btn:hover {
   background: #28618c;
 }
+
+html[data-theme="dark"] .about_info_img {
+  background-color: #eaf3f9;
+  padding: 12px;
+  border-radius: 14px;
+}
