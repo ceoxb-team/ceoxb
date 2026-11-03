@@ -3401,20 +3401,50 @@ html[data-theme="dark"] textarea::placeholder {
   color: #b3c3d7;
 }
 
-
 html[data-theme="dark"] .dashboard-banner,
 html[data-theme="dark"] .dashboard-hero {
   background: linear-gradient(125deg, #092039, #17466b);
   color: #ffffff;
 }
 
-
 html[data-theme="dark"] body > header,
 html[data-theme="dark"] .navbar {
   background-color: #142638;
 }
 
-
 html[data-theme="dark"] .dashboard a:not(.signin-button):not(.card-link) {
   color: #a9d8ff;
+}
+
+html[data-theme="dark"] .hero {
+  background: #101b2a;
+  color: #edf4fa;
+}
+
+html[data-theme="dark"] .hero h1 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .hero p {
+  color: #b0c0ce;
+}
+
+html[data-theme="dark"] .hero strong,
+html[data-theme="dark"] .hero b,
+html[data-theme="dark"] .hero h3,
+html[data-theme="dark"] .hero h4 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .hero small {
+  color: #b0c0ce;
+}
+
+html[data-theme="dark"] .main-btn {
+  background: #0c4c6f;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .main-btn:hover {
+  background: #28618c;
 }
