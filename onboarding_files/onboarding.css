@@ -557,3 +557,30 @@ html[data-theme="dark"] .signin-box .signin-back-button {
 html[data-theme="dark"] .signin-box .signin-back-button:hover {
   background: #315170;
 }
+
+.nav-links .home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 18px;
+  border-radius: 9px;
+  background: #0c4c6f;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-links .home-button:hover {
+  background: #28618c;
+  color: #ffffff;
+}
+
+
+html[data-theme="dark"] .nav-links .home-button {
+  background: #24445e;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .nav-links .home-button:hover {
+  background: #347ca8;
+}
