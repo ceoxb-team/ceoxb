@@ -3454,3 +3454,17 @@ html[data-theme="dark"] .about_info_img {
   padding: 12px;
   border-radius: 14px;
 }
+
+.discussion-author {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.discussion-card-top {
+    flex-wrap: wrap;
+}
+
+.discussion-date {
+    margin-left: auto;
+}
