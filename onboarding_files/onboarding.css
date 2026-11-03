@@ -525,3 +525,35 @@ html[data-theme="dark"] .auth-panel .otp-box:focus-visible {
 html[data-theme="dark"] .text-divider {
   color: #cfdaea;
 }
+
+.signin-box .signin-back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 24px auto 0;
+  padding: 12px 20px;
+  border: 1px solid #8ea9c8;
+  border-radius: 30px;
+  background: #ffffff;
+  color: #082c50;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.signin-box .signin-back-button:hover {
+  background: #eaf3f9;
+}
+
+html[data-theme="dark"] .signin-box .signin-back-button {
+  background: #263e58;
+  color: #f4f9ff;
+  border-color: #8ea9c8;
+}
+
+html[data-theme="dark"] .signin-box .signin-back-button:hover {
+  background: #315170;
+}
