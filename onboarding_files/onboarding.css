@@ -183,3 +183,93 @@ p {
 .get-started-box p {
   font-size: 0.9rem;
 }
+
+.get-started-box p {
+  font-size: 0.9rem;
+}
+
+/* COMPANY INFO */
+
+.company-info-box {
+  background-color: white;
+  width: 50%;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid #e2e7ee;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(8, 44, 80, 0.06);
+  background-color: #edf4fb;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.company-box h1 {
+  margin: 0 0 24px;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgb(0, 0, 0);
+  line-height: 1.2;
+}
+
+.company-fields {
+  color: rgb(2, 2, 2);
+  width: 100%;
+}
+
+#company-field-form {
+  width: 100%;
+  font-weight: 200;
+}
+
+.industry-group {
+  display: flex;
+  gap: -400px;
+
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.industry-question {
+  display: block;
+  margin-bottom: 16px;
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+}
+
+.industry-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.industry-group input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: 2px solid #c9ced6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.industry-group input:checked {
+  border-color: #0c4c6f;
+  background: radial-gradient(#0c4c6f 45%, white 50%);
+}
+
+.industry-group label {
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.blue-round-button {
+  display: block;
+  margin: 50px auto 0;
+}
