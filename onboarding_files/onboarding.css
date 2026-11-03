@@ -584,3 +584,24 @@ html[data-theme="dark"] .nav-links .home-button {
 html[data-theme="dark"] .nav-links .home-button:hover {
   background: #347ca8;
 }
+
+.signin-box label,
+.signin-box .invite-label,
+.signin-box .text-divider {
+  color: #eef5ff;
+}
+
+html[data-theme="dark"] .signin-box label,
+html[data-theme="dark"] .signin-box .invite-label,
+html[data-theme="dark"] .signin-box .text-divider {
+  color: #eef5ff;
+}
+
+.signin-box #signin-invitation {
+  color: #082c50;
+  background: #ffffff;
+}
+
+.signin-box #signin-invitation:hover {
+  background: #eaf3f9;
+}
