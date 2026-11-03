@@ -545,17 +545,14 @@ html[data-theme="dark"] .text-divider {
 }
 
 .signin-box .signin-back-button:hover {
-  background: #eaf3f9;
+  background: #315170;
+  color: #ffffff;
 }
 
 html[data-theme="dark"] .signin-box .signin-back-button {
   background: transparent;
   color: #eef5ff;
   border-color: #8ea9c8;
-}
-
-html[data-theme="dark"] .signin-box .signin-back-button:hover {
-  background: #315170;
 }
 
 .nav-links .home-button {
@@ -591,12 +588,6 @@ html[data-theme="dark"] .nav-links .home-button:hover {
   color: #eef5ff;
 }
 
-html[data-theme="dark"] .signin-box label,
-html[data-theme="dark"] .signin-box .invite-label,
-html[data-theme="dark"] .signin-box .text-divider {
-  color: #eef5ff;
-}
-
 .signin-box #signin-invitation {
   color: #082c50;
   background: #ffffff;
@@ -629,6 +620,6 @@ html[data-theme="dark"] .signin-box .text-divider {
   margin: 0 auto;
 }
 
-.signin-box #signin-form label[for="email"] {
+.signin-box h1 {
   text-align: center;
 }
