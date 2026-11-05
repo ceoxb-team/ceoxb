@@ -16,7 +16,7 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   line-height: 1.5;
-  background-color: #ffffff !important;
+  background-color: var(--background);
 }
 
 .navbar {
@@ -1287,7 +1287,7 @@ html[data-theme="dark"] #cohort-update-summary h3 {
   text-decoration: underline;
 }
 
-html[data-theme="dark"] .signin-apply-link {
+html[data-theme="dark"] .signin-apply-button {
   background: #347ca8;
 }
 
@@ -2973,14 +2973,9 @@ html[data-theme="dark"] #edit-about {
   flex-shrink: 0;
 }
 
-html {
-  background-color: white;
-}
-
 html,
 body {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  background-color: var(--background);
 }
 
 /* CONTINUE WITH BUTTONS */
@@ -3127,10 +3122,10 @@ body {
 
 :root {
   --card-bg: #eef3fa;
-  --navy: #244e6e;
-  --text: #000;
-  --muted: #555;
-  --border: #8a8f98;
+}
+
+html[data-theme="dark"] {
+  --card-bg: #192a3b;
 }
 
 * {
@@ -3140,7 +3135,7 @@ body {
 body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: #fff;
+  background: var(--background);
   color: var(--text);
 }
 
@@ -3149,7 +3144,7 @@ body {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: #fff;
+  background: var(--background);
 }
 
 .signin-box {
@@ -3241,7 +3236,7 @@ body {
 
 .pill:focus-visible,
 #signin-form input:focus-visible,
-.signin-apply-link:focus-visible {
+.signin-apply-button:focus-visible {
   outline: 3px solid #5b9bd5;
   outline-offset: 2px;
 }
@@ -3290,11 +3285,186 @@ body {
   font-weight: 600;
   color: #504b4b;
 }
-.signin-apply-link {
+.signin-apply-button {
   font-size: 0.85rem;
   font-weight: 600;
   color: #504b4b;
   text-decoration: underline;
 }
 
-/* changing google button */
+html[data-theme="dark"] body {
+  background-color: #08111d;
+}
+
+/* Sign In dark mode */
+html[data-theme="dark"] .signin-page {
+  background: #101b2a;
+}
+
+html[data-theme="dark"] .signin-box {
+  background: #1c2d42;
+  color: #eef5ff;
+  border-color: #526880;
+}
+
+html[data-theme="dark"] .signin-box h1,
+html[data-theme="dark"] #signin-form label,
+html[data-theme="dark"] .signin-apply-text {
+  color: #eef5ff;
+}
+
+html[data-theme="dark"] #signin-form input {
+  background: #102137;
+  color: #f8fbff;
+  caret-color: #ffffff;
+  border-color: #8296b1;
+}
+
+html[data-theme="dark"] #signin-form input::placeholder {
+  color: #b3c3d7;
+}
+
+html[data-theme="dark"] .signin-apply-button {
+  background: #263e58;
+  color: #f4f9ff;
+  border: 1px solid #8ea9c8;
+}
+
+html[data-theme="dark"] .signin-apply-button:hover {
+  background: #315170;
+}
+
+/* Dark mode page backgrounds */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: #101b2a;
+  color: #edf4fa;
+}
+
+html[data-theme="dark"] .dashboard,
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .signin-page,
+html[data-theme="dark"] .auth-page {
+  background-color: #101b2a;
+  color: #edf4fa;
+}
+
+/* Headings */
+html[data-theme="dark"] .dashboard-header h1,
+html[data-theme="dark"] .dashboard-header h2,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .hero h1 {
+  color: #f1f6fc;
+}
+
+/* Paragraphs */
+html[data-theme="dark"] .dashboard-header p,
+html[data-theme="dark"] .section-heading p,
+html[data-theme="dark"] .hero p {
+  color: #b0c0ce;
+}
+
+/* Cards */
+html[data-theme="dark"] .dashboard-card,
+html[data-theme="dark"] .calendar-dashboard-card,
+html[data-theme="dark"] .connect-search,
+html[data-theme="dark"] .discussion-card,
+html[data-theme="dark"] .learn-topic-card {
+  background-color: #192a3b;
+  color: #edf4fa;
+  border-color: #33495e;
+}
+
+/* Card text */
+html[data-theme="dark"] .dashboard-card h2,
+html[data-theme="dark"] .dashboard-card h3,
+html[data-theme="dark"] .learn-topic-card h3 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .dashboard-card p,
+html[data-theme="dark"] .learn-topic-card p {
+  color: #b0c0ce;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #102137;
+  color: #f8fbff;
+  border-color: #526880;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: #b3c3d7;
+}
+
+html[data-theme="dark"] .dashboard-banner,
+html[data-theme="dark"] .dashboard-hero {
+  background: linear-gradient(125deg, #092039, #17466b);
+  color: #ffffff;
+}
+
+html[data-theme="dark"] body > header,
+html[data-theme="dark"] .navbar {
+  background-color: #142638;
+}
+
+html[data-theme="dark"] .dashboard a:not(.signin-button):not(.card-link) {
+  color: #a9d8ff;
+}
+
+html[data-theme="dark"] .hero {
+  background: #101b2a;
+  color: #edf4fa;
+}
+
+html[data-theme="dark"] .hero h1 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .hero p {
+  color: #b0c0ce;
+}
+
+html[data-theme="dark"] .hero strong,
+html[data-theme="dark"] .hero b,
+html[data-theme="dark"] .hero h3,
+html[data-theme="dark"] .hero h4 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .hero small {
+  color: #b0c0ce;
+}
+
+html[data-theme="dark"] .main-btn {
+  background: #0c4c6f;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .main-btn:hover {
+  background: #28618c;
+}
+
+html[data-theme="dark"] .about_info_img {
+  background-color: #eaf3f9;
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.discussion-author {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.discussion-card-top {
+    flex-wrap: wrap;
+}
+
+.discussion-date {
+    margin-left: auto;
+}

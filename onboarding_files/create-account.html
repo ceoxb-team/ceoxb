@@ -3,62 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signing in to Account</title>
+    <title>CEO XB - Apply to Join</title>
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../design.css" />
-    <!-- <link rel="stylesheet" href="../google_button.css" /> -->
     <link rel="stylesheet" href="onboarding.css" />
   </head>
   <body>
     <header>
       <nav class="navbar">
-        <a href="index.html" class="logo">
+        <a href="../index.html" class="logo">
           <img src="../imgs/logo.svg" alt="CEO XB" />
         </a>
+        <div class="nav-links">
+        <a href="../index.html">Home</a>
+        </div>
       </nav>
     </header>
 
     <main>
       <section class="signin-box">
-        <h1>Tell us about yourself</h1>
+        <h1>Tell Us About Yourself</h1>
 
         <div class="signin-body">
           <form id="creating-acc">
-            <label for="first-name">First name</label>
+            <label for="first-name">First Name</label>
             <input
-              type="first-name"
+              type="text"
               id="first-name"
               name="first-name"
+              autocomplete="given-name"
               required
             />
 
-            <label for="last-name">Last name</label>
-            <input type="last-name" id="last-name" name="last-name" required />
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="last-name" autocomplete="family-name" required />
 
             <label for="title">Title</label>
-            <input type="title" id="title" name="title" required />
+            <input type="text" id="title" name="title" required />
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" autocomplete="email" required />
 
-            <label for="url">LinkedIn profile URL</label>
-            <input type="url" id="url" name="url" required />
-
-            <label for="phone-number">Phone number</label>
+            <label for="url">LinkedIn Profile URL</label>
             <input
-              type="phone-number"
+              type="url"
+              id="url"
+              name="url"
+              placeholder="https://www.linkedin.com/in/username"
+              autocomplete="url"
+            />
+
+            <label for="phone-number">Phone Number</label>
+            <input
+              type="tel"
               id="phone-number"
               name="phone-number"
+              autocomplete="tel"
               required
             />
             <div class="location-group">
               <div class="location">
                 <label for="city">City</label>
-                <input type="city" id="city" name="city" required />
+                <input type="text" id="city" name="city" autocomplete="address-level2" required />
               </div>
               <div class="location">
                 <label for="country">Country</label>
-                <input type="country" id="country" name="country" required />
+                <input type="text" id="country" name="country" autocomplete="country-name" required />
               </div>
             </div>
 
@@ -69,63 +79,62 @@
             </div>
 
            
-            <p id="signin-message" class="signin-message" role="status"></p>
+            <p id="application-message" class="signin-message" role="status"></p>
           </form>
-
+          
           <script>
-            // listening to if form is submitted, checking if it is submitted, if so then it will do this
-            const continueBtn = document.getElementById("continue");
             const form = document.getElementById("creating-acc");
-            
-            document
-              .getElementById("creating-acc")
-              .addEventListener("input", (event) => {
-                if (form.checkValidity()) {
-                    console.log("ready");
-                    continueBtn.style.backgroundColor = "#0C4C6F";
-                } else {
-                    console.log("no");
-                    continueBtn.style.backgroundColor = "gray";
-                    // continueBtn.setAttribute('disabled', 'true');
-                    // continueBtn.classList.remove('ready');
+            const continueButton = document.getElementById("continue");
+            const status = document.getElementById("application-message");
+          
+            const fieldIds = [
+              ["first-name", "firstName"],
+              ["last-name", "lastName"],
+              ["title", "title"],
+              ["email", "email"],
+              ["url", "url"],
+              ["phone-number", "phoneNumber"],
+              ["city", "city"],
+              ["country", "country"]
+            ];
+          
+            function updateContinue() {
+              continueButton.disabled = !form.checkValidity();
+            }
+          
+            form.addEventListener("input", updateContinue);
+            updateContinue();
+          
+            form.addEventListener("submit", function(event) {
+              event.preventDefault();
+          
+              if (!form.reportValidity()) return;
+          
+              const values = {};
+          
+              for (const [id, key] of fieldIds) {
+                const value = document.getElementById(id).value.trim();
+          
+                if (id !== "url" && !value) {
+                  status.textContent = "Please complete all required fields.";
+                  return;
                 }
-              })
-            
-            document
-              .getElementById("creating-acc")
-              .addEventListener("submit", (event) => {
-                console.log("script loaded");
-                // stopping page from reloading, that way the form will automatically
-                // use its validation to check if the email is valid or empty or not
-                // we are preventing the automatic reloading of page so we can add extra stuff before going to next page
-                event.preventDefault();
-                // getting email name
-                const firstName = document.getElementById("first-name").value.trim();
-                const lastName = document.getElementById("last-name").value.trim();
-                const title = document.getElementById("title").value.trim();
-                const email = document.getElementById("email").value.trim();
-                const url = document.getElementById("url").value.trim();
-                const phoneNumber = document.getElementById("phone-number").value.trim();
-                const city = document.getElementById("city").value.trim();
-                const country = document.getElementById("country").value.trim();
-
-                // setting the email variable to the sessionStorage temporary data storage
-                sessionStorage.setItem("firstName", firstName);
-                sessionStorage.setItem("lastName", lastName);
-                sessionStorage.setItem("title", title);
-                sessionStorage.setItem("email", email);
-                sessionStorage.setItem("url", url);
-                sessionStorage.setItem("phoneNumber", phoneNumber);
-                sessionStorage.setItem("city", city);
-                sessionStorage.setItem("country", country);
-                
-                window.location.href = "get-started.html";
-              });
+          
+                values[key] = value;
+              }
+          
+              for (const [key, value] of Object.entries(values)) {
+                sessionStorage.setItem(key, value);
+              }
+          
+              window.location.href = "get-started.html";
+            });
           </script>
-
-        <a href="signin.html" class="signin-back-link">
-          <img src="../imgs/left_arrow.svg" id="left-arrow" alt="" />Back</a
-        >
+        </div>
+        
+      <a href="signin.html" class="signin-back-button">
+        ← Back
+      </a>
       </section>
     </main>
 
@@ -133,10 +142,8 @@
       <p>CEO XB</p>
     </footer>
 
-    <!-- scripts here -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-    <script src="supabase.js"></script>
-    <script src="script.js"></script>
-    <script src="theme.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="../theme.js"></script>
   </body>
 </html>

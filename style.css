@@ -56,17 +56,11 @@ body {
 }
 
 .hero {
-  background-color: #ffffff;
-  color: rgb(22, 21, 21);
-  padding: 120px 8%;
-
-  /* min-height: 440px; */
-  /* width: 35%; */
-  padding: 20px;
-  align-items: center;
-  /* justify-content: center; */
-  padding-left: 42px;
+  background-color: var(--background, #ffffff);
+  color: var(--text, #292e35);
   display: flex;
+  align-items: center;
+  padding: 60px 42px;
 }
 
 .hero-content {
@@ -674,19 +668,27 @@ footer {
   gap: 16px;
   margin-top: 35px;
 }
-
 .entry-secondary {
-  color: white;
+  color: #082c50;
   font-size: 15px;
   font-weight: bold;
   text-decoration: none;
   padding: 12px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid #8da5bc;
   border-radius: 25px;
 }
 
 .entry-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: #eaf3f9;
+}
+
+html[data-theme="dark"] .entry-secondary {
+  color: #f1f6fc;
+  border-color: #8da5bc;
+}
+
+html[data-theme="dark"] .entry-secondary:hover {
+  background-color: #263e58;
 }
 
 /* Application page */
@@ -1178,9 +1180,9 @@ footer {
 
 html,
 body {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  background-color: var(--background, #ffffff);
 }
+
 .btn-pill {
   display: inline-flex;
   align-items: center;
@@ -1194,7 +1196,7 @@ body {
   cursor: pointer;
   transition: 0.2s;
 }
-/* Google Match Style (Pill) */
+
 .btn-google-pill {
   background: #fff;
   border: 1px solid #dadce0;
@@ -1204,7 +1206,7 @@ body {
   background: #f8f9fa;
   box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px rgba(60, 64, 67, 0.15);
 }
-/* Your Dark Blue Theme (Pill) */
+
 .btn-blue-pill {
   background: #082c50;
   border: none;

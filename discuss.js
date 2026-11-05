@@ -74,7 +74,13 @@ if (discussForm) {
                 new Date(post.createdAt).toLocaleDateString()
             );
 
-            top.append(topic, date);
+            const author = makeElement(
+                "span",
+                "discussion-author",
+                "Posted by " + (post.author || "You")
+            );
+
+            top.append(topic, author, date);
 
             const title = makeElement(
                 "h3",
@@ -233,6 +239,7 @@ if (discussForm) {
             title: title,
             topic: topic,
             message: message,
+            author: "You",
             createdAt: new Date().toISOString(),
             likes: 0,
             liked: false,
@@ -273,6 +280,5 @@ if (discussForm) {
 
         renderPosts();
     }
-
     initializeDiscussions();
 }
