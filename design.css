@@ -3456,15 +3456,27 @@ html[data-theme="dark"] .about_info_img {
 }
 
 .discussion-author {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 500;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
 }
 
 .discussion-card-top {
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .discussion-date {
-    margin-left: auto;
+  margin-left: auto;
+}
+
+/* COMPANY INFO */
+
+html[data-theme="dark"].company-box {
+  background-color: #101b2a;
+  color: white;
+}
+
+html[data-theme="dark"].blue-round-button {
+  background-color: #101b2a;
+  color: white;
 }

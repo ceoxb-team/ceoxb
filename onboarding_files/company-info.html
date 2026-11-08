@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signing in to Account</title>
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../design.css" />
-    <link rel="stylesheet" href="onboarding.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="onboarding.css" />
+    <link rel="stylesheet" href="../design.css" />
   </head>
   <body>
     <header>
@@ -21,37 +21,30 @@
           <img src="../imgs/logo.svg" alt="CEO XB" />
         </a>
         <div class="nav-links">
-        <a href="../index.html">Home</a>
-      </div>
+          <a href="../index.html">Home</a>
+        </div>
       </nav>
     </header>
 
     <main>
       <section
         class="signin-box company-box"
-        style="background-color: white; border: none"
+       border: none"
       >
-        <h1>Please share a little about your <br />company with us.</h1>
+        <h1>Please share a little about your company with us.</h1>
 
-        <div class="signin-body">
-          <form id="company-info">
-            
+        <div class="signin-body company-fields">
+          <form id="company-field-form">
             <label for="company-name">What is your company’s name?</label>
             <input
-              type="text"
+              type="company-name"
               id="company-name"
               name="company-name"
               required
             />
 
             <label for="website">What is your company’s website?</label>
-            <input
-              type="url"
-              id="website"
-              name="website"
-              placeholder="https://company.com"
-              required
-            />
+            <input type="website" id="website" name="website" required />
 
             <label for="company-country"
               >What country is your company located in?</label
@@ -62,62 +55,93 @@
               name="company-country"
               required
             />
-            <fieldset class="industry-fieldset">
-              <legend>What is your company's industry?</legend>
-            <input
-              type="radio"
-              id="biopharma"
-              name="company-industry"
-              value="Biopharma"
-              required
-            />
-            <label for="biopharma">Biopharma</label><br />
 
-            <input
-              type="radio"
-              id="health-tech"
-              name="company-industry"
-              value="Health Tech"
-              required
-            />
-            <label for="health-tech">Health Tech</label><br />
+            <label for="company-industry"
+              >What is your company's industry?</label
+            >
+            <!-- <label for="biopharma" class="industry-question"
+              >What is your company's industry?</label
+            > -->
 
-            <input
-              type="radio"
-              id="medical-devices"
-              name="company-industry"
-              value="Medical Devices"
-              required
-            />
-            <label for="medical-devices">Medical Devices</label><br />
+            <div class="container">
+              <div class="row align-items-start">
+                <div class="col-sm-6 industry-group">
+                  <input
+                    type="radio"
+                    id="biopharma"
+                    name="company-industry"
+                    value="biopharma"
+                    required
+                  />
+                  <label for="biopharma">Biopharma</label>
+                </div>
+                <div class="col-sm-6 industry-group">
+                  <input
+                    type="radio"
+                    id="health-tech"
+                    name="company-industry"
+                    value="health-tech"
+                    required
+                  />
+                  <label for="health-tech">Health Tech</label>
+                </div>
+              </div>
 
-            <input
-              type="radio"
-              id="digital-health"
-              name="company-industry"
-              value="Digital Health"
-              required
-            />
-            <label for="digital-health">Digital Health</label><br />
+              <div class="row align-items-start">
+                <div class="col-sm-6 industry-group">
+                  <input
+                    type="radio"
+                    id="medical-devices"
+                    name="company-industry"
+                    value="medical-devices"
+                    required
+                  />
+                  <label for="medical-devices">Medical Devices</label>
+                </div>
+                <div class="col-sm-6 industry-group">
+                  <input
+                    type="radio"
+                    id="digital-health"
+                    name="company-industry"
+                    value="digital-health"
+                    required
+                  />
+                  <label for="digital-health">Digital Health</label>
+                </div>
+              </div>
 
-            <input
-              type="radio"
-              id="diagnostics"
-              name="company-industry"
-              value="Diagnostics"
-              required
-            />
-            <label for="diagnostics">Diagnostics</label><br />
-
-            <input type="radio" id="other" name="company-industry" value="Other" required />
-            <label for="other">Other</label><br />
-            </fieldset>
+              <div class="row align-items-start">
+                <div class="col-sm-6 industry-group">
+                  <input
+                    type="radio"
+                    id="diagnostics"
+                    name="company-industry"
+                    value="diagnostics"
+                    required
+                  />
+                  <label for="diagnostics">Diagnostics</label>
+                </div>
+                <div class="col-sm-6 industry-group">
+                  <input
+                    type="radio"
+                    id="other"
+                    name="company-industry"
+                    value="other"
+                    required
+                  />
+                  <label for="other">Other</label>
+                </div>
+              </div>
+              <button
+                type="submit"
+                id="continue"
+                class="round-button"
+              >
+                Continue
+              </button>
+            </div>
 
             <!-- need a type=submit so the button can have validation checks w the email -->
-            <button type="submit" id="continue" class="blue-round-button">
-              Continue
-            </button>
-            <p id="company-message" class="signin-message" role="status"></p>
           </form>
 
           <script>
@@ -137,36 +161,46 @@
           </script>
 
           <script>
-              const companyForm = document.getElementById("company-info");
-            
-              companyForm.addEventListener("submit", function(event) {
+            // listening to if form is submitted, checking if it is submitted, if so then it will do this
+            document
+              .getElementById("company-field-form")
+              .addEventListener("submit", (event) => {
+                console.log("script loaded");
+                // stopping page from reloading, that way the form will automatically
+                // use its validation to check if the email is valid or empty or not
+                // we are preventing the automatic reloading of page so we can add extra stuff before going to next page
                 event.preventDefault();
-            
-                const companyName = document.getElementById("company-name").value.trim();
+
+                // getting email name
+                const companyName = document
+                  .getElementById("company-name")
+                  .value.trim();
                 const website = document.getElementById("website").value.trim();
-                const country = document.getElementById("company-country").value.trim();
-                const industry = companyForm.querySelector(
+                const companyCountry = document
+                  .getElementById("company-country")
+                  .value.trim();
+                // const companyIndustry = document
+                //   .getElementById("company-industry")
+                //   .value.trim();
+
+                const companyIndustry = document.querySelector(
                   'input[name="company-industry"]:checked'
                 );
-            
-                if (!companyName || !website || !country || !industry) {
-                  document.getElementById("company-message").textContent =
-                  "Please complete all company fields.";
-                  return;
-                }
-            
-                sessionStorage.setItem("companyName", companyName);
-                sessionStorage.setItem("companyWebsite", website);
-                sessionStorage.setItem("companyCountry", country);
-                sessionStorage.setItem("industry", industry.value);
-            
-                window.location.href = "application-review.html";
+
+                // setting the email variable to the sessionStorage temporary data storage
+                sessionStorage.setItem("company-name", companyName);
+                sessionStorage.setItem("website", website);
+                sessionStorage.setItem("company-country", companyCountry);
+                sessionStorage.setItem("company-industry", companyIndustry);
+
+                window.location.href = "funding.html";
               });
           </script>
         </div>
+
         <a href="get-started.html" class="signin-back-link">
-        <img src="../imgs/left_arrow.svg" id="left-arrow" alt="" />
-        Back</a>
+          <img src="../imgs/left_arrow.svg" id="left-arrow" alt="" />Back</a
+        >
       </section>
     </main>
 
@@ -179,5 +213,10 @@
     <script src="../supabase.js"></script>
     <script src="../script.js"></script>
     <script src="../theme.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
