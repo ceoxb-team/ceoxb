@@ -148,9 +148,11 @@
                   .getElementById("funding")
                   .value.trim();
 
-                const seedLevel = document.querySelector(
-                  'input[name="company-industry"]:checked'
-                );
+                const seedLevel = new FormData(form).get("funding-stage");
+
+                // document.querySelector(
+                //   'input[name="company-industry"]:checked'
+                // );
 
                 // setting the email variable to the sessionStorage temporary data storage
                 sessionStorage.setItem("funding", funding);

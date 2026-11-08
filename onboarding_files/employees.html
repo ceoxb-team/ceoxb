@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signing in to Account</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="onboarding.css" />
+    <link rel="stylesheet" href="../design.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <a href="../index.html" class="logo">
+          <img src="../imgs/logo.svg" alt="CEO XB" />
+        </a>
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section
+        class="signin-box company-box"
+       border: none"
+      >
+        <h1>Almost there! We have one more question for you.</h1>
+
+        <div class="signin-body company-fields">
+          <form id="company-field-form">
+
+            <label for="numberOfEmployees"
+              >How many full-time employees are currently in your company?</label
+            >
+
+                <div class="industry-group">
+                  <input
+                    type="radio"
+                    id="1-5"
+                    name="numberOfEmployees"
+                    value="1-5"
+                    required
+                  />
+                  <label for="biopharma">1-5</label>
+                </div>
+
+                <div class="industry-group">
+                    <input
+                      type="radio"
+                      id="6-20"
+                      name="numberOfEmployees"
+                      value="6-20"
+                      required
+                    />
+                    <label for="biopharma">6-20</label>
+                </div>
+
+                <div class="industry-group">
+                    <input
+                      type="radio"
+                      id="21-50"
+                      name="numberOfEmployees"
+                      value="21-50"
+                      required
+                    />
+                    <label for="biopharma">21-50</label>
+                </div>
+
+                <div class="industry-group">
+                    <input
+                      type="radio"
+                      id="51+"
+                      name="numberOfEmployees"
+                      value="51+"
+                      required
+                    />
+                    <label for="biopharma">51+</label>
+                </div>
+                
+              <button
+                type="submit"
+                id="continue"
+                class="round-button"
+              >
+                Continue
+              </button>
+
+          </form>
+
+          <script>
+            const form = document.getElementById("company-field-form");
+            const continueBtn = document.getElementById("continue");
+            document
+              .getElementById("company-field-form")
+              .addEventListener("input", (event) => {
+                if (form.checkValidity()) {
+                  console.log("ready");
+                  continueBtn.style.backgroundColor = "#0C4C6F";
+                } else {
+                  console.log("no");
+                  continueBtn.style.backgroundColor = "gray";
+                }
+              });
+          </script>
+
+          <script>
+            // listening to if form is submitted, checking if it is submitted, if so then it will do this
+            document
+              .getElementById("company-field-form")
+              .addEventListener("submit", (event) => {
+                console.log("script loaded");
+                // stopping page from reloading, that way the form will automatically
+                // use its validation to check if the email is valid or empty or not
+                // we are preventing the automatic reloading of page so we can add extra stuff before going to next page
+                event.preventDefault();
+
+                const numberOfEmployees = new FormData(form).get("numberOfEmployees");
+    
+                
+                // document
+                //   .getElementById("company-field-form")
+                //   .value.trim();
+
+                // setting the numberOfEmployees variable to the sessionStorage temporary data storage
+                sessionStorage.setItem("numberOfEmployees", numberOfEmployees);
+
+                window.location.href = "additional-info.html";
+              });
+          </script>
+        </div>
+
+        <a href="company-info.html" class="signin-back-link">
+          <img src="../imgs/left_arrow.svg" id="left-arrow" alt="" />Back</a
+        >
+      </section>
+    </main>
+
+    <footer>
+      <p>CEO XB</p>
+    </footer>
+
+    <!-- scripts here -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="../script.js"></script>
+    <script src="../theme.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
