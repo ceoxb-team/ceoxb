@@ -37,14 +37,14 @@
           <form id="company-field-form">
             <label for="company-name">What is your company’s name?</label>
             <input
-              type="company-name"
+              type="text"
               id="company-name"
               name="company-name"
               required
             />
 
             <label for="website">What is your company’s website?</label>
-            <input type="website" id="website" name="website" required />
+            <input type="url" id="website" name="website" required />
 
             <label for="company-country"
               >What country is your company located in?</label
@@ -183,15 +183,13 @@
                 //   .getElementById("company-industry")
                 //   .value.trim();
 
-                const companyIndustry = document.querySelector(
-                  'input[name="company-industry"]:checked'
-                );
+                const companyIndustry = new FormData(form).get("company-industry")
 
                 // setting the email variable to the sessionStorage temporary data storage
-                sessionStorage.setItem("company-name", companyName);
+                sessionStorage.setItem("companyName", companyName);
                 sessionStorage.setItem("website", website);
-                sessionStorage.setItem("company-country", companyCountry);
-                sessionStorage.setItem("company-industry", companyIndustry);
+                sessionStorage.setItem("companyCountry", companyCountry);
+                sessionStorage.setItem("companyIndustry", companyIndustry);
 
                 window.location.href = "funding.html";
               });

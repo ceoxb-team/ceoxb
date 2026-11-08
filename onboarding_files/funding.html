@@ -148,7 +148,7 @@
                   .getElementById("funding")
                   .value.trim();
 
-                const seedLevel = new FormData(form).get("funding-stage");
+                const fundingStage = new FormData(form).get("funding-stage");
 
                 // document.querySelector(
                 //   'input[name="company-industry"]:checked'
@@ -156,7 +156,7 @@
 
                 // setting the email variable to the sessionStorage temporary data storage
                 sessionStorage.setItem("funding", funding);
-                sessionStorage.setItem("seed-level", seedLevel);
+                sessionStorage.setItem("fundingStage", fundingStage);
 
                 window.location.href = "employees.html";
               });

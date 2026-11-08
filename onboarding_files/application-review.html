@@ -1,56 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CEO XB - Review Application</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CEO XB - Review Application</title>
 
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../design.css">
-  <link rel="stylesheet" href="onboarding.css">
-</head>
-<body>
-  <header>
-    <nav class="navbar">
-      <a href="../index.html" class="logo">
-        <img src="../imgs/logo.svg" alt="CEO XB">
-      </a>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../design.css" />
+    <link rel="stylesheet" href="onboarding.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <a href="../index.html" class="logo">
+          <img src="../imgs/logo.svg" alt="CEO XB" />
+        </a>
 
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-      </div>
-    </nav>
-  </header>
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+        </div>
+      </nav>
+    </header>
 
-  <main class="signin-page">
-    <section class="signin-box">
-      <h1>Review your application</h1>
-      <p>Make sure your information is correct before submitting.</p>
+    <main class="signin-page">
+      <section class="signin-box">
+        <h1>Review your application</h1>
+        <p>Make sure your information is correct before submitting.</p>
 
-      <div id="application-summary"></div>
+        <div id="application-summary"></div>
 
-      <button type="button" id="submit-application"
-              class="blue-round-button">
-        Submit Application
-      </button>
+        <button type="button" id="submit-application" class="blue-round-button">
+          Submit Application
+        </button>
 
-      <p id="application-status" role="status"
-         aria-live="polite"></p>
+        <p id="application-status" role="status" aria-live="polite"></p>
 
-      <a href="company-info.html" class="signin-back-link">
-        Back
-      </a>
-    </section>
-  </main>
+        <a href="employees.html" class="signin-back-link"> Back </a>
+      </section>
+    </main>
 
-  <footer>
-    <p>CEO XB</p>
-  </footer>
+    <footer>
+      <p>CEO XB</p>
+    </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="../supabase.js"></script>
-  <script src="application-review.js"></script>
-  <script src="../theme.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <script src="../supabase.js"></script>
+    <script src="application-review.js"></script>
+    <script src="../theme.js"></script>
+  </body>
 </html>
