@@ -1,20 +1,20 @@
 body {
-  background: #f4f7fb;
+  background: #ffffff;
 }
 
 .signin-box {
   width: min(100%, 720px);
   margin: 2rem auto 3rem;
   padding: 40px;
-  background: #1f3550;
-  color: #eef4fb;
-  border: 1px solid #2d4969;
+  background: #eef3fa;
+  color: #2c2e30;
+  border: 1px solid #e0e7ef;
   border-radius: 28px;
   box-shadow: 0 10px 30px rgba(8, 44, 80, 0.08);
 }
 
 .signin-box h1 {
-  color: #f4f8fd;
+  color: rgb(33, 35, 36);
   margin-bottom: 14px;
 }
 
@@ -24,7 +24,7 @@ body {
 }
 
 .signin-box p {
-  color: #c8d7e6;
+  color: #141517;
 }
 
 .signin-box input:not([type="radio"]) {
@@ -533,12 +533,14 @@ html[data-theme="dark"] .text-divider {
   padding: 8px 20px;
   border: 1px solid #8ea9c8;
   border-radius: 30px;
-  background: transparent;
+  /* background: transparent; */
+  background-color: #152c44;
   color: #eef5ff;
   font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
   transition: background 0.2s;
+  /* background-color: ; */
 }
 
 .signin-box .signin-back-button:hover {
@@ -613,7 +615,7 @@ html[data-theme="dark"] .nav-links .home-button:hover {
 
 .signin-box #signin-form input[type="email"] {
   display: block;
-  width: 320px;
+  /* width: 320px; */
   max-width: 100%;
   margin: 0 auto;
 }

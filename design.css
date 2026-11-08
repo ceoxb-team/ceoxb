@@ -3124,7 +3124,7 @@ body {
   --card-bg: #eef3fa;
 }
 
-html[data-theme="dark"] {
+html[data="dark"] {
   --card-bg: #192a3b;
 }
 

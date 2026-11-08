@@ -16,7 +16,7 @@
           <img src="../imgs/logo.svg" alt="CEO XB" />
         </a>
         <div class="nav-links">
-          <a href="../index.html" class="home-button">Home</a>
+          <a href="signin.html" class="signup-btn">Log In</a>
         </div>
       </nav>
     </header>
@@ -26,24 +26,37 @@
         <h1>Welcome Back</h1>
 
         <div class="signin-body">
-        <form id="signin-form">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email"
-                 placeholder="you@company.com"
-                 autocomplete="email" required />
-        
-          <button type="submit" id="continue" class="blue-round-button">
-            Continue
-          </button>
-        
-          <p id="auth-message" class="signin-message"
-             role="status" aria-live="polite"></p>
-        </form>
+          <form id="signin-form">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@company.com"
+              autocomplete="email"
+              required
+            />
+
+            <button type="submit" id="continue" class="blue-round-button">
+              Continue
+            </button>
+
+            <p
+              id="auth-message"
+              class="signin-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
 
           <div class="text-divider">or</div>
 
-          <button type="button" id="google-signin"
-            class="gsi-material-button" style="width: 290px">
+          <button
+            type="button"
+            id="google-signin"
+            class="gsi-material-button"
+            style="width: 290px"
+          >
             <div class="gsi-material-button-state"></div>
             <div class="gsi-material-button-content-wrapper">
               <div class="gsi-material-button-icon">
@@ -98,9 +111,7 @@
           >
         </div>
 
-        <a href="../index.html" class="signin-back-button">
-          ← Back to Home
-        </a>
+        <a href="../index.html" class="signin-back-button"> ← Back to Home </a>
       </section>
     </main>
 

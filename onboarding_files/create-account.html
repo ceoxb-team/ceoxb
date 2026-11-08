@@ -15,7 +15,7 @@
           <img src="../imgs/logo.svg" alt="CEO XB" />
         </a>
         <div class="nav-links">
-        <a href="../index.html">Home</a>
+          <a href="../index.html">Home</a>
         </div>
       </nav>
     </header>
@@ -36,13 +36,25 @@
             />
 
             <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last-name" autocomplete="family-name" required />
+            <input
+              type="text"
+              id="last-name"
+              name="last-name"
+              autocomplete="family-name"
+              required
+            />
 
             <label for="title">Title</label>
             <input type="text" id="title" name="title" required />
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" autocomplete="email" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              required
+            />
 
             <label for="url">LinkedIn Profile URL</label>
             <input
@@ -64,29 +76,44 @@
             <div class="location-group">
               <div class="location">
                 <label for="city">City</label>
-                <input type="text" id="city" name="city" autocomplete="address-level2" required />
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  autocomplete="address-level2"
+                  required
+                />
               </div>
               <div class="location">
                 <label for="country">Country</label>
-                <input type="text" id="country" name="country" autocomplete="country-name" required />
+                <input
+                  type="text"
+                  id="country"
+                  name="country"
+                  autocomplete="country-name"
+                  required
+                />
               </div>
             </div>
 
             <div class="round-button-group">
-                <button type="submit" class="blue-round-button" id="continue">
-                    Continue
-                </button>
+              <button type="submit" class="blue-round-button" id="continue">
+                Continue
+              </button>
             </div>
 
-           
-            <p id="application-message" class="signin-message" role="status"></p>
+            <p
+              id="application-message"
+              class="signin-message"
+              role="status"
+            ></p>
           </form>
-          
+
           <script>
             const form = document.getElementById("creating-acc");
             const continueButton = document.getElementById("continue");
             const status = document.getElementById("application-message");
-          
+
             const fieldIds = [
               ["first-name", "firstName"],
               ["last-name", "lastName"],
@@ -95,46 +122,46 @@
               ["url", "url"],
               ["phone-number", "phoneNumber"],
               ["city", "city"],
-              ["country", "country"]
+              ["country", "country"],
             ];
-          
+
             function updateContinue() {
               continueButton.disabled = !form.checkValidity();
             }
-          
+
             form.addEventListener("input", updateContinue);
             updateContinue();
-          
-            form.addEventListener("submit", function(event) {
+
+            form.addEventListener("submit", function (event) {
               event.preventDefault();
-          
+
               if (!form.reportValidity()) return;
-          
+
               const values = {};
-          
+
               for (const [id, key] of fieldIds) {
                 const value = document.getElementById(id).value.trim();
-          
+
                 if (id !== "url" && !value) {
                   status.textContent = "Please complete all required fields.";
                   return;
                 }
-          
+
                 values[key] = value;
               }
-          
+
               for (const [key, value] of Object.entries(values)) {
                 sessionStorage.setItem(key, value);
               }
-          
+
               window.location.href = "get-started.html";
             });
           </script>
         </div>
-        
-      <a href="signin.html" class="signin-back-button">
-        ← Back
-      </a>
+
+        <a href="signin.html" class="signin-back-link">
+          <img src="../imgs/left_arrow.svg" id="left-arrow" alt="" />Back</a
+        >
       </section>
     </main>
 
