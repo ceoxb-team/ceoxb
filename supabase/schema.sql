@@ -1,4 +1,5 @@
--- CEO XB database setup.
+-- CEO XB database setup (original version).
+-- Later changes live in supabase/migrations/ -- apply those after this file.
 -- Run once in the Supabase dashboard: SQL Editor -> New query -> paste -> Run.
 
 -- ---------------------------------------------------------------
