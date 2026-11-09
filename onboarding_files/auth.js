@@ -11,6 +11,39 @@
         }
     }
 
+    // Errors sent back by Supabase after a Google sign-in (e.g. an
+    // account that hasn't been approved, since sign-ups are closed)
+    const redirectParams = new URLSearchParams(
+        window.location.hash.slice(1) || window.location.search
+    );
+
+    const notApprovedMessage =
+        "Your account hasn't been approved yet. We'll email you once your application is accepted.";
+
+    if (redirectParams.get("error") === "not_approved") {
+        setNotice(notApprovedMessage);
+    } else if (redirectParams.get("error")) {
+        setNotice(
+            /signups? not allowed/i.test(redirectParams.get("error_description") || "")
+                ? "This account isn't approved yet. Apply to join CEO XB."
+                : "Sign-in failed. Please try again."
+        );
+    }
+
+    // After signing in, only approved members continue to the dashboard
+    async function finishSignIn() {
+        const { data: isMember, error } = await client.rpc("is_member");
+
+        if (!error && isMember !== true) {
+            await client.auth.signOut();
+            setNotice(notApprovedMessage);
+            return;
+        }
+
+        sessionStorage.removeItem(loginEmailKey);
+        window.location.assign("../dashboard.html");
+    }
+
     async function withBusy(button, action) {
         if (button) button.disabled = true;
 
@@ -207,8 +240,7 @@
                     return;
                 }
 
-                sessionStorage.removeItem(loginEmailKey);
-                window.location.assign("../dashboard.html");
+                await finishSignIn();
             });
         });
 
@@ -238,8 +270,7 @@
                     return;
                 }
 
-                sessionStorage.removeItem(loginEmailKey);
-                window.location.assign("../dashboard.html");
+                await finishSignIn();
             });
         });
     }

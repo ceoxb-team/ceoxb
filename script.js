@@ -3,15 +3,27 @@ async function getCurrentUser() {
     return data.session ? data.session.user : null;
 }
 
-const pageName = window.location.pathname.split("/").pop();
+// Works for both "/dashboard.html" and the clean URL "/dashboard"
+const pageName = window.location.pathname.split("/").pop().replace(/\.html$/, "");
 
-if (pageName === "dashboard.html" || pageName === "learn.html" ||
-        pageName === "connect.html" || pageName === "coffee.html" ||
-        pageName === "discuss.html"|| pageName === "profile.html" ||
-        pageName === "calendar.html") {
-    getCurrentUser().then(function(user) {
+const memberPages = ["dashboard", "learn", "connect", "coffee",
+    "discuss", "profile", "calendar"];
+
+// Send visitors who aren't signed-in, approved members to sign in.
+// The database enforces this too; this just avoids showing empty pages.
+if (memberPages.includes(pageName)) {
+    getCurrentUser().then(async function(user) {
         if (!user) {
-            window.location.replace("onboarding_files/signin.html");
+            // Keep any sign-in error (in the hash) so the sign-in page can show it
+            window.location.replace("onboarding_files/signin.html" + window.location.hash);
+            return;
+        }
+
+        const { data: isMember, error } = await _supabase.rpc("is_member");
+
+        if (!error && isMember !== true) {
+            await _supabase.auth.signOut();
+            window.location.replace("onboarding_files/signin.html#error=not_approved");
         }
     });
 }
@@ -77,7 +89,7 @@ if (memberSearch) {
                 .join(" ").toLowerCase();
 
         const picture = document.createElement("img");
-        picture.src = profile.avatar_url;
+        picture.src = profile.avatarSrc || "";
         picture.alt = name + "'s profile picture";
         picture.className = "member-picture";
         
@@ -291,6 +303,14 @@ if (memberSearch) {
             return;
         }
 
+        const pictures = await getAvatarUrls(
+            data.map(function(profile) { return profile.avatar_url; })
+        );
+
+        data.forEach(function(profile, index) {
+            profile.avatarSrc = pictures[index];
+        });
+
         data.forEach(addMember);
         filterMembers();
     }
@@ -368,7 +388,7 @@ if (profileForm) {
         document.getElementById("profile-interests-section").hidden = !interests;
     }
 
-    // URL of the picture already saved in Supabase, if any
+    // Stored path of the picture already saved in Supabase, if any
     let savedPicture = "";
 
     async function loadProfile() {
@@ -393,7 +413,7 @@ if (profileForm) {
 
             if (data.avatar_url) {
                 savedPicture = data.avatar_url;
-                picturePreview.src = savedPicture;
+                picturePreview.src = (await getAvatarUrls([savedPicture]))[0];
                 picturePreview.hidden = false;
                 pictureInput.required = false;
             }
@@ -450,11 +470,7 @@ if (profileForm) {
                 return;
             }
 
-            const { data } = _supabase.storage
-                .from("avatars")
-                .getPublicUrl(path);
-            
-            profile.avatar_url = data.publicUrl + "?v=" + Date.now();
+            profile.avatar_url = path;
         }
 
         const { error } = await _supabase.from("profiles").upsert(profile);
@@ -467,7 +483,7 @@ if (profileForm) {
 
         if (profile.avatar_url) {
             savedPicture = profile.avatar_url;
-            picturePreview.src = savedPicture;
+            picturePreview.src = (await getAvatarUrls([savedPicture]))[0];
             picturePreview.hidden = false;
         }
 
