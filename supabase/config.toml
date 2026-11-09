@@ -1,0 +1,6 @@
+# Supabase CLI settings for this project (tbvscjpaqbyshqoieqvu).
+project_id = "ceoxb"
+
+[functions.submit-application]
+# Public form endpoint: protected by the Turnstile captcha instead of a JWT
+verify_jwt = false

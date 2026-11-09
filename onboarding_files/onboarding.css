@@ -749,3 +749,17 @@ html[data-theme="dark"] .nav-links .home-button:hover {
 #success-paragraph {
   width: 97%;
 }
+
+/* Application review: captcha and hidden spam trap */
+.application-captcha {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+.application-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
