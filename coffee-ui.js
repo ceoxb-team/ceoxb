@@ -12,24 +12,24 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const yourTime = document.getElementById("coffee-your-time");
     const theirTime = document.getElementById("coffee-their-time");
-    
+
     function updateMeetingPreview() {
         if (!yourTime || !theirTime) return;
-    
+
         if (!date.value || !time.value) {
             yourTime.textContent = "Choose a date and time.";
             theirTime.textContent = "Choose a member to see their time.";
             return;
         }
-    
+
         const meeting = new Date(date.value + "T" + time.value);
-    
+
         if (Number.isNaN(meeting.getTime())) {
             yourTime.textContent = "Invalid meeting time.";
             theirTime.textContent = "";
             return;
         }
-    
+
         const formatMeeting = function(timezone) {
             return new Intl.DateTimeFormat("en-US", {
                 dateStyle: "full",
@@ -37,26 +37,26 @@ document.addEventListener("DOMContentLoaded", async function () {
                 timeZone: timezone
             }).format(meeting);
         };
-    
+
         yourTime.textContent =
             "Your time: " + formatMeeting(
                 Intl.DateTimeFormat().resolvedOptions().timeZone
             );
-    
+
         if (!member.value) {
             theirTime.textContent = "Choose a member.";
             return;
         }
-    
+
         const recipientTimezone =
             member.selectedOptions[0].dataset.timezone;
-    
+
         if (!recipientTimezone) {
             theirTime.textContent =
                 "Recipient's timezone is unavailable.";
             return;
         }
-    
+
         try {
             theirTime.textContent =
                 "Recipient's time: " + formatMeeting(recipientTimezone);
@@ -65,17 +65,22 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "Recipient's timezone is unavailable.";
         }
     }
-    
+
     member.addEventListener("change", updateMeetingPreview);
     date.addEventListener("change", updateMeetingPreview);
     time.addEventListener("input", updateMeetingPreview);
 
     if (!form || !list) return;
 
-    let storageKey = "";
+    let currentUser = null;
     let requests = [];
     let editingId = null;
     let currentFilter = "all";
+
+    const requestColumns =
+        "id, requester_id, recipient_id, starts_at, message, status, " +
+        "requester:profiles!ceoxb_coffee_requests_requester_id_fkey(name), " +
+        "recipient:profiles!ceoxb_coffee_requests_recipient_id_fkey(name)";
 
     function todayString() {
         const now = new Date();
@@ -88,15 +93,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     date.min = todayString();
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
-    
+
     const timezoneLabel = document.getElementById("coffee-sender-timezone");
-    
+
     if (timezoneLabel) {
         timezoneLabel.textContent =
             "Your timezone: " + userTimezone.replaceAll("_", " ") +
             " (automatically detected)";
     }
-    
+
     function formatLocalMeeting(instant) {
         return new Intl.DateTimeFormat("en-US", {
             dateStyle: "full",
@@ -105,39 +110,55 @@ document.addEventListener("DOMContentLoaded", async function () {
         }).format(instant);
     }
 
-    function saveRequests() {
-        try {
-            localStorage.setItem(storageKey, JSON.stringify(requests));
-            return true;
-        } catch (error) {
-            result.textContent = "Unable to save drafts in this browser.";
+    function toRequest(row) {
+        const outgoing = row.requester_id === currentUser.id;
+        const other = outgoing ? row.recipient : row.requester;
+
+        return {
+            id: row.id,
+            outgoing: outgoing,
+            memberId: outgoing ? row.recipient_id : row.requester_id,
+            memberName: (other && other.name && other.name.trim()) || "A member",
+            startsAt: row.starts_at,
+            message: row.message || "",
+            status: row.status
+        };
+    }
+
+    async function loadRequests() {
+        const { data, error } = await _supabase
+            .from("ceoxb_coffee_requests")
+            .select(requestColumns)
+            .order("starts_at", { ascending: true });
+
+        if (error) {
+            result.textContent = "Unable to load coffee chats: " + error.message;
             return false;
         }
+
+        requests = (data || []).map(toRequest);
+        return true;
     }
 
-    function formatDate(value) {
-        const parts = value.split("-").map(Number);
+    async function changeStatus(request, status, successText) {
+        const { error } = await _supabase
+            .from("ceoxb_coffee_requests")
+            .update({ status: status })
+            .eq("id", request.id);
 
-        return new Date(
-            parts[0], parts[1] - 1, parts[2]
-        ).toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-        });
-    }
+        if (error) {
+            result.textContent = "Unable to update request: " + error.message;
+            return;
+        }
 
-    function formatTime(value) {
-        const parts = value.split(":").map(Number);
-        const hour = parts[0];
-        const minute = parts[1];
+        request.status = status;
 
-        return new Date(
-            2000, 0, 1, hour, minute
-        ).toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit"
-        });
+        if (editingId === request.id) {
+            resetForm();
+        }
+
+        result.textContent = successText;
+        renderRequests();
     }
 
     function createElement(tag, text, className) {
@@ -163,13 +184,28 @@ document.addEventListener("DOMContentLoaded", async function () {
         return button;
     }
 
+    function statusLabel(request) {
+        if (request.status === "accepted") return "Accepted";
+        if (request.status === "declined") return "Declined";
+        if (request.status === "cancelled") return "Cancelled";
+        return request.outgoing ? "Sent" : "Awaiting Your Reply";
+    }
+
+    function matchesFilter(request) {
+        if (currentFilter === "all") return true;
+        if (currentFilter === "sent") return request.outgoing;
+        if (currentFilter === "received") return !request.outgoing;
+        if (currentFilter === "cancelled") {
+            return request.status === "cancelled" ||
+                request.status === "declined";
+        }
+        return request.status === currentFilter;
+    }
+
     function renderRequests() {
         list.replaceChildren();
 
-        const filtered = requests.filter(function (request) {
-            return currentFilter === "all" ||
-                request.status === currentFilter;
-        });
+        const filtered = requests.filter(matchesFilter);
 
         if (filtered.length === 0) {
             const empty = createElement(
@@ -206,24 +242,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             const details = createElement("div");
 
             details.append(
-                createElement("h3", request.memberName),
+                createElement(
+                    "h3",
+                    (request.outgoing ? "To " : "From ") + request.memberName
+                ),
                 createElement(
                     "p",
-                    "📅 " +  (
-                        request.startsAt
-                            ? formatLocalMeeting(new Date(request.startsAt))
-                            : formatDate(request.date) +
-                                " at " + formatTime(request.time)
+                    "📅 " + formatLocalMeeting(new Date(request.startsAt))
                 )
-            ));
+            );
 
             const status = createElement(
                 "span",
-                request.status === "cancelled"
-                    ? "Cancelled"
-                    : request.status === "draft"
-                        ? "Old Draft"
-                        : "Sent",
+                statusLabel(request),
                 "coffee-request-status " + request.status
             );
 
@@ -240,11 +271,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 );
             }
 
-            if (request.status === "sent" || request.status === "draft") {
-                const actions = createElement(
-                    "div", undefined, "coffee-request-actions"
-                );
+            const actions = createElement(
+                "div", undefined, "coffee-request-actions"
+            );
 
+            if (request.outgoing && request.status === "sent") {
                 actions.append(
                     makeButton(
                         "Edit Request",
@@ -252,24 +283,20 @@ document.addEventListener("DOMContentLoaded", async function () {
                         function () {
                             editingId = request.id;
                             member.value = request.memberId;
-                            if (request.startsAt) {
-                                const instant = new Date(request.startsAt);
-                            
-                                date.value = [
-                                    instant.getFullYear(),
-                                    String(instant.getMonth() + 1).padStart(2, "0"),
-                                    String(instant.getDate()).padStart(2, "0")
-                                ].join("-");
-                            
-                                time.value = [
-                                    String(instant.getHours()).padStart(2, "0"),
-                                    String(instant.getMinutes()).padStart(2, "0")
-                                ].join(":");
-                            } else {
-                                date.value = request.date;
-                                time.value = request.time;
-                            }
-                            
+
+                            const instant = new Date(request.startsAt);
+
+                            date.value = [
+                                instant.getFullYear(),
+                                String(instant.getMonth() + 1).padStart(2, "0"),
+                                String(instant.getDate()).padStart(2, "0")
+                            ].join("-");
+
+                            time.value = [
+                                String(instant.getHours()).padStart(2, "0"),
+                                String(instant.getMinutes()).padStart(2, "0")
+                            ].join(":");
+
                             message.value = request.message;
 
                             submit.textContent = "Save Changes";
@@ -286,23 +313,44 @@ document.addEventListener("DOMContentLoaded", async function () {
                         "Cancel Request",
                         "coffee-danger-button",
                         function () {
-                            const previousStatus = request.status;
-                            request.status = "cancelled";
-
-                            if (!saveRequests()) {
-                                request.status = previousStatus;
-                                return;
-                            }
-
-                            if (editingId === request.id) {
-                                resetForm();
-                            }
-
-                            renderRequests();
+                            changeStatus(request, "cancelled", "Request cancelled.");
                         }
                     )
                 );
+            }
 
+            if (!request.outgoing && request.status === "sent") {
+                actions.append(
+                    makeButton(
+                        "Accept",
+                        "coffee-secondary-button",
+                        function () {
+                            changeStatus(request, "accepted", "Coffee chat accepted.");
+                        }
+                    ),
+                    makeButton(
+                        "Decline",
+                        "coffee-danger-button",
+                        function () {
+                            changeStatus(request, "declined", "Coffee chat declined.");
+                        }
+                    )
+                );
+            }
+
+            if (request.status === "accepted") {
+                actions.append(
+                    makeButton(
+                        "Cancel Coffee Chat",
+                        "coffee-danger-button",
+                        function () {
+                            changeStatus(request, "cancelled", "Coffee chat cancelled.");
+                        }
+                    )
+                );
+            }
+
+            if (actions.children.length) {
                 card.appendChild(actions);
             }
 
@@ -317,11 +365,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         updateMeetingPreview();
     }
 
-    form.addEventListener("submit", function (event) {
+    form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        if (!storageKey) {
-            result.textContent = "Please sign in to save a draft.";
+        if (!currentUser) {
+            result.textContent = "Please sign in to request a coffee chat.";
             return;
         }
 
@@ -340,48 +388,42 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        const chosenMember = member.selectedOptions[0];
-
-        const draft = {
-            id: editingId || (
-                window.crypto?.randomUUID?.() ||
-                String(Date.now()) + "-" +
-                Math.random().toString(36).slice(2)
-            ),
-            memberId: member.value,
-            memberName: chosenMember.textContent,
-            date: date.value,
-            time: time.value,
-            startsAt: appointment.toISOString(),
-            senderTimezone: userTimezone,
-            message: message.value.trim(),
-            status: "sent"
+        const fields = {
+            recipient_id: member.value,
+            starts_at: appointment.toISOString(),
+            sender_timezone: userTimezone,
+            message: message.value.trim()
         };
 
-        const previous = requests.slice();
+        submit.disabled = true;
+        result.textContent = "Saving...";
 
-        if (editingId) {
-            const index = requests.findIndex(function (item) {
-                return item.id === editingId;
-            });
+        const query = editingId
+            ? _supabase
+                .from("ceoxb_coffee_requests")
+                .update(fields)
+                .eq("id", editingId)
+            : _supabase
+                .from("ceoxb_coffee_requests")
+                .insert(fields);
 
-            if (index >= 0) {
-                requests[index] = draft;
-            } else {
-                requests.push(draft);
-            }
-        } else {
-            requests.push(draft);
-        }
+        const { error } = await query;
 
-        if (!saveRequests()) {
-            requests = previous;
+        submit.disabled = false;
+
+        if (error) {
+            result.textContent = "Unable to save request: " + error.message;
             return;
         }
 
+        const wasEditing = Boolean(editingId);
+
         resetForm();
-        result.textContent =
-            "Draft saved. Stored Locally.";
+        await loadRequests();
+
+        result.textContent = wasEditing
+            ? "Coffee chat request updated."
+            : "Coffee chat request sent.";
 
         renderRequests();
     });
@@ -402,90 +444,69 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     submit.disabled = true;
-    result.textContent = "Loading your draft workspace...";
+    result.textContent = "Loading your coffee chats...";
 
     try {
-        const user = await getCurrentUser();
+        currentUser = await getCurrentUser();
 
-        if (!user) {
+        if (!currentUser) {
             result.textContent =
                 "Please sign in to use Coffee Chats.";
             return;
         }
 
-        storageKey = "ceoxb-coffee-drafts-" + user.id;
-
-        const saved = JSON.parse(
-            localStorage.getItem(storageKey) || "[]"
-        );
-
-        requests = Array.isArray(saved)
-            ? saved.filter(function (item) {
-                return item &&
-                    typeof item.id === "string" &&
-                    typeof item.memberName === "string" &&
-                    typeof item.date === "string" &&
-                    typeof item.time === "string" &&
-                    (item.status === "sent" ||
-                     item.status === "draft" ||
-                     item.status === "cancelled");
-            })
-            : [];
-
         const memberStatus = document.getElementById("coffee-member-status") || document.createElement("p");
-        
+
         member.replaceChildren();
-        
+
         const placeholder = document.createElement("option");
         placeholder.value = "";
         placeholder.textContent = "Select a member";
         member.appendChild(placeholder);
-        
+
         const { data: members, error: membersError } = await _supabase
             .from("profiles")
-            .select("id, name, role, company")
+            .select("id, name, role, company, timezone")
             .order("name");
-        
+
         if (membersError) {
             memberStatus.textContent = "Unable to load members.";
             return;
         }
-        
-        const otherMembers = (members || []).filter(function(profile) {
-            return profile.id !== user.id;
-        });
-        
-        const memberTimezones = {};
 
-        const { data: timezoneProfiles, error: timezoneError } =
+        const me = (members || []).find(function(profile) {
+            return profile.id === currentUser.id;
+        });
+
+        // Keep our own time zone current so others see the right time
+        if (me && me.timezone !== userTimezone) {
             await _supabase
                 .from("profiles")
-                .select("id, timezone");
-        
-        if (!timezoneError) {
-            (timezoneProfiles || []).forEach(function(profile) {
-                if (profile.timezone) {
-                    memberTimezones[profile.id] = profile.timezone;
-                }
-            });
+                .update({ timezone: userTimezone })
+                .eq("id", currentUser.id);
         }
+
+        const otherMembers = (members || []).filter(function(profile) {
+            return profile.id !== currentUser.id;
+        });
+
         otherMembers.forEach(function(profile) {
             const option = document.createElement("option");
-        
+
             option.value = profile.id;
-            option.dataset.timezone = memberTimezones[profile.id] || "";
-            
+            option.dataset.timezone = profile.timezone || "";
+
             option.textContent = [
                 profile.name || "Unnamed member",
                 profile.company
             ].filter(Boolean).join(" · ");
-        
+
             member.appendChild(option);
         });
         const selectedMember = new URLSearchParams(
             window.location.search
         ).get("member");
-        
+
         if (selectedMember && otherMembers.some(function(profile) {
             return profile.id === selectedMember;
         })) {
@@ -494,13 +515,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         memberStatus.textContent = otherMembers.length
             ? otherMembers.length + " members available"
             : "No other members found.";
-        
+
         submit.disabled = otherMembers.length === 0;
-        result.textContent = "";
+
+        if (await loadRequests()) {
+            result.textContent = "";
+        }
+
         updateMeetingPreview();
     } catch (error) {
         result.textContent =
-            "Unable to load your drafts in this browser.";
+            "Unable to load your coffee chats.";
     }
 
     renderRequests();
