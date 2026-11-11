@@ -80,23 +80,50 @@
         <div id="cohort-meetings"></div>
       </div>
     </section>
-
-    <section class="cohort-panel">
-      <h2>Facilitator Notes</h2>
-      <div id="cohort-notes-list">
-        <p>Notes are visible to members of the cohort.</p>
+    
+    <section class="cohort-panel cohort-notes-panel">
+      <div class="cohort-section-heading">
+        <div>
+          <h2>Facilitator Notes</h2>
+          <p>Key takeaways and updates from your cohort meetings.</p>
+        </div>
+      </div>
+    
+      <div id="cohort-notes-list" aria-live="polite">
+        <p>Loading meeting notes...</p>
       </div>
     </section>
 
-    <section class="cohort-panel">
-      <h2>Cohort Group Chat</h2>
-      <p>Private conversation for your cohort and facilitator.</p>
-      <div class="cohort-chat" id="cohort-messages" aria-live="polite"></div>
+    <section class="cohort-panel cohort-chat-panel">
+      <div class="cohort-section-heading">
+        <div>
+          <h2>Group Chat</h2>
+          <p>Private messages with your cohort members and facilitator.</p>
+        </div>
+      </div>
+    
+      <div class="cohort-chat"
+           id="cohort-messages"
+           aria-label="Cohort messages"
+           aria-live="polite">
+        <p>Loading messages...</p>
+      </div>
+    
       <form id="cohort-message-form" hidden>
-        <label for="cohort-message">Message</label>
-        <textarea id="cohort-message" rows="2" maxlength="1000" required></textarea>
-        <button type="submit">Send Message</button>
-        <p id="cohort-chat-status" role="status"></p>
+        <label for="cohort-message">Write a message</label>
+        <textarea
+          id="cohort-message"
+          rows="3"
+          maxlength="1000"
+          placeholder="Share an update or ask your cohort a question..."
+          required></textarea>
+    
+        <div class="cohort-chat-actions">
+          <span>Messages are visible to your cohort.</span>
+          <button type="submit">Send Message</button>
+        </div>
+    
+        <p id="cohort-chat-status" role="status" aria-live="polite"></p>
       </form>
     </section>
 
