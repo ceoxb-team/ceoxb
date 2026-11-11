@@ -3489,30 +3489,235 @@ html[data-theme="dark"].blue-round-button {
   color: white;
 }
 
-.cohort-stack {
-  display: grid;
-  gap: 24px;
+
+/* CEO XB Cohorts Page */
+
+.cohorts-page {
+  padding-top: 48px;
+  padding-bottom: 70px;
 }
 
-.cohort-panel {
-  background: var(--background);
-  color: var(--text);
+/* Header */
+.cohorts-hero {
+  padding: 42px 46px;
+  margin-bottom: 26px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 18px;
+  background: linear-gradient(
+    120deg,
+    var(--surface-blue),
+    var(--background)
+  );
+}
+
+.cohorts-eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.cohorts-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 4vw, 42px);
+  letter-spacing: -1px;
+}
+
+.cohorts-hero p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.cohorts-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.cohorts-primary-link,
+.cohorts-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 20px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cohorts-page .cohorts-primary-link {
+  background: #28618c;
+  color: #ffffff !important;
+}
+
+.cohorts-page .cohorts-secondary-link {
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+}
+
+/* Loading/status message */
+.cohorts-page #cohort-page-status {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Two-column layout */
+.cohort-stack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+/* All cards */
+.cohort-panel {
+  min-width: 0;
   padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cohort-panel:hover {
+  border-color: var(--blue);
+  box-shadow: 0 10px 30px rgba(8, 44, 80, 0.08);
 }
 
 .cohort-panel h2 {
-  margin-top: 0;
+  margin: 0 0 18px;
   color: var(--text);
+  font-size: 21px;
+  letter-spacing: -0.4px;
+}
+
+.cohort-panel > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.cohort-panel:first-child {
+  grid-column: 1 / -1;
+  padding: 32px;
+  border-left: 4px solid #347ca8;
+}
+
+.cohort-panel:first-child h2 {
+  font-size: 24px;
+}
+
+#cohort-current {
+  margin-bottom: 18px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+#cohort-meetings {
+  display: grid;
+  gap: 14px;
 }
 
 .cohort-meeting-card,
 .cohort-chat-message {
-  padding: 16px;
-  margin: 12px 0;
+  padding: 18px;
+  margin: 0;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
+  background: var(--background);
+}
+
+.cohort-meeting-card {
+  border-left: 3px solid #347ca8;
+}
+
+#cohort-notes-list {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.cohort-chat {
+  min-height: 90px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.cohort-panel:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+#cohort-facilitator-panel,
+#cohort-admin-panel {
+  grid-column: 1 / -1;
+}
+
+.cohort-panel[hidden],
+.cohort-panel form[hidden] {
+  display: none;
+}
+
+html[data-theme="dark"] .cohorts-hero {
+  background: linear-gradient(120deg, #18364f, #142638);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .cohorts-hero h1,
+html[data-theme="dark"] .cohort-panel h2 {
+  color: #f1f6fc;
+}
+
+html[data-theme="dark"] .cohort-panel {
+  background: #192a3b;
+  border-color: #33495e;
+}
+
+html[data-theme="dark"] .cohort-panel:first-child {
+  border-left-color: #74b8e4;
+}
+
+html[data-theme="dark"] .cohort-meeting-card,
+html[data-theme="dark"] .cohort-chat-message {
+  background: #142638;
+  border-color: #33495e;
+}
+
+html[data-theme="dark"] .cohorts-page .cohorts-secondary-link {
+  background: #24394d;
+  color: #edf4fa;
+}
+
+@media (max-width: 850px) {
+  .cohort-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .cohort-panel:first-child,
+  .cohort-panel:nth-child(4),
+  #cohort-facilitator-panel,
+  #cohort-admin-panel {
+    grid-column: auto;
+  }
+
+  .cohorts-hero {
+    padding: 28px 24px;
+  }
+
+  .cohort-panel,
+  .cohort-panel:first-child {
+    padding: 23px;
+  }
 }
 
 .cohort-chat {
