@@ -42,7 +42,7 @@
         </section>
         <nav class="section-subnav" aria-label="Schedule sections">
             <a href="calendar.html" aria-current="page">Calendar</a>
-            <a href="coffee.html">Coffee Chats (1:1)</a>
+            <a href="coffee.html">Coffee Chats</a>
         </nav>
         <div class="full-calendar-layout">
             <section class="calendar-dashboard-card">
@@ -92,7 +92,7 @@
                 </div>
                 
                 <p class="calendar-help-text">
-                    Select a highlighted date to view your scheduled activities.
+                    Select a date to view your personal events and cohort meetings.
                 </p>
             </section>
 
@@ -106,14 +106,16 @@
                 <div id="calendar-event-list" class="calendar-event-list"></div>
 
                 <form id="calendar-event-form" class="calendar-event-form">
-                    <h3>Add Personal Event</h3>
-                
+                    <h3>Add a Personal Event</h3>
+                    <p class="calendar-form-help">
+                        Personal events are saved in this browser and are not shared with your cohort.
+                    </p>
                     <label for="event-title">Event Name</label>
                     <input type="text" id="event-title"
                            placeholder="Enter Event Name"
                            maxlength="100" required>
                 
-                    <label for="event-time">Time</label>
+                    <label for="event-time">Start Time</label>
                     <input type="time" id="event-time" required>
                 
                     <label for="event-description">Description (optional)</label>
@@ -122,7 +124,7 @@
                               placeholder="Event Details..."></textarea>
                 
                     <button type="submit" class="signin-button">
-                        Add Event
+                        Save Personal Event
                     </button>
                 
                     <p id="calendar-event-status" role="status"></p>
