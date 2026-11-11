@@ -51,8 +51,10 @@ if (fullCalendar) {
         const totalEvents = matching.length + matchingCohortMeetings.length;
 
         selectedInfo.textContent = totalEvents
-            ? totalEvents + " event(s) scheduled."
-            : "No events scheduled for this date.";
+            ? totalEvents + (totalEvents === 1
+                ? " scheduled item."
+                : " scheduled items.")
+            : "No meetings or personal events scheduled for this date.";
 
         matchingCohortMeetings.forEach(function(meeting) {
             const card = document.createElement("div");
@@ -75,8 +77,8 @@ if (fullCalendar) {
 
             const requirement = document.createElement("p");
             requirement.textContent = meeting.required
-                ? "Required cohort meeting"
-                : "Optional cohort meeting";
+                ? "Required"
+                : "Optional";
 
             const link = document.createElement("a");
             link.href = "cohorts.html";
@@ -111,7 +113,7 @@ if (fullCalendar) {
     
             const remove = document.createElement("button");
             remove.type = "button";
-            remove.textContent = "Remove Event";
+            remove.textContent = "Remove Personal Event";
     
             remove.addEventListener("click", function() {
                 const previous = events;
