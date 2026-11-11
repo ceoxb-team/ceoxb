@@ -21,9 +21,17 @@ if (memberPages.includes(pageName)) {
 
         const { data: isMember, error } = await _supabase.rpc("is_member");
 
-        if (!error && isMember !== true) {
+        if (error || isMember !== true) {
+            if (error) {
+                console.error("Unable to verify member access:", error);
+            }
+        
             await _supabase.auth.signOut();
-            window.location.replace("onboarding_files/signin.html#error=not_approved");
+        
+            window.location.replace(
+                "onboarding_files/signin.html#error=" +
+                (error ? "access_check_failed" : "not_approved")
+            );
         }
     });
 }
@@ -489,6 +497,8 @@ if (profileForm) {
 
         pictureInput.value = "";
         pictureInput.required = false;
+        window.profileCroppedFile = null;
+        
         showProfile();
         profileResult.textContent = "Profile saved successfully!";
     });
@@ -569,7 +579,7 @@ async function loadDashboardEvents() {
 
             const status = document.createElement("span");
             status.className = "dashboard-upcoming-status";
-            status.textContent = "Proposed · Not Confirmed";
+            status.textContent = "Proposed · Not Sent";
 
             details.append(title, date);
             item.append(details, status);
