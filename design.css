@@ -427,7 +427,6 @@ html[data-theme="dark"] .calendar-day.has-cohort-meetings::after {
   border-bottom: 1px solid var(--border, #37404b); /* Uses your border variable */
 }
 
-/* These create the clean gaps around the word "or" */
 .text-divider:not(:empty)::before {
   margin-right: 15px;
 }
@@ -444,6 +443,120 @@ html[data-theme="dark"] .calendar-day.has-cohort-meetings::after {
 .discussion-list {
   display: grid;
   gap: 16px;
+}
+
+.section-subnav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 28px;
+}
+
+.section-subnav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.section-subnav a:hover {
+  background: var(--soft-blue);
+}
+
+.section-subnav a[aria-current="page"] {
+  background: var(--soft-blue);
+  border-color: var(--border);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.member-search-panel {
+  margin-bottom: 28px;
+  padding: 24px;
+}
+
+.member-search-panel label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.member-search-panel p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.member-search-panel input {
+  width: 100%;
+  max-width: 580px;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.discussion-form-intro {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.discussion-form label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.discussion-form input,
+.discussion-form select,
+.discussion-form textarea {
+  width: 100%;
+  font-size: 16px;
+}
+
+.discussion-form button {
+  margin-top: 16px;
+}
+
+html[data-theme="dark"] .section-subnav a {
+  color: var(--text);
+}
+
+html[data-theme="dark"] .section-subnav a[aria-current="page"] {
+  background: #24445e;
+  border-color: #41637d;
+}
+
+@media (max-width: 600px) {
+  .section-subnav {
+    gap: 6px;
+  }
+
+  .section-subnav a {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .member-search-panel {
+    padding: 18px;
+  }
 }
 
 .profile-layout {
