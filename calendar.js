@@ -212,15 +212,39 @@ if (fullCalendar) {
             cell.dataset.day = day;
             cell.setAttribute("aria-pressed", "false");
             const key = dateKey(displayedYear, displayedMonth, day);
-            const hasEvents =
-                events.some(event => event.date === key) ||
-                cohortMeetings.some(meeting =>
-                    localDateKey(meeting.starts_at) === key
-                );
+            const hasPersonalEvents = events.some(
+                event => event.date === key
+            );
             
-            if (hasEvents) {
+            const hasCohortMeetings = cohortMeetings.some(
+                meeting => localDateKey(meeting.starts_at) === key
+            );
+            
+            if (hasPersonalEvents || hasCohortMeetings) {
                 cell.classList.add("has-events");
-                cell.setAttribute("aria-label", day + " - Events scheduled");
+            
+                if (hasPersonalEvents) {
+                    cell.classList.add("has-personal-events");
+                }
+            
+                if (hasCohortMeetings) {
+                    cell.classList.add("has-cohort-meetings");
+                }
+            
+                const eventTypes = [];
+            
+                if (hasPersonalEvents) {
+                    eventTypes.push("personal events");
+                }
+            
+                if (hasCohortMeetings) {
+                    eventTypes.push("cohort meetings");
+                }
+            
+                cell.setAttribute(
+                    "aria-label",
+                    day + " - " + eventTypes.join(" and ")
+                );
             }
             
             if (
