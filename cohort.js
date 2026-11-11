@@ -119,11 +119,28 @@
     if (!cohort) {
       message(
         "cohort-current",
-        "No current cohort assigned. An administrator will assign you."
+        "You have not been assigned to a cohort yet."
       );
+    
+      message(
+        "cohort-meetings",
+        "Your required meetings will appear here once you join a cohort."
+      );
+    
+      message(
+        "cohort-notes-list",
+        "Facilitator notes will appear after your cohort has been assigned."
+      );
+    
+      message(
+        "cohort-messages",
+        "Group chat will be available when you are assigned to a cohort."
+      );
+    
       if (dashboard) {
         dashboard.textContent = "No current cohort assigned.";
       }
+    
       return;
     }
 
@@ -154,20 +171,22 @@
         "Your time zone: " +
         Intl.DateTimeFormat().resolvedOptions().timeZone
       );
-      add(current, "p", "Monthly cohort meetings are mandatory.");
+      add(current, "p", "Attend your required cohort meetings and stay connected with your group.");
     }
 
     const list = find("cohort-meetings");
 
     if (list) {
       list.replaceChildren();
-
-      const cohortMeetings = meetings.filter(
-        meeting => meeting.cohort_id === cohort.id
-      );
-
+      
+      const cohortMeetings = upcoming;
+      
       if (!cohortMeetings.length) {
-        add(list, "p", "No meetings scheduled yet.");
+        add(
+          list,
+          "p",
+          "No upcoming meetings scheduled. Check back for updates."
+        );
       }
 
       cohortMeetings.forEach(meeting => {
@@ -175,15 +194,28 @@
         card.className = "cohort-meeting-card";
 
         add(card, "strong", meeting.title || "Monthly Meeting");
-        add(
+        
+        const meetingTime = add(
           card,
           "p",
           dateTime(meeting.starts_at) + " – " +
           new Date(meeting.ends_at).toLocaleTimeString(
             undefined,
             { hour: "numeric", minute: "2-digit" }
-          ) + (meeting.required ? " · Required" : " · Optional")
+          )
         );
+        
+        meetingTime.className = "cohort-meeting-time";
+        
+        const requirement = add(
+          card,
+          "span",
+          meeting.required ? "Required Meeting" : "Optional Meeting"
+        );
+        
+        requirement.className = meeting.required
+          ? "cohort-meeting-label required"
+          : "cohort-meeting-label";
 
         list.appendChild(card);
       });
@@ -540,8 +572,15 @@
 
     try {
       user = await getCurrentUser();
-      if (!user) return;
-
+      
+      if (!user) {
+        message("cohort-page-status", "Please sign in to view your cohorts.");
+        message("cohort-current", "Sign in to see your cohort assignment.");
+        message("cohort-notes-list", "Sign in to view meeting notes.");
+        message("cohort-messages", "Sign in to view group messages.");
+        return;
+      }
+      
       const assignedRole = rows(await db
         .from("ceoxb_roles")
         .select("role")
