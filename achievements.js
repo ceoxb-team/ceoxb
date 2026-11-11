@@ -9,6 +9,16 @@
     let userId = null;
     let achievementsDialog = null;
     let profileComplete = false;
+    let tutorialCompleted = false;
+
+    // Counts come from real activity in the database
+    // (see ceoxb_my_activity_counts in the migrations)
+    let activityCounts = {
+        coffee: 0,
+        discussion: 0,
+        connection: 0,
+        learning: 0
+    };
 
     let visibilitySettings = {
         visible: false,
@@ -91,21 +101,19 @@
         };
     }
 
-    function getStorageKey(type) {
-        return "ceoxb-achievements-" + userId + "-" + type;
+    function getCount(type) {
+        return Number(activityCounts[type]) || 0;
     }
 
-    function getActivities(type) {
-        if (!userId) return [];
+    async function loadActivityCounts() {
+        if (!userId) return;
 
-        try {
-            const saved = JSON.parse(
-                localStorage.getItem(getStorageKey(type)) || "[]"
-            );
+        const { data, error } = await _supabase
+            .rpc("ceoxb_my_activity_counts")
+            .maybeSingle();
 
-            return Array.isArray(saved) ? saved : [];
-        } catch (error) {
-            return [];
+        if (!error && data) {
+            activityCounts = data;
         }
     }
 
@@ -160,7 +168,7 @@
             .from("profiles")
             .select(
                 "name, role, company, location, " +
-                "about, interests, avatar_url"
+                "about, interests, avatar_url, tutorial_completed"
             )
             .eq("id", userId)
             .maybeSingle();
@@ -173,6 +181,9 @@
         }
 
         const profile = data || {};
+
+        tutorialCompleted = profile.tutorial_completed === true;
+        updateTutorialAchievement();
 
         const fields = [
             "name",
@@ -223,12 +234,14 @@
         setBadgeEarned("badge-profile", complete);
     }
 
-    function updateTutorialAchievement() {
-        const unlocked =
+    function isTutorialUnlocked() {
+        return tutorialCompleted ||
             localStorage.getItem("ceoxb-tutorial-achievement") ===
             "unlocked";
+    }
 
-        setBadgeEarned("badge-tutorial", unlocked);
+    function updateTutorialAchievement() {
+        setBadgeEarned("badge-tutorial", isTutorialUnlocked());
     }
 
     function createMilestoneTile(number, earned) {
@@ -260,8 +273,7 @@
     }
 
     function createCategoryCard(category) {
-        const activities = getActivities(category.id);
-        const count = activities.length;
+        const count = getCount(category.id);
         const info = getMilestoneInfo(count);
 
         const card = document.createElement("section");
@@ -501,31 +513,17 @@
             userId = user.id;
         }
 
-        const activities = getActivities(type);
-        const id = String(uniqueId);
+        // The activity itself is already saved in the database;
+        // just refresh the counts and celebrate new milestones.
+        const previousCount = getCount(type);
 
-        if (activities.includes(id)) {
-            return false;
-        }
-
-        const previousCount = activities.length;
-
-        activities.push(id);
-
-        try {
-            localStorage.setItem(
-                getStorageKey(type),
-                JSON.stringify(activities)
-            );
-        } catch (error) {
-            return false;
-        }
+        await loadActivityCounts();
 
         renderMilestones();
         refreshProfileAchievements();
 
         const before = getMilestoneInfo(previousCount);
-        const after = getMilestoneInfo(activities.length);
+        const after = getMilestoneInfo(getCount(type));
 
         if (after.earned.length > before.earned.length) {
             const milestone =
@@ -543,9 +541,6 @@
     };
 
     
-    function getVisibilityKey() {
-        return "ceoxb-achievement-visibility-" + userId;
-    }
 
     function getEarnedAchievements() {
         const earned = [];
@@ -560,11 +555,7 @@
             });
         }
 
-        const tutorialUnlocked =
-            localStorage.getItem("ceoxb-tutorial-achievement") ===
-            "unlocked";
-
-        if (tutorialUnlocked) {
+        if (isTutorialUnlocked()) {
             earned.push({
                 id: "tutorial",
                 name: "Welcome Aboard",
@@ -575,8 +566,7 @@
         }
 
         categories.forEach(function (category) {
-            const count = getActivities(category.id).length;
-            const info = getMilestoneInfo(count);
+            const info = getMilestoneInfo(getCount(category.id));
 
             info.earned.forEach(function (number) {
                 const tier = getTier(number);
@@ -595,7 +585,7 @@
         return earned;
     }
 
-    function loadVisibilitySettings() {
+    async function loadVisibilitySettings() {
         visibilitySettings = {
             visible: false,
             selected: []
@@ -603,47 +593,38 @@
 
         if (!userId) return;
 
-        try {
-            const saved = JSON.parse(
-                localStorage.getItem(getVisibilityKey()) || "null"
-            );
+        const { data } = await _supabase
+            .from("profiles")
+            .select("show_achievements, featured_achievements")
+            .eq("id", userId)
+            .maybeSingle();
 
-            if (saved && typeof saved === "object") {
-                visibilitySettings.visible = saved.visible === true;
-
-                visibilitySettings.selected =
-                    Array.isArray(saved.selected)
-                        ? saved.selected.filter(function (id) {
-                            return typeof id === "string";
-                        })
-                        : [];
-            }
-        } catch (error) {
-            visibilitySettings.visible = false;
-            visibilitySettings.selected = [];
+        if (data) {
+            visibilitySettings.visible = data.show_achievements === true;
+            visibilitySettings.selected =
+                Array.isArray(data.featured_achievements)
+                    ? data.featured_achievements
+                    : [];
         }
     }
 
-    function saveVisibilitySettings() {
+    async function saveVisibilitySettings() {
         const status = document.getElementById(
             "achievement-privacy-status"
         );
 
-        try {
-            localStorage.setItem(
-                getVisibilityKey(),
-                JSON.stringify(visibilitySettings)
-            );
+        const { error } = await _supabase
+            .from("profiles")
+            .update({
+                show_achievements: visibilitySettings.visible,
+                featured_achievements: visibilitySettings.selected
+            })
+            .eq("id", userId);
 
-            if (status) {
-                status.textContent =
-                    "Achievement preferences saved in this browser.";
-            }
-        } catch (error) {
-            if (status) {
-                status.textContent =
-                    "Unable to save achievement preferences.";
-            }
+        if (status) {
+            status.textContent = error
+                ? "Unable to save achievement preferences: " + error.message
+                : "Achievement preferences saved.";
         }
     }
 
@@ -771,7 +752,7 @@
         renderFeaturedPreview(earned);
     }
 
-    function initializeProfileSettings() {
+    async function initializeProfileSettings() {
         const toggle = document.getElementById(
             "show-profile-achievements"
         );
@@ -793,7 +774,7 @@
             return;
         }
 
-        loadVisibilitySettings();
+        await loadVisibilitySettings();
 
         toggle.addEventListener("change", function () {
             visibilitySettings.visible = toggle.checked;
@@ -814,7 +795,10 @@
 
             if (user) {
                 userId = user.id;
-                await loadProfileAchievement();
+                await Promise.all([
+                    loadProfileAchievement(),
+                    loadActivityCounts()
+                ]);
             }
         } catch (error) {
             const message = document.getElementById(

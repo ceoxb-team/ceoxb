@@ -1,5 +1,5 @@
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const search = document.getElementById("learn-search");
     const category = document.getElementById("learn-category");
     const cards = [...document.querySelectorAll(".learn-topic-card")];
@@ -10,17 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!search || !category || !savedList) return;
 
-    const storageKey = "ceoxb-saved-learning-topics";
     let saved = [];
-
-    try {
-        const stored = JSON.parse(localStorage.getItem(storageKey) || "[]");
-        saved = Array.isArray(stored)
-            ? stored.filter(item => typeof item === "string")
-            : [];
-    } catch (error) {
-        saved = [];
-    }
+    let signedIn = false;
 
     function filterTopics() {
         const query = search.value.trim().toLowerCase();
@@ -89,26 +80,33 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function updateSaved(topic) {
-        const previous = [...saved];
-
-        if (saved.includes(topic)) {
-            saved = saved.filter(item => item !== topic);
-        } else {
-            saved.push(topic);
+    async function updateSaved(topic) {
+        if (!signedIn) {
+            feedback.textContent = "Please sign in to save topics.";
+            return;
         }
 
-        try {
-            localStorage.setItem(storageKey, JSON.stringify(saved));
-            feedback.textContent = saved.includes(topic)
-                ? "Topic saved."
-                : "Topic removed.";
-        } catch (error) {
-            saved = previous;
-            feedback.textContent =
-                "Unable to save topics in this browser.";
+        const removing = saved.includes(topic);
+
+        const { error } = removing
+            ? await _supabase
+                .from("ceoxb_saved_topics")
+                .delete()
+                .eq("topic", topic)
+            : await _supabase
+                .from("ceoxb_saved_topics")
+                .insert({ topic: topic });
+
+        if (error) {
+            feedback.textContent = "Unable to update saved topics: " + error.message;
+            return;
         }
 
+        saved = removing
+            ? saved.filter(item => item !== topic)
+            : saved.concat(topic);
+
+        feedback.textContent = removing ? "Topic removed." : "Topic saved.";
         renderSaved();
     }
 
@@ -123,5 +121,24 @@ document.addEventListener("DOMContentLoaded", function () {
     category.addEventListener("change", filterTopics);
 
     filterTopics();
+    renderSaved();
+
+    const user = await getCurrentUser();
+
+    if (!user) return;
+
+    signedIn = true;
+
+    const { data, error } = await _supabase
+        .from("ceoxb_saved_topics")
+        .select("topic")
+        .order("saved_at");
+
+    if (error) {
+        feedback.textContent = "Unable to load saved topics: " + error.message;
+        return;
+    }
+
+    saved = (data || []).map(row => row.topic);
     renderSaved();
 });
