@@ -117,8 +117,6 @@ body {
 .application-container {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  /* background: var(--white); */
-  /* box-shadow: var(--shadow); */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -1290,7 +1288,6 @@ html[data-theme="dark"] #cohort-update-summary h3 {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  align-items: center;
 }
 
 .signin-back-link:hover {
@@ -3563,14 +3560,12 @@ html[data-theme="dark"].blue-round-button {
   color: var(--text);
 }
 
-/* Loading/status message */
 .cohorts-page #cohort-page-status {
   margin: 0 0 18px;
   font-size: 13px;
   color: var(--muted);
 }
 
-/* Two-column layout */
 .cohort-stack {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3578,7 +3573,6 @@ html[data-theme="dark"].blue-round-button {
   align-items: start;
 }
 
-/* All cards */
 .cohort-panel {
   min-width: 0;
   padding: 28px;
@@ -3608,14 +3602,156 @@ html[data-theme="dark"].blue-round-button {
   line-height: 1.7;
 }
 
-.cohort-panel:first-child {
+.cohort-current-card {
   grid-column: 1 / -1;
   padding: 32px;
   border-left: 4px solid #347ca8;
 }
 
-.cohort-panel:first-child h2 {
+.cohort-current-card h2 {
   font-size: 24px;
+}
+
+.cohort-current-card {
+  overflow: hidden;
+}
+
+.cohort-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cohort-label {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.cohort-card-header h2 {
+  margin: 0 0 8px;
+}
+
+.cohort-card-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cohort-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: var(--soft-blue);
+  font-size: 25px;
+}
+
+/* Cohort information */
+.cohort-current-details {
+  padding: 22px 0;
+}
+
+#cohort-current {
+  margin: 0;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+/* Meeting section */
+.cohort-meetings-section {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.cohort-meetings-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.cohort-meetings-heading h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.cohort-meetings-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cohorts-page .cohort-schedule-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 17px;
+  background: #28618c;
+  color: #ffffff !important;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+
+.cohorts-page .cohort-schedule-btn:hover {
+  background: #347ca8;
+}
+
+/* Meeting cards */
+.cohort-current-card .cohort-meeting-card {
+  background: var(--surface-blue);
+  border: 1px solid var(--border);
+  border-left: 3px solid #347ca8;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+/* Dark mode */
+html[data-theme="dark"] .cohort-current-card {
+  background: #192a3b;
+}
+
+html[data-theme="dark"] .cohort-header-icon {
+  background: #263f56;
+}
+
+html[data-theme="dark"] .cohort-current-card .cohort-meeting-card {
+  background: #142638;
+  border-color: #33495e;
+  border-left-color: #74b8e4;
+}
+
+@media (max-width: 600px) {
+  .cohort-card-header {
+    gap: 12px;
+  }
+
+  .cohort-header-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 21px;
+  }
+
+  .cohort-meetings-heading {
+    align-items: flex-start;
+  }
 }
 
 #cohort-current {
