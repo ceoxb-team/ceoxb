@@ -32,18 +32,21 @@
 
     <main class="dashboard">
         <section class="dashboard-header">
-            <h1>Connect with Members</h1>
-            <p>Get to know other CEOs in the community.</p>
+            <h1>Member Directory</h1>
+            <p>Find and connect with fellow CEOs in the CEO XB community.</p>
         </section>
         <nav class="section-subnav" aria-label="Community sections">
             <a href="connect.html" aria-current="page">Members</a>
             <a href="discuss.html">Discussions</a>
             <a href="learn.html">Learn</a>
         </nav>
-        <section class="connect-search">
-            <label for="member-search">Find a member</label>
-            <input type="search" id="member-search"
-                   placeholder="Search by name, company, or location">
+        <section class="connect-search member-search-panel">
+            <label for="member-search">Find a Member</label>
+            <p>Enter a name, company, or location to find someone.</p>
+            <input type="search"
+                   id="member-search"
+                   placeholder="Name, company, or location"
+                   autocomplete="off">
         </section>
 
         <section class="dashboard-section">
