@@ -3550,3 +3550,36 @@ html[data-theme="dark"].blue-round-button {
 .cohort-panel form[hidden] {
   display: none;
 }
+
+.section-subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-subnav a {
+    padding: 10px 18px;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.section-subnav a:hover,
+.section-subnav a[aria-current="page"] {
+    background: var(--soft-blue);
+    color: var(--navy);
+}
+
+.section-subnav a[aria-current="page"] {
+    font-weight: 700;
+}
+
+html[data-theme="dark"] .section-subnav a:hover,
+html[data-theme="dark"] .section-subnav a[aria-current="page"] {
+    background: #263e58;
+    color: #eef5ff;
+}
