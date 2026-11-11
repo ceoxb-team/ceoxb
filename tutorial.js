@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const steps = [
         {
@@ -27,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     ];
 
-    const storageKey = "ceoxb-guided-tour-v2";
+    const storageKey = "ceoxb-guided-tour-v3";
     const replayButton = document.getElementById("replay-tour");
     const oldDialog = document.getElementById("welcome-tour");
 
@@ -183,9 +182,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function closeTour() {
-        localStorage.setItem("ceoxb-tutorial-achievement", "unlocked");
-
-        window.dispatchEvent(new Event("ceoxb-achievement-updated"));
         tourOpen = false;
 
         overlay.hidden = true;
@@ -250,6 +246,8 @@ document.addEventListener("DOMContentLoaded", function () {
         closeTour();
 
         if (completed) {
+            localStorage.setItem("ceoxb-tutorial-achievement", "unlocked");
+            window.dispatchEvent(new Event("ceoxb-achievement-updated"));
             celebrate();
         }
     }
