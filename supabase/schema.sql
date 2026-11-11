@@ -65,7 +65,6 @@ create table public.applications (
   company_country text,
   industry text,
   number_of_employees text,
-  funding text,
   funding_stage text,
   status text not null default 'pending',
   created_at timestamptz not null default now()
