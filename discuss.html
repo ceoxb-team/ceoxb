@@ -13,31 +13,46 @@
             <a href="dashboard.html" class="logo">
                 <img src="imgs/logo.svg" alt="CEO XB">
             </a>
-            <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="calendar.html">Calendar</a>
-                <a href="learn.html">Learn</a>
-                <a href="connect.html">Connect</a>
-                <a href="coffee.html">Coffee Chats</a>
-                <a href="discuss.html" aria-current="page">Discuss</a>
-                <a href="profile.html">Profile</a>
-                <a href="#" id="signout">Sign Out</a>
-            </div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cohorts.html">Cohorts</a>
+            <a href="calendar.html">Schedule</a>
+            <a href="connect.html" aria-current="page">Community</a>
+        
+            <details class="account-menu">
+                <summary>Account</summary>
+                <div class="account-menu-panel">
+                    <a href="profile.html">My Profile</a>
+                    <a href="#" id="signout">Sign Out</a>
+                </div>
+            </details>
+        </div>
         </nav>
     </header>
 
     <main class="dashboard">
         <section class="dashboard-header">
-            <h1>Community Discussions</h1>
-            <p>Share ideas, ask questions, and learn from other CEOs.</p>
+            <h1>Discussions</h1>
+            <p>Ask questions, exchange ideas, and learn from fellow CEOs.</p>
         </section>
-
+        <nav class="section-subnav" aria-label="Community sections">
+            <a href="connect.html">Members</a>
+            <a href="discuss.html" aria-current="page">Discussions</a>
+            <a href="learn.html">Learn</a>
+        </nav>
         <section class="dashboard-section">
             <div class="dashboard-card">
-                <h2>Start a Discussion</h2>
+                <h2>Create a Discussion</h2>
+                <p class="discussion-form-intro">
+                    Ask a question, share an experience, or request advice from other CEOs.
+                </p>
                 <form id="discussion-form" class="discussion-form">
-                    <label for="discussion-title">Title</label>
-                    <input id="discussion-title" type="text" placeholder="What would you like to discuss?" maxlength="100" required>
+                    <label for="discussion-title">Discussion Title</label>
+                    <input id="discussion-title"
+                           type="text"
+                           placeholder="Example: Advice on entering the U.S. market"
+                           maxlength="100"
+                           required>
                     <label for="discussion-topic">Topic</label>
                     <select id="discussion-topic" required>
                         <option value="">Select a topic.</option>
@@ -48,7 +63,7 @@
                     </select>
                     <label for="discussion-message">Message</label>
                     <textarea id="discussion-message" rows="4" placeholder="Share your question or idea..." required></textarea>
-                    <button type="submit" class="signin-button">Post Discussion</button>
+                    <button type="submit" class="signin-button">Publish Discussion</button>
                     <p id="discussion-result" class="learn-note" role="status"></p>
                 </form>
             </div>
@@ -58,7 +73,7 @@
             <div class="section-heading">
                 <div>
                     <h2>Community Feed</h2>
-                    <p>Explore conversations happening in your community.</p>
+                    <p>Recent questions and conversations from members.</p>
                 </div>
                 <span id="discussion-count">0 discussions</span>
             </div>

@@ -13,34 +13,45 @@
             <a href="dashboard.html" class="logo">
                 <img src="imgs/logo.svg" alt="CEO XB">
             </a>
-            <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="calendar.html">Calendar</a>
-                <a href="learn.html">Learn</a>
-                <a href="connect.html" aria-current="page">Connect</a>
-                <a href="coffee.html">Coffee Chats</a>
-                <a href="discuss.html">Discuss</a>
-                <a href="profile.html">Profile</a>
-                <a href="#" id="signout">Sign Out</a>
-            </div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cohorts.html">Cohorts</a>
+            <a href="calendar.html">Schedule</a>
+            <a href="connect.html" aria-current="page">Community</a>
+        
+            <details class="account-menu">
+                <summary>Account</summary>
+                <div class="account-menu-panel">
+                    <a href="profile.html">My Profile</a>
+                    <a href="#" id="signout">Sign Out</a>
+                </div>
+            </details>
+        </div>
         </nav>
     </header>
 
     <main class="dashboard">
         <section class="dashboard-header">
-            <h1>Connect with Members</h1>
-            <p>Get to know other CEOs in the community.</p>
+            <h1>Member Directory</h1>
+            <p>Find and connect with fellow CEOs in the CEO XB community.</p>
         </section>
-
-        <section class="connect-search">
-            <label for="member-search">Find a member</label>
-            <input type="search" id="member-search"
-                   placeholder="Search by name, company, or location">
+        <nav class="section-subnav" aria-label="Community sections">
+            <a href="connect.html" aria-current="page">Members</a>
+            <a href="discuss.html">Discussions</a>
+            <a href="learn.html">Learn</a>
+        </nav>
+        <section class="connect-search member-search-panel">
+            <label for="member-search">Find a Member</label>
+            <p>Search by name, company, or location.</p>
+            <input type="search"
+                   id="member-search"
+                   placeholder="Name, company, or location"
+                   autocomplete="off">
         </section>
 
         <section class="dashboard-section">
             <div class="section-heading">
-                <h2>Member Directory</h2>
+                <h2>Members</h2>
                 <span id="member-count">0 members</span>
             </div>
         

@@ -1,5 +1,6 @@
--- CEO XB database setup.
--- Run once in the Supabase dashboard: SQL Editor -> New query -> paste -> Run.
+-- CEO XB database setup (original version).
+-- First migration: later files in supabase/migrations/ build on this one.
+-- Already applied to the hosted project; new setups run `supabase db push`.
 
 -- ---------------------------------------------------------------
 -- Profiles: one row per member, linked to their Supabase login

@@ -69,39 +69,46 @@ submitButton.addEventListener("click", async function () {
       throw new Error("Application service is unavailable.");
     }
 
-    const { error } = await _supabase.from("applications").insert({
-      first_name: get("firstName"),
-      last_name: get("lastName"),
-      title: get("title"),
-      email: get("email"),
-      url: get("url"),
-      phone: get("phoneNumber"),
-      city: get("city"),
-      country: get("country"),
-      company_name: get("companyName"),
-      company_website: get("website"),
-      company_country: get("companyCountry"),
-      industry: get("companyIndustry"),
-      funding: get("funding"),
-      funding_stage: get("fundingStage"),
-      number_of_employees: get("numberOfEmployees"),
+    const captchaToken =
+      typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
+
+    if (!captchaToken) {
+      throw new Error("Please complete the captcha.");
+    }
+
+    // Sent to the submit-application Edge Function, which checks the
+    // captcha and validates everything before saving
+    const body = { captchaToken: captchaToken };
+    required.forEach((key) => (body[key] = get(key)));
+    body.company_fax = document.getElementById("company-fax").value;
+
+    const { error } = await _supabase.functions.invoke("submit-application", {
+      body: body,
     });
 
     if (error) {
-      console.log("missing information!!");
-      throw error;
+      let message = "Please try again later.";
+
+      try {
+        message = (await error.context.json()).error || message;
+      } catch (ignored) {}
+
+      throw new Error(message);
     }
 
     required.forEach((key) => sessionStorage.removeItem(key));
     sessionStorage.removeItem("url");
 
-    summary.hidden = true;
-    submitButton.hidden = true;
-    statusMessage.textContent =
-      "Your application has been submitted successfully!";
+    // Thank-you page; replace() so Back doesn't return to a submitted form
+    window.location.replace("additional-info.html");
   } catch (error) {
     statusMessage.textContent =
       "Unable to submit your application: " + error.message;
+
+    // Each captcha token works once, so get a fresh one for a retry
+    if (typeof turnstile !== "undefined") {
+      turnstile.reset();
+    }
 
     submitButton.disabled = false;
   }

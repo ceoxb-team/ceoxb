@@ -3,15 +3,35 @@ async function getCurrentUser() {
     return data.session ? data.session.user : null;
 }
 
-const pageName = window.location.pathname.split("/").pop();
+// Works for both "/dashboard.html" and the clean URL "/dashboard"
+const pageName = window.location.pathname.split("/").pop().replace(/\.html$/, "");
 
-if (pageName === "dashboard.html" || pageName === "learn.html" ||
-        pageName === "connect.html" || pageName === "coffee.html" ||
-        pageName === "discuss.html"|| pageName === "profile.html" ||
-        pageName === "calendar.html") {
-    getCurrentUser().then(function(user) {
+const memberPages = ["dashboard", "learn", "connect", "coffee",
+    "discuss", "profile", "calendar", "cohorts"];
+
+// Send visitors who aren't signed-in, approved members to sign in.
+// The database enforces this too; this just avoids showing empty pages.
+if (memberPages.includes(pageName)) {
+    getCurrentUser().then(async function(user) {
         if (!user) {
-            window.location.replace("onboarding_files/signin.html");
+            // Keep any sign-in error (in the hash) so the sign-in page can show it
+            window.location.replace("onboarding_files/signin.html" + window.location.hash);
+            return;
+        }
+
+        const { data: isMember, error } = await _supabase.rpc("is_member");
+
+        if (error || isMember !== true) {
+            if (error) {
+                console.error("Unable to verify member access:", error);
+            }
+        
+            await _supabase.auth.signOut();
+        
+            window.location.replace(
+                "onboarding_files/signin.html#error=" +
+                (error ? "access_check_failed" : "not_approved")
+            );
         }
     });
 }
@@ -77,7 +97,7 @@ if (memberSearch) {
                 .join(" ").toLowerCase();
 
         const picture = document.createElement("img");
-        picture.src = profile.avatar_url;
+        picture.src = profile.avatarSrc || "";
         picture.alt = name + "'s profile picture";
         picture.className = "member-picture";
         
@@ -176,20 +196,12 @@ if (memberSearch) {
     const badges = document.createElement("div");
     badges.className = "member-achievements";
 
-    let settings = null;
+    const settings = {
+        visible: profile.show_achievements === true,
+        selected: profile.featured_achievements || []
+    };
 
-    try {
-        settings = JSON.parse(
-            localStorage.getItem(
-                "ceoxb-achievement-visibility-" + profile.id
-            ) || "null"
-        );
-    } catch (error) {
-        settings = null;
-    }
-
-    if (settings && settings.visible &&
-        Array.isArray(settings.selected)) {
+    if (settings.visible && Array.isArray(settings.selected)) {
 
         const categories = {
             coffee: "Coffee Chats",
@@ -233,9 +245,7 @@ if (memberSearch) {
         content.appendChild(achievements);
     }
     
-        const linkedinUrl = localStorage.getItem(
-            "ceoxb-linkedin-" + profile.id
-        );
+        const linkedinUrl = profile.linkedin_url;
     
         if (linkedinUrl) {
             try {
@@ -283,13 +293,22 @@ if (memberSearch) {
     async function loadMembers() {
         const { data, error } = await _supabase
             .from("profiles")
-            .select("id, name, role, company, location, about, interests, avatar_url")
+            .select("id, name, role, company, location, about, interests, avatar_url, " +
+                "linkedin_url, show_achievements, featured_achievements")
             .order("name");
 
         if (error) {
             memberCount.textContent = "Unable to load members";
             return;
         }
+
+        const pictures = await getAvatarUrls(
+            data.map(function(profile) { return profile.avatar_url; })
+        );
+
+        data.forEach(function(profile, index) {
+            profile.avatarSrc = pictures[index];
+        });
 
         data.forEach(addMember);
         filterMembers();
@@ -368,7 +387,7 @@ if (profileForm) {
         document.getElementById("profile-interests-section").hidden = !interests;
     }
 
-    // URL of the picture already saved in Supabase, if any
+    // Stored path of the picture already saved in Supabase, if any
     let savedPicture = "";
 
     async function loadProfile() {
@@ -393,7 +412,7 @@ if (profileForm) {
 
             if (data.avatar_url) {
                 savedPicture = data.avatar_url;
-                picturePreview.src = savedPicture;
+                picturePreview.src = (await getAvatarUrls([savedPicture]))[0];
                 picturePreview.hidden = false;
                 pictureInput.required = false;
             }
@@ -450,11 +469,7 @@ if (profileForm) {
                 return;
             }
 
-            const { data } = _supabase.storage
-                .from("avatars")
-                .getPublicUrl(path);
-            
-            profile.avatar_url = data.publicUrl + "?v=" + Date.now();
+            profile.avatar_url = path;
         }
 
         const { error } = await _supabase.from("profiles").upsert(profile);
@@ -467,12 +482,14 @@ if (profileForm) {
 
         if (profile.avatar_url) {
             savedPicture = profile.avatar_url;
-            picturePreview.src = savedPicture;
+            picturePreview.src = (await getAvatarUrls([savedPicture]))[0];
             picturePreview.hidden = false;
         }
 
         pictureInput.value = "";
         pictureInput.required = false;
+        window.profileCroppedFile = null;
+        
         showProfile();
         profileResult.textContent = "Profile saved successfully!";
     });
@@ -493,45 +510,44 @@ async function loadDashboardEvents() {
             return;
         }
 
-        const storageKey = "ceoxb-coffee-drafts-" + user.id;
-        const requests = JSON.parse(
-            localStorage.getItem(storageKey) || "[]"
-        );
+        const { data: requests, error } = await _supabase
+            .from("ceoxb_coffee_requests")
+            .select(
+                "requester_id, starts_at, status, " +
+                "requester:profiles!ceoxb_coffee_requests_requester_id_fkey(name), " +
+                "recipient:profiles!ceoxb_coffee_requests_recipient_id_fkey(name)"
+            )
+            .in("status", ["sent", "accepted"])
+            .gt("starts_at", new Date().toISOString())
+            .order("starts_at")
+            .limit(3);
 
-        const now = new Date();
+        if (error) throw error;
 
-        const upcoming = (Array.isArray(requests) ? requests : [])
-            .filter(function(request) {
-                if (!request.date || !request.time) return false;
+        const upcoming = (requests || []).map(function(request) {
+            const outgoing = request.requester_id === user.id;
+            const other = outgoing ? request.recipient : request.requester;
 
-                if (request.status !== "sent" &&
-                    request.status !== "draft") return false;
-
-                const eventDate = new Date(
-                    request.date + "T" + request.time
-                );
-
-                return !isNaN(eventDate.getTime()) && eventDate > now;
-            })
-            .sort(function(a, b) {
-                return new Date(a.date + "T" + a.time) -
-                    new Date(b.date + "T" + b.time);
-            })
-            .slice(0, 3);
+            return {
+                memberName: other && other.name,
+                startsAt: request.starts_at,
+                status: request.status === "accepted"
+                    ? "Accepted"
+                    : (outgoing ? "Awaiting Reply" : "Needs Your Reply")
+            };
+        });
 
         dashboardUpcoming.replaceChildren();
 
         if (upcoming.length === 0) {
             const message = document.createElement("p");
-            message.textContent = "No upcoming coffee chat proposals.";
+            message.textContent = "No upcoming coffee chats.";
             dashboardUpcoming.appendChild(message);
             return;
         }
 
         upcoming.forEach(function(request) {
-            const eventDate = new Date(
-                request.date + "T" + request.time
-            );
+            const eventDate = new Date(request.startsAt);
 
             const item = document.createElement("div");
             item.className = "dashboard-upcoming-item";
@@ -553,7 +569,7 @@ async function loadDashboardEvents() {
 
             const status = document.createElement("span");
             status.className = "dashboard-upcoming-status";
-            status.textContent = "Proposed · Not Confirmed";
+            status.textContent = request.status;
 
             details.append(title, date);
             item.append(details, status);

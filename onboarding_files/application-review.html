@@ -29,6 +29,14 @@
 
         <div id="application-summary"></div>
 
+        <!-- Hidden from people; bots that fill it in are ignored -->
+        <div class="application-honeypot" aria-hidden="true">
+          <label for="company-fax">Company fax</label>
+          <input type="text" id="company-fax" name="company_fax" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="cf-turnstile application-captcha" data-sitekey="0x4AAAAAAF5Wo4S_J_-xTFY2"></div>
+
         <button type="button" id="submit-application" class="blue-round-button">
           Submit Application
         </button>
@@ -43,6 +51,7 @@
       <p>CEO XB</p>
     </footer>
 
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
     <script src="../supabase.js"></script>
     <script src="application-review.js"></script>

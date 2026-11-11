@@ -15,28 +15,35 @@
                 <img src="imgs/logo.svg" alt="CEO XB">
             </a>
 
-            <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="calendar.html" aria-current="page">Calendar</a>
-                <a href="learn.html">Learn</a>
-                <a href="connect.html">Connect</a>
-                <a href="coffee.html">Coffee Chats</a>
-                <a href="discuss.html">Discuss</a>
-                <a href="profile.html">Profile</a>
-                <a href="#" id="signout">Sign Out</a>
-            </div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cohorts.html">Cohorts</a>
+            <a href="calendar.html" aria-current="page">Schedule</a>
+            <a href="connect.html">Community</a>
+        
+            <details class="account-menu">
+                <summary>Account</summary>
+                <div class="account-menu-panel">
+                    <a href="profile.html">My Profile</a>
+                    <a href="#" id="signout">Sign Out</a>
+                </div>
+            </details>
+        </div>
+            
         </nav>
     </header>
 
     <main class="dashboard">
         <section class="dashboard-header">
-            <h1>My Calendar</h1>
+            <h1>My Schedule</h1>
             <p>
-                Keep track of your events,
-                meetings, and coffee chats.
+                View cohort meetings and manage your personal events.
             </p>
         </section>
-
+        <nav class="section-subnav" aria-label="Schedule sections">
+            <a href="calendar.html" aria-current="page">Calendar</a>
+            <a href="coffee.html">Coffee Chats</a>
+        </nav>
         <div class="full-calendar-layout">
             <section class="calendar-dashboard-card">
                 <div class="full-calendar-header">
@@ -71,6 +78,22 @@
 
                 <div id="full-calendar-days"
                      class="calendar-days"></div>
+                
+                <div class="calendar-legend" aria-label="Calendar legend">
+                    <span>
+                        <span class="calendar-legend-dot personal"></span>
+                        Personal Event
+                    </span>
+                
+                    <span>
+                        <span class="calendar-legend-dot cohort"></span>
+                        Cohort Meeting
+                    </span>
+                </div>
+                
+                <p class="calendar-help-text">
+                    Select a date to view your personal events and cohort meetings.
+                </p>
             </section>
 
             <aside class="dashboard-card calendar-details">
@@ -83,14 +106,16 @@
                 <div id="calendar-event-list" class="calendar-event-list"></div>
 
                 <form id="calendar-event-form" class="calendar-event-form">
-                    <h3>Add Personal Event</h3>
-                
+                    <h3>Add a Personal Event</h3>
+                    <p class="calendar-form-help">
+                        Personal events are private to you and are not shared with your cohort.
+                    </p>
                     <label for="event-title">Event Name</label>
                     <input type="text" id="event-title"
                            placeholder="Enter Event Name"
                            maxlength="100" required>
                 
-                    <label for="event-time">Time</label>
+                    <label for="event-time">Start Time</label>
                     <input type="time" id="event-time" required>
                 
                     <label for="event-description">Description (optional)</label>
@@ -99,7 +124,7 @@
                               placeholder="Event Details..."></textarea>
                 
                     <button type="submit" class="signin-button">
-                        Add Event
+                        Save Personal Event
                     </button>
                 
                     <p id="calendar-event-status" role="status"></p>

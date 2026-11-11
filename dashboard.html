@@ -14,17 +14,21 @@
             <a href="dashboard.html" class="logo">
                 <img src="imgs/logo.svg" alt="CEO XB">
             </a>
-
-            <div class="nav-links">
-                <a href="dashboard.html" aria-current="page">Dashboard</a>
-                <a href="calendar.html">Calendar</a>
-                <a href="learn.html">Learn</a>
-                <a href="connect.html">Connect</a>
-                <a href="coffee.html">Coffee Chats</a>
-                <a href="discuss.html">Discuss</a>
-                <a href="profile.html">Profile</a>
-                <a href="#" id="signout">Sign Out</a>
-            </div>
+        
+        <div class="nav-links">
+            <a href="dashboard.html" aria-current="page">Dashboard</a>
+            <a href="cohorts.html">Cohorts</a>
+            <a href="calendar.html">Schedule</a>
+            <a href="connect.html">Community</a>
+        
+            <details class="account-menu">
+                <summary>Account</summary>
+                <div class="account-menu-panel">
+                    <a href="profile.html">My Profile</a>
+                    <a href="#" id="signout">Sign Out</a>
+                </div>
+            </details>
+        </div>
         </nav>
     </header>
     <main class="dashboard">
@@ -32,53 +36,32 @@
             <div class="dashboard-welcome-row">
                 <div>
                     <h1 id="dashboard-welcome">Welcome Back!</h1>
+                    <p>Review your monthly update, upcoming schedule, and progress.</p>
                 </div>
+        
                 <button type="button" id="replay-tour" class="tour-replay">
-                    Tutorial
+                    Help & Tour
                 </button>
             </div>
         </section>
-        <section class="dashboard-banner dashboard-hero">
-            <div>
-                <p class="dashboard-eyebrow">YOUR CEO XB COMMUNITY</p>
-                <h2>Grow with your cohort.</h2>
-                <p>
-                    Discover what your peers are working on,
-                    share your progress, and build meaningful connections.
-                </p>
-            </div>
-        </section>
-                
-        <section class="dashboard-section">
-            <div class="section-heading">
-                <h2>Recommended for You</h2>
-            </div>
-        
-            <div class="dashboard-card dashboard-recommendation">
-                <div class="recommendation-icon">◎</div>
-                <div>
-                    <h3>Connect with Your Cohort</h3>
-                    <p>
-                        Meet fellow CEOs, explore shared interests,
-                        and discover opportunities to support each other.
-                    </p>
-                    <div class="recommendation-actions">
-                        <a href="connect.html" class="recommendation-button">
-                            Explore Members
-                        </a>
-                        <a href="discuss.html" class="recommendation-button-secondary">
-                            View Discussions
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <section class="dashboard-card dashboard-quick-access">
+          <div>
+              <h2>Quick Access</h2>
+              <p>Go directly to the information you need.</p>
+          </div>
+      
+          <div class="dashboard-quick-links">
+              <a href="cohorts.html">My Cohort</a>
+              <a href="calendar.html">My Schedule</a>
+              <a href="connect.html">Member Directory</a>
+          </div>
         </section>
 
         <section class="dashboard-section cohort-update-section">
             <div class="section-heading">
                 <div>
-                    <h2>My Monthly Update</h2>
-                    <p>Reflect on your progress and prepare to connect.</p>
+                    <h2>Monthly Update</h2>
+                    <p>Share your biggest win, current priority, and where you need support.</p>
                 </div>
                 <span id="cohort-update-month"></span>
             </div>
@@ -112,7 +95,7 @@
                     </div>
         
                     <button type="submit" class="cohort-save-btn">
-                        Save My Update
+                        Save Monthly Update
                     </button>
                 </form>
         
@@ -131,9 +114,9 @@
         
         <section class="dashboard-section dashboard-events">
             <div class="section-heading">
-                <h2>Upcoming Events</h2>
+                <h2>Upcoming Schedule</h2>
                 <a href="calendar.html" class="recommendation-button section-action-button">
-                        View Calendar
+                        View Coffee Chats
                 </a>
             </div>
         
@@ -142,7 +125,7 @@
                 
                 <div class="dashboard-event-content">
                     <div id="dashboard-upcoming-events">
-                        <p>Loading your activities...</p>
+                        <p>Loading your coffee chat...</p>
                     </div>
                 </div>
             </div>
@@ -218,7 +201,7 @@
                         <div class="reward-badge locked" id="badge-tutorial">
                             <span class="reward-icon">🎓</span>
                             <strong>Welcome Aboard</strong>
-                            <small>Explore or skip the CEO XB tutorial</small>
+                            <small>Complete the CEO XB introduction</small>
                             <span class="reward-status">Locked</span>
                         </div>
                     </div>
@@ -234,9 +217,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
     <script src="supabase.js"></script>
     <script src="script.js"></script>
+    <script src="monthly-update.js"></script>
     <script src="tutorial.js"></script>
     <script src="achievements.js"></script>
-    <script src="cohort.js"></script>
     <script src="theme.js"></script>
     
 </body>

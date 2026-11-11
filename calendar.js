@@ -14,8 +14,19 @@ if (fullCalendar) {
     const eventStatus = document.getElementById("calendar-event-status");
     
     let events = [];
-    let eventStorageKey = "";
+    let cohortMeetings = [];
+    let currentUser = null;
     let selectedDay = today.getDate();
+
+    function localDateKey(value) {
+        const date = new Date(value);
+
+        return dateKey(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        );
+    }
     
     function dateKey(year, month, day) {
         return [
@@ -33,9 +44,50 @@ if (fullCalendar) {
             .filter(event => event.date === key)
             .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
     
-        selectedInfo.textContent = matching.length
-            ? matching.length + " event(s) scheduled."
-            : "No events scheduled for this date.";
+        const matchingCohortMeetings = cohortMeetings
+            .filter(meeting => localDateKey(meeting.starts_at) === key)
+            .sort((a, b) => a.starts_at.localeCompare(b.starts_at));
+
+        const totalEvents = matching.length + matchingCohortMeetings.length;
+
+        selectedInfo.textContent = totalEvents
+            ? totalEvents + (totalEvents === 1
+                ? " scheduled item."
+                : " scheduled items.")
+            : "No meetings or personal events scheduled for this date.";
+
+        matchingCohortMeetings.forEach(function(meeting) {
+            const card = document.createElement("div");
+            card.className = "calendar-event-item cohort-calendar-event";
+
+            const title = document.createElement("strong");
+            title.textContent = "Cohort Meeting: " + meeting.title;
+
+            const time = document.createElement("p");
+            time.textContent =
+                new Date(meeting.starts_at).toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit"
+                }) +
+                " - " +
+                new Date(meeting.ends_at).toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit"
+                });
+
+            const requirement = document.createElement("p");
+            requirement.textContent = meeting.required
+                ? "Required"
+                : "Optional";
+
+            const link = document.createElement("a");
+            link.href = "cohorts.html";
+            link.textContent = "View Cohort";
+
+            card.append(title, time, requirement, link);
+            eventList.appendChild(card);
+        });
+
     
         matching.forEach(function(event) {
             const card = document.createElement("div");
@@ -61,17 +113,26 @@ if (fullCalendar) {
     
             const remove = document.createElement("button");
             remove.type = "button";
-            remove.textContent = "Remove Event";
+            remove.textContent = "Remove Personal Event";
     
-            remove.addEventListener("click", function() {
-                const previous = events;
-                events = events.filter(item => item.id !== event.id);
-    
-                if (!saveEvents()) {
-                    events = previous;
+            remove.addEventListener("click", async function() {
+                remove.disabled = true;
+
+                const { error } = await _supabase
+                    .from("ceoxb_personal_events")
+                    .delete()
+                    .eq("id", event.id);
+
+                if (error) {
+                    remove.disabled = false;
+                    eventStatus.textContent =
+                        "Unable to remove event: " + error.message;
                     return;
                 }
-    
+
+                events = events.filter(item => item.id !== event.id);
+                eventStatus.textContent = "Personal event removed.";
+
                 renderSelectedEvents();
                 renderCalendar();
             });
@@ -81,20 +142,14 @@ if (fullCalendar) {
         });
     }
     
-    function saveEvents() {
-        if (!eventStorageKey) {
-            eventStatus.textContent = "Please sign in first.";
-            return false;
-        }
-    
-        try {
-            localStorage.setItem(eventStorageKey, JSON.stringify(events));
-            return true;
-        } catch (error) {
-            eventStatus.textContent =
-                "Unable to save events in this browser.";
-            return false;
-        }
+    function toEvent(row) {
+        return {
+            id: row.id,
+            title: row.title,
+            date: localDateKey(row.starts_at),
+            startsAt: row.starts_at,
+            description: row.description || ""
+        };
     }
 
     function showSelectedDate(year, month, day) {
@@ -162,11 +217,39 @@ if (fullCalendar) {
             cell.dataset.day = day;
             cell.setAttribute("aria-pressed", "false");
             const key = dateKey(displayedYear, displayedMonth, day);
-            const hasEvents = events.some(event => event.date === key);
+            const hasPersonalEvents = events.some(
+                event => event.date === key
+            );
             
-            if (hasEvents) {
+            const hasCohortMeetings = cohortMeetings.some(
+                meeting => localDateKey(meeting.starts_at) === key
+            );
+            
+            if (hasPersonalEvents || hasCohortMeetings) {
                 cell.classList.add("has-events");
-                cell.setAttribute("aria-label", day + " - Events scheduled");
+            
+                if (hasPersonalEvents) {
+                    cell.classList.add("has-personal-events");
+                }
+            
+                if (hasCohortMeetings) {
+                    cell.classList.add("has-cohort-meetings");
+                }
+            
+                const eventTypes = [];
+            
+                if (hasPersonalEvents) {
+                    eventTypes.push("personal events");
+                }
+            
+                if (hasCohortMeetings) {
+                    eventTypes.push("cohort meetings");
+                }
+            
+                cell.setAttribute(
+                    "aria-label",
+                    day + " - " + eventTypes.join(" and ")
+                );
             }
             
             if (
@@ -238,10 +321,10 @@ if (fullCalendar) {
             );
         });
 
-        eventForm.addEventListener("submit", function(event) {
+        eventForm.addEventListener("submit", async function(event) {
             event.preventDefault();
         
-            if (!eventStorageKey) {
+            if (!currentUser) {
                 eventStatus.textContent = "Please sign in first.";
                 return;
             }
@@ -261,21 +344,23 @@ if (fullCalendar) {
                 return;
             }
         
-            const newEvent = {
-                id: window.crypto?.randomUUID?.() ||
-                    Date.now().toString() + "-" + Math.random(),
-                title: title,
-                date: dayKey,
-                startsAt: instant.toISOString(),
-                description: description
-            };
-        
-            events.push(newEvent);
-        
-            if (!saveEvents()) {
-                events.pop();
+            const { data, error } = await _supabase
+                .from("ceoxb_personal_events")
+                .insert({
+                    title: title,
+                    starts_at: instant.toISOString(),
+                    description: description
+                })
+                .select("id, title, starts_at, description")
+                .single();
+
+            if (error) {
+                eventStatus.textContent =
+                    "Unable to save event: " + error.message;
                 return;
             }
+
+            events.push(toEvent(data));
         
             eventForm.reset();
             eventStatus.textContent = "Personal event added.";
@@ -291,32 +376,73 @@ if (fullCalendar) {
             displayedMonth,
             today.getDate()
         );
-        
-        getCurrentUser().then(function(user) {
+    
+        getCurrentUser().then(async function(user) {
             if (!user) return;
         
-            eventStorageKey = "ceoxb-personal-events-" + user.id;
-        
-            try {
-                const saved = JSON.parse(
-                    localStorage.getItem(eventStorageKey) || "[]"
-                );
-        
-                events = Array.isArray(saved)
-                    ? saved.filter(item =>
-                        item &&
-                        typeof item.id === "string" &&
-                        typeof item.date === "string" &&
-                        typeof item.title === "string" &&
-                        typeof item.startsAt === "string"
-                    )
-                    : [];
-            } catch (error) {
-                events = [];
+            currentUser = user;
+
+            const { data: savedEvents, error: eventsError } = await _supabase
+                .from("ceoxb_personal_events")
+                .select("id, title, starts_at, description")
+                .order("starts_at");
+
+            if (eventsError) {
+                eventStatus.textContent =
+                    "Unable to load personal events: " + eventsError.message;
+            } else {
+                events = (savedEvents || []).map(toEvent);
             }
         
             renderCalendar();
             renderSelectedEvents();
+            try {
+                if (typeof _supabase === "undefined") {
+                    throw new Error("Supabase is unavailable.");
+                }
+
+                const { data: memberships, error: memberError } =
+                    await _supabase
+                        .from("ceoxb_cohort_members")
+                        .select("cohort_id, ceoxb_cohorts(archived)")
+                        .eq("user_id", user.id);
+
+                if (memberError) throw memberError;
+
+                const cohortIds = (memberships || [])
+                    .filter(item =>
+                        item.ceoxb_cohorts &&
+                        !item.ceoxb_cohorts.archived
+                    )
+                    .map(item => item.cohort_id);
+
+                if (cohortIds.length) {
+                    const { data: meetings, error: meetingError } =
+                        await _supabase
+                            .from("ceoxb_cohort_meetings")
+                            .select(
+                                "id, cohort_id, title, starts_at, ends_at, required"
+                            )
+                            .in("cohort_id", cohortIds)
+                            .order("starts_at");
+
+                    if (meetingError) throw meetingError;
+
+                    cohortMeetings = (meetings || []).filter(meeting =>
+                        !Number.isNaN(
+                            new Date(meeting.starts_at).getTime()
+                        )
+                    );
+                }
+
+                renderCalendar();
+                renderSelectedEvents();
+
+            } catch (error) {
+                console.error("Cohort calendar error:", error);
+                eventStatus.textContent =
+                    "Personal events loaded, but cohort meetings could not be loaded.";
+            }
         }).catch(function() {
             eventStatus.textContent = "Unable to load personal events.";
         });

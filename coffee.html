@@ -13,31 +13,38 @@
             <a href="dashboard.html" class="logo">
                 <img src="imgs/logo.svg" alt="CEO XB">
             </a>
-            <div class="nav-links">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="calendar.html">Calendar</a>
-                <a href="learn.html">Learn</a>
-                <a href="connect.html">Connect</a>
-                <a href="coffee.html" aria-current="page">Coffee Chats</a>
-                <a href="discuss.html">Discuss</a>
-                <a href="profile.html">Profile</a>
-                <a href="#" id="signout">Sign Out</a>
-            </div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="cohorts.html">Cohorts</a>
+            <a href="calendar.html" aria-current="page">Schedule</a>
+            <a href="connect.html">Community</a>
+        
+            <details class="account-menu">
+                <summary>Account</summary>
+                <div class="account-menu-panel">
+                    <a href="profile.html">My Profile</a>
+                    <a href="#" id="signout">Sign Out</a>
+                </div>
+            </details>
+        </div>
         </nav>
     </header>
 
     <main class="dashboard">
         <section class="dashboard-header">
             <h1>Coffee Chats</h1>
-            <p>Meet other CEOs and share ideas over a one-on-one chat.</p>
+            <p>Plan a one-on-one conversation with another CEO.</p>
         </section>
-
+        <nav class="section-subnav" aria-label="Schedule sections">
+            <a href="calendar.html">Calendar</a>
+            <a href="coffee.html" aria-current="page">Coffee Chats</a>
+        </nav>
         <div class="coffee-layout">
             <section class="dashboard-card">
-                <h2>Request a Coffee Chat</h2>
-                <p>Choose a member and suggest a time to meet.</p>
+                <h2>Plan a Coffee Chat</h2>
+                <p>Choose a member and suggest a meeting time.</p>
                 <form id="coffee-form" class="coffee-form">
-                    <label for="coffee-member">Member</label>
+                    <label for="coffee-member">Who would you like to meet?</label>
                     <select id="coffee-member" required>
                         <option value="">Select a CEO XB member.</option>
                     </select>
@@ -46,7 +53,7 @@
                     <label for="coffee-date">Date</label>
                     <input type="date" id="coffee-date" required>
 
-                    <label for="coffee-time">Time</label>
+                    <label for="coffee-time">Proposed Time (Your Local Time)</label>
                     <input type="time" id="coffee-time" required>
                     <p id="coffee-sender-timezone" class="coffee-hint"></p>
                     
@@ -71,25 +78,45 @@
                     <p id="coffee-result" role="status" class="learn-note"></p>
                 </form>
             </section>
-
-            <section class="dashboard-card">
-                <h2>Why Coffee Chats?</h2>
-                <p>Connect with other members of your CEO XB community.</p>
-                <p>Share business experiences, discuss challenges, and learn from peers.</p>
-                <a class="card-link" href="connect.html">Browse Members</a>
+            
+            <section class="dashboard-card coffee-guide-card">
+                <h2>How to Plan a Coffee Chat</h2>
+            
+                <ol class="coffee-guide-steps">
+                    <li>
+                        <strong>Choose a member</strong>
+                        <p>Select the CEO you'd like to connect with.</p>
+                    </li>
+            
+                    <li>
+                        <strong>Suggest a meeting time</strong>
+                        <p>Check the time-zone preview before sending.</p>
+                    </li>
+            
+                    <li>
+                        <strong>Send your request</strong>
+                        <p>Track your request under My Coffee Chats.</p>
+                    </li>
+                </ol>
+            
+                <a class="card-link" href="connect.html">
+                    View Member Directory
+                </a>
             </section>
         </div>
                 <section class="dashboard-section coffee-requests-section">
             <div class="section-heading">
                 <div>
                     <h2>My Coffee Chats</h2>
-                    <p>Manage your proposed conversations.</p>
+                    <p>View your requests and check their status.</p>
                 </div>
             </div>
 
             <div class="coffee-status-tabs">
                 <button type="button" class="active" data-coffee-filter="all">All</button>
                 <button type="button" data-coffee-filter="sent">Sent</button>
+                <button type="button" data-coffee-filter="received">Received</button>
+                <button type="button" data-coffee-filter="accepted">Accepted</button>
                 <button type="button" data-coffee-filter="cancelled">Cancelled</button>
             </div>
 
