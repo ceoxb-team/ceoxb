@@ -38,7 +38,7 @@
             <div class="profile-layout">
                 <div class="profile-left-column">
                 <section class="dashboard-card profile-preview-card">
-                <h2>Your Public Profile</h2>
+                <h2>Member Profile Preview</h2>
             
                 <div class="profile-picture-preview">
                     <img id="profile-picture-preview"
@@ -69,7 +69,7 @@
             </section>
             <section class="profile-achievement-settings dashboard-card">
                 <div class="achievement-section-header">
-                    <h2>Featured Achievements</h2>
+                    <h2>Achievement Display Settings</h2>
             
                     <label class="achievement-switch">
                         <input type="checkbox" id="show-profile-achievements">
@@ -91,14 +91,15 @@
                 <form id="profile-form" class="profile-form">
                     <label for="edit-picture">Profile Picture *</label>
                     <div id="picture-drop-zone" class="picture-drop-zone">
-                        <div class="picture-upload-icon">+</div>
-                        <strong>Drop photo here</strong>
-                        <p>or browse files</p>
-                        <small>JPG, PNG, WebP · Max 2 MB</small>
-                    
-                        <input type="file"
-                               id="edit-picture"
-                               accept="image/png, image/jpeg, image/webp">
+                    <div class="picture-upload-icon" aria-hidden="true">+</div>
+                    <strong>Upload Your Profile Photo</strong>
+                    <p>Choose a photo or drag it here.</p>
+                    <small>JPG, PNG, or WebP · Max 2 MB</small>
+                
+                    <input type="file"
+                           id="edit-picture"
+                           accept="image/png, image/jpeg, image/webp"
+                           aria-label="Choose a profile photo">
                     </div>
                     
                     <label for="edit-name">Full Name</label>
@@ -113,8 +114,14 @@
                     <label for="edit-location">Location</label>
                     <input type="text" id="edit-location" maxlength="100">
 
-                    <label for="edit-about">About Me</label>
-                    <textarea id="edit-about" rows="4" maxlength="500"></textarea>
+                    <label for="edit-about">Professional Introduction</label>
+                    <p class="profile-field-hint">
+                        Briefly describe your background and business experience.
+                    </p>
+                    <textarea id="edit-about"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="Introduce yourself to other members..."></textarea>
 
                     <label for="edit-linkedin">LinkedIn Profile</label>
                     <input type="url" id="edit-linkedin"
@@ -122,11 +129,17 @@
                     
                     <p id="linkedin-save-status" class="learn-note" role="status"></p>
 
-                    <label for="edit-interests">Interests</label>
-                    <input type="text" id="edit-interests" placeholder="Topics you'd like to connect about" maxlength="200">
-                    
-
-                    <button type="submit" class="signin-button">Save Profile</button>
+                    <label for="edit-interests">Business Interests</label>
+                    <p class="profile-field-hint">
+                        What topics would you like to discuss with other CEOs?
+                    </p>
+                    <input type="text"
+                           id="edit-interests"
+                           placeholder="Leadership, Fundraising, Business Growth..."
+                           maxlength="200">
+                    <button type="submit" class="signin-button profile-save-button">
+                        Save Changes
+                    </button>
                     <p id="profile-result" class="learn-note" role="status"></p>
                 </form>
             </section>
