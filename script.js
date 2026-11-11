@@ -7,7 +7,7 @@ async function getCurrentUser() {
 const pageName = window.location.pathname.split("/").pop().replace(/\.html$/, "");
 
 const memberPages = ["dashboard", "learn", "connect", "coffee",
-    "discuss", "profile", "calendar"];
+    "discuss", "profile", "calendar", "cohorts"];
 
 // Send visitors who aren't signed-in, approved members to sign in.
 // The database enforces this too; this just avoids showing empty pages.
