@@ -442,7 +442,7 @@ html[data-theme="dark"] .calendar-day.has-cohort-meetings::after {
 
 .discussion-list {
   display: grid;
-  gap: 16px;
+  gap: 20px;
 }
 
 .section-subnav {
@@ -473,8 +473,8 @@ html[data-theme="dark"] .calendar-day.has-cohort-meetings::after {
 
 .section-subnav a[aria-current="page"] {
   background: var(--soft-blue);
-  border-color: var(--border);
-  color: var(--text);
+  border-color: var(--blue);
+  color: var(--navy);
   font-weight: 700;
 }
 
@@ -571,6 +571,12 @@ html[data-theme="dark"] .section-subnav a[aria-current="page"] {
 
 .profile-editor-card {
   padding: 30px;
+  min-width: 0;
+}
+
+.profile-editor-card input,
+.profile-editor-card textarea {
+  max-width: 100%;
 }
 
 .profile-editor-heading {
@@ -4547,30 +4553,8 @@ html[data-theme="dark"] .cohort-meeting-label.required {
 }
 
 .section-subnav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 28px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
-}
-
-.section-subnav a {
-    padding: 10px 18px;
-    border-radius: 8px;
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.section-subnav a:hover,
-.section-subnav a[aria-current="page"] {
-    background: var(--soft-blue);
-    color: var(--navy);
-}
-
-.section-subnav a[aria-current="page"] {
-    font-weight: 700;
 }
 
 html[data-theme="dark"] .section-subnav a:hover,
