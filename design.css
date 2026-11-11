@@ -35,8 +35,18 @@ body {
 }
 
 .nav-links {
-  gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-wrap: wrap;
+}
+
+.nav-links > a,
+.account-menu > summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
 }
 
 .nav-links a {
@@ -3582,4 +3592,79 @@ html[data-theme="dark"] .section-subnav a:hover,
 html[data-theme="dark"] .section-subnav a[aria-current="page"] {
     background: #263e58;
     color: #eef5ff;
+}
+
+.account-menu {
+  position: relative;
+}
+
+.account-menu > summary {
+  list-style: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.account-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.account-menu > summary::after {
+  content: "⌄";
+  margin-left: 8px;
+}
+
+.account-menu > summary:hover,
+.account-menu[open] > summary {
+  background: var(--soft-blue);
+  color: var(--navy);
+}
+
+.account-menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 1100;
+  min-width: 170px;
+  padding: 8px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(8, 44, 80, 0.15);
+}
+
+.account-menu-panel a {
+  display: block;
+  padding: 10px 12px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.account-menu-panel a:hover {
+  background: var(--soft-blue);
+  color: var(--navy);
+}
+
+html[data-theme="dark"] .account-menu > summary {
+  color: #eef5ff;
+}
+
+html[data-theme="dark"] .account-menu > summary:hover,
+html[data-theme="dark"] .account-menu[open] > summary,
+html[data-theme="dark"] .account-menu-panel a:hover {
+  background: #263e58;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .account-menu-panel {
+  background: #14283f;
+  border-color: #36506a;
+}
+
+html[data-theme="dark"] .account-menu-panel a {
+  color: #eef5ff;
 }
