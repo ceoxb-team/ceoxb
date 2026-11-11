@@ -3992,9 +3992,161 @@ html[data-theme="dark"] .cohorts-page .cohorts-secondary-link {
 }
 
 .cohort-chat {
+  min-height: 120px;
   max-height: 350px;
   overflow-y: auto;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
 }
+
+.cohort-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.cohort-section-heading h2 {
+  margin: 0 0 8px;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.cohort-section-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cohort-meeting-card strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.cohort-meeting-time {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cohort-meeting-label {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text);
+  background: var(--background);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cohort-meeting-label.required {
+  border-color: #a9cfe5;
+  background: #eaf3f9;
+  color: #194b6b;
+}
+
+.cohort-chat-message {
+  margin-bottom: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.cohort-chat-message strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.cohort-chat-message p {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+#cohort-message-form {
+  margin-top: 20px;
+}
+
+#cohort-message-form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  resize: vertical;
+}
+
+.cohort-chat-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 12px;
+}
+
+.cohort-chat-actions span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cohort-chat-actions button {
+  min-height: 44px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 9px;
+  background: #28618c;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cohort-chat-actions button:hover {
+  background: #347ca8;
+}
+
+#cohort-chat-status {
+  font-size: 14px;
+}
+
+html[data-theme="dark"] .cohort-chat {
+  background: #142638;
+  border-color: #33495e;
+}
+
+html[data-theme="dark"] .cohort-chat-message {
+  background: #192a3b;
+  border-color: #33495e;
+}
+
+html[data-theme="dark"] .cohort-meeting-label.required {
+  background: #24445e;
+  border-color: #41637d;
+  color: #d6ecfa;
+}
+
+@media (max-width: 600px) {
+  .cohort-chat-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cohort-chat-actions button {
+    width: 100%;
+  }
+}
+
 
 .cohort-panel label {
   display: block;
