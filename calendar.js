@@ -14,8 +14,19 @@ if (fullCalendar) {
     const eventStatus = document.getElementById("calendar-event-status");
     
     let events = [];
+    let cohortMeetings = [];
     let eventStorageKey = "";
     let selectedDay = today.getDate();
+
+    function localDateKey(value) {
+        const date = new Date(value);
+
+        return dateKey(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        );
+    }
     
     function dateKey(year, month, day) {
         return [
@@ -33,9 +44,48 @@ if (fullCalendar) {
             .filter(event => event.date === key)
             .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
     
-        selectedInfo.textContent = matching.length
-            ? matching.length + " event(s) scheduled."
+        const matchingCohortMeetings = cohortMeetings
+            .filter(meeting => localDateKey(meeting.starts_at) === key)
+            .sort((a, b) => a.starts_at.localeCompare(b.starts_at));
+
+        const totalEvents = matching.length + matchingCohortMeetings.length;
+
+        selectedInfo.textContent = totalEvents
+            ? totalEvents + " event(s) scheduled."
             : "No events scheduled for this date.";
+
+        matchingCohortMeetings.forEach(function(meeting) {
+            const card = document.createElement("div");
+            card.className = "calendar-event-item cohort-calendar-event";
+
+            const title = document.createElement("strong");
+            title.textContent = "Cohort Meeting: " + meeting.title;
+
+            const time = document.createElement("p");
+            time.textContent =
+                new Date(meeting.starts_at).toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit"
+                }) +
+                " - " +
+                new Date(meeting.ends_at).toLocaleTimeString([], {
+                    hour: "numeric",
+                    minute: "2-digit"
+                });
+
+            const requirement = document.createElement("p");
+            requirement.textContent = meeting.required
+                ? "Required cohort meeting"
+                : "Optional cohort meeting";
+
+            const link = document.createElement("a");
+            link.href = "cohorts.html";
+            link.textContent = "View Cohort";
+
+            card.append(title, time, requirement, link);
+            eventList.appendChild(card);
+        });
+
     
         matching.forEach(function(event) {
             const card = document.createElement("div");
@@ -162,7 +212,11 @@ if (fullCalendar) {
             cell.dataset.day = day;
             cell.setAttribute("aria-pressed", "false");
             const key = dateKey(displayedYear, displayedMonth, day);
-            const hasEvents = events.some(event => event.date === key);
+            const hasEvents =
+                events.some(event => event.date === key) ||
+                cohortMeetings.some(meeting =>
+                    localDateKey(meeting.starts_at) === key
+                );
             
             if (hasEvents) {
                 cell.classList.add("has-events");
@@ -291,8 +345,8 @@ if (fullCalendar) {
             displayedMonth,
             today.getDate()
         );
-        
-        getCurrentUser().then(function(user) {
+    
+        getCurrentUser().then(async function(user) {
             if (!user) return;
         
             eventStorageKey = "ceoxb-personal-events-" + user.id;
@@ -317,6 +371,53 @@ if (fullCalendar) {
         
             renderCalendar();
             renderSelectedEvents();
+            try {
+                if (typeof _supabase === "undefined") {
+                    throw new Error("Supabase is unavailable.");
+                }
+
+                const { data: memberships, error: memberError } =
+                    await _supabase
+                        .from("ceoxb_cohort_members")
+                        .select("cohort_id, ceoxb_cohorts(archived)")
+                        .eq("user_id", user.id);
+
+                if (memberError) throw memberError;
+
+                const cohortIds = (memberships || [])
+                    .filter(item =>
+                        item.ceoxb_cohorts &&
+                        !item.ceoxb_cohorts.archived
+                    )
+                    .map(item => item.cohort_id);
+
+                if (cohortIds.length) {
+                    const { data: meetings, error: meetingError } =
+                        await _supabase
+                            .from("ceoxb_cohort_meetings")
+                            .select(
+                                "id, cohort_id, title, starts_at, ends_at, required"
+                            )
+                            .in("cohort_id", cohortIds)
+                            .order("starts_at");
+
+                    if (meetingError) throw meetingError;
+
+                    cohortMeetings = (meetings || []).filter(meeting =>
+                        !Number.isNaN(
+                            new Date(meeting.starts_at).getTime()
+                        )
+                    );
+                }
+
+                renderCalendar();
+                renderSelectedEvents();
+
+            } catch (error) {
+                console.error("Cohort calendar error:", error);
+                eventStatus.textContent =
+                    "Personal events loaded, but cohort meetings could not be loaded.";
+            }
         }).catch(function() {
             eventStatus.textContent = "Unable to load personal events.";
         });
