@@ -37,14 +37,14 @@
         </section>
         <nav class="section-subnav" aria-label="Schedule sections">
             <a href="calendar.html">Calendar</a>
-            <a href="coffee.html" aria-current="page">Coffee Chats (1:1)</a>
+            <a href="coffee.html" aria-current="page">Coffee Chats</a>
         </nav>
         <div class="coffee-layout">
             <section class="dashboard-card">
                 <h2>Request a Coffee Chat</h2>
-                <p>Choose a member and suggest a time to meet.</p>
+                <p>Select a member, choose a date and time, and send your invitation.</p>
                 <form id="coffee-form" class="coffee-form">
-                    <label for="coffee-member">Member</label>
+                    <label for="coffee-member">Who would you like to meet?</label>
                     <select id="coffee-member" required>
                         <option value="">Select a CEO XB member.</option>
                     </select>
@@ -53,7 +53,7 @@
                     <label for="coffee-date">Date</label>
                     <input type="date" id="coffee-date" required>
 
-                    <label for="coffee-time">Time</label>
+                    <label for="coffee-time">Proposed Time (Your Local Time)</label>
                     <input type="time" id="coffee-time" required>
                     <p id="coffee-sender-timezone" class="coffee-hint"></p>
                     
@@ -73,24 +73,42 @@
                               placeholder="What would you like to talk about?"></textarea>
 
                     <button type="submit" id="coffee-submit" class="signin-button" disabled>
-                        Send Coffee Chat
+                        Send Coffee Chat Request
                     </button>
                     <p id="coffee-result" role="status" class="learn-note"></p>
                 </form>
             </section>
-
-            <section class="dashboard-card">
-                <h2>Why Coffee Chats?</h2>
-                <p>Connect with other members of your CEO XB community.</p>
-                <p>Share business experiences, discuss challenges, and learn from peers.</p>
-                <a class="card-link" href="connect.html">Browse Members</a>
+            
+            <section class="dashboard-card coffee-guide-card">
+                <h2>How Coffee Chats Work</h2>
+            
+                <ol class="coffee-guide-steps">
+                    <li>
+                        <strong>Choose a member</strong>
+                        <p>Select the CEO you'd like to connect with.</p>
+                    </li>
+            
+                    <li>
+                        <strong>Suggest a meeting time</strong>
+                        <p>Check the time-zone preview before sending.</p>
+                    </li>
+            
+                    <li>
+                        <strong>Send your request</strong>
+                        <p>Track your request under My Coffee Chats.</p>
+                    </li>
+                </ol>
+            
+                <a class="card-link" href="connect.html">
+                    View Member Directory
+                </a>
             </section>
         </div>
                 <section class="dashboard-section coffee-requests-section">
             <div class="section-heading">
                 <div>
                     <h2>My Coffee Chats</h2>
-                    <p>Manage your proposed conversations.</p>
+                    <p>View your requests and check their status.</p>
                 </div>
             </div>
 
