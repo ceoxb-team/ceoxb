@@ -3469,8 +3469,6 @@ html[data-theme="dark"] .about_info_img {
   margin-left: auto;
 }
 
-/* COMPANY INFO */
-
 html[data-theme="dark"].company-box {
   background-color: #101b2a;
   color: white;
@@ -3479,4 +3477,76 @@ html[data-theme="dark"].company-box {
 html[data-theme="dark"].blue-round-button {
   background-color: #101b2a;
   color: white;
+}
+
+.cohort-stack {
+  display: grid;
+  gap: 24px;
+}
+
+.cohort-panel {
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.cohort-panel h2 {
+  margin-top: 0;
+  color: var(--text);
+}
+
+.cohort-meeting-card,
+.cohort-chat-message {
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.cohort-chat {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.cohort-panel label {
+  display: block;
+  margin: 15px 0 6px;
+  font-weight: 600;
+}
+
+.cohort-panel input,
+.cohort-panel select,
+.cohort-panel textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--text);
+}
+
+.cohort-panel button {
+  padding: 11px 18px;
+  margin-top: 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--navy);
+  color: white;
+  cursor: pointer;
+}
+
+.cohort-panel button:hover {
+  background: var(--blue);
+}
+
+.cohort-admin-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.cohort-panel[hidden],
+.cohort-panel form[hidden] {
+  display: none;
 }
