@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEO XB - Cohorts</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="design.css">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">
+      <img src="imgs/logo.svg" alt="CEO XB">
+    </a>
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="cohorts.html" aria-current="page">Cohorts</a>
+      <a href="calendar.html">Schedule</a>
+      <a href="connect.html">Community</a>
+      <details class="account-menu">
+        <summary>Account</summary>
+        <div class="account-menu-panel">
+          <a href="profile.html">My Profile</a>
+          <a href="#" id="signout">Sign Out</a>
+        </div>
+      </details>
+    </div>
+  </nav>
+</header>
+
+<main class="dashboard">
+  <section class="dashboard-header">
+    <h1>My Cohorts</h1>
+    <p>Mandatory monthly meetings, facilitator notes, private cohort chat, and your cohort history.</p>
+    <p>Cohort meetings are separate from optional one-on-one <a href="coffee.html">Coffee Chats</a>.</p>
+  </section>
+
+  <div id="cohort-page-status" role="status" class="learn-note">
+    Loading your cohorts...
+  </div>
+
+  <div class="cohort-stack">
+    <section class="cohort-panel">
+      <h2>Current Cohort</h2>
+      <div id="cohort-current">Checking assignment...</div>
+      <div id="cohort-meetings"></div>
+      <p><a href="calendar.html">View meetings in Schedule</a></p>
+    </section>
+
+    <section class="cohort-panel">
+      <h2>Facilitator Notes</h2>
+      <div id="cohort-notes-list">
+        <p>Notes are visible to members of the cohort.</p>
+      </div>
+    </section>
+
+    <section class="cohort-panel">
+      <h2>Cohort Group Chat</h2>
+      <p>Only assigned cohort members and authorized facilitators can read or post.</p>
+      <div class="cohort-chat" id="cohort-messages" aria-live="polite"></div>
+      <form id="cohort-message-form" hidden>
+        <label for="cohort-message">Message</label>
+        <textarea id="cohort-message" rows="2" maxlength="1000" required></textarea>
+        <button type="submit">Send Message</button>
+        <p id="cohort-chat-status" role="status"></p>
+      </form>
+    </section>
+
+    <section class="cohort-panel">
+      <h2>Past Cohorts</h2>
+      <div id="cohort-history">No past cohorts yet.</div>
+    </section>
+
+    <section class="cohort-panel" id="cohort-facilitator-panel" hidden>
+      <h2>Facilitator Tools</h2>
+      <label for="facilitator-meeting">Choose meeting</label>
+      <select id="facilitator-meeting"></select>
+      <label for="facilitator-notes">Meeting notes</label>
+      <textarea id="facilitator-notes" rows="4" maxlength="6000"></textarea>
+      <button type="button" id="save-facilitator-notes">Save Notes</button>
+      <p id="facilitator-save-status" role="status"></p>
+
+      <h3>Attendance</h3>
+      <label for="attendance-member">Cohort member</label>
+      <select id="attendance-member"></select>
+      <button type="button" id="mark-attendance">Record Attendance</button>
+      <p id="attendance-status" role="status"></p>
+    </section>
+
+    <section class="cohort-panel" id="cohort-admin-panel" hidden>
+      <h2>Admin: Manage Cohorts</h2>
+
+      <form id="create-cohort-form">
+        <label for="new-cohort-name">Cohort name</label>
+        <input id="new-cohort-name" required maxlength="100">
+        <button type="submit">Create Cohort</button>
+      </form>
+
+      <form id="assign-cohort-form">
+        <label for="assign-cohort">Cohort</label>
+        <select id="assign-cohort" required></select>
+        <label for="assign-member">Member profile</label>
+        <select id="assign-member" required></select>
+        <button type="submit">Assign CEO</button>
+      </form>
+
+      <form id="set-facilitator-form">
+        <label for="role-member">Grant Facilitator Role</label>
+        <select id="role-member" required></select>
+        <button type="submit">Make Facilitator</button>
+      </form>
+
+      <form id="archive-cohort-form">
+        <label for="archive-cohort">Archive completed cohort</label>
+        <select id="archive-cohort" required></select>
+        <button type="submit">Archive Cohort</button>
+      </form>
+
+      <form id="create-meeting-form" class="cohort-admin-grid">
+        <div>
+          <label for="meeting-cohort">Cohort</label>
+          <select id="meeting-cohort" required></select>
+        </div>
+        <div>
+          <label for="meeting-title">Meeting title</label>
+          <input id="meeting-title" maxlength="100" required>
+        </div>
+        <div>
+          <label for="meeting-start">Start (your local time)</label>
+          <input id="meeting-start" type="datetime-local" required>
+        </div>
+        <div>
+          <label for="meeting-end">End (your local time)</label>
+          <input id="meeting-end" type="datetime-local" required>
+        </div>
+        <div>
+          <button type="submit">Schedule Required Meeting</button>
+        </div>
+      </form>
+      <p id="cohort-admin-status" role="status"></p>
+    </section>
+  </div>
+</main>
+
+<footer><p>CEO XB</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+<script src="cohorts.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>
