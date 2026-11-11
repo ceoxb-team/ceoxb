@@ -4,7 +4,7 @@ const linkedinInput = document.getElementById("edit-linkedin");
 if (linkedinInput) {
     const linkedinStatus = document.getElementById("linkedin-save-status");
 
-    let linkedinStorageKey = "";
+    let linkedinUserId = "";
 
     function validLinkedinUrl(value) {
         try {
@@ -21,8 +21,8 @@ if (linkedinInput) {
         }
     }
 
-    linkedinInput.addEventListener("change", function() {
-        if (!linkedinStorageKey) {
+    linkedinInput.addEventListener("change", async function() {
+        if (!linkedinUserId) {
             linkedinStatus.textContent = "Unable to save LinkedIn profile.";
             return;
         }
@@ -35,13 +35,16 @@ if (linkedinInput) {
             return;
         }
 
-        try {
-            localStorage.setItem(linkedinStorageKey, url);
-            linkedinStatus.textContent = "LinkedIn link saved in this browser.";
-        } catch (error) {
-            linkedinStatus.textContent =
-                "Unable to save LinkedIn link.";
-        }
+        linkedinStatus.textContent = "Saving...";
+
+        const { error } = await _supabase
+            .from("profiles")
+            .update({ linkedin_url: url || null })
+            .eq("id", linkedinUserId);
+
+        linkedinStatus.textContent = error
+            ? "Unable to save LinkedIn link: " + error.message
+            : (url ? "LinkedIn link saved." : "LinkedIn link removed.");
     });
 
     async function loadLinkedin() {
@@ -51,9 +54,15 @@ if (linkedinInput) {
             return;
         }
 
-        linkedinStorageKey = "ceoxb-linkedin-" + user.id;
+        linkedinUserId = user.id;
 
-        const savedUrl = localStorage.getItem(linkedinStorageKey) || "";
+        const { data } = await _supabase
+            .from("profiles")
+            .select("linkedin_url")
+            .eq("id", user.id)
+            .maybeSingle();
+
+        const savedUrl = (data && data.linkedin_url) || "";
 
         if (savedUrl && validLinkedinUrl(savedUrl)) {
             linkedinInput.value = savedUrl;

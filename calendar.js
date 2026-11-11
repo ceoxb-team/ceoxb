@@ -15,7 +15,7 @@ if (fullCalendar) {
     
     let events = [];
     let cohortMeetings = [];
-    let eventStorageKey = "";
+    let currentUser = null;
     let selectedDay = today.getDate();
 
     function localDateKey(value) {
@@ -115,15 +115,24 @@ if (fullCalendar) {
             remove.type = "button";
             remove.textContent = "Remove Personal Event";
     
-            remove.addEventListener("click", function() {
-                const previous = events;
-                events = events.filter(item => item.id !== event.id);
-    
-                if (!saveEvents()) {
-                    events = previous;
+            remove.addEventListener("click", async function() {
+                remove.disabled = true;
+
+                const { error } = await _supabase
+                    .from("ceoxb_personal_events")
+                    .delete()
+                    .eq("id", event.id);
+
+                if (error) {
+                    remove.disabled = false;
+                    eventStatus.textContent =
+                        "Unable to remove event: " + error.message;
                     return;
                 }
-    
+
+                events = events.filter(item => item.id !== event.id);
+                eventStatus.textContent = "Personal event removed.";
+
                 renderSelectedEvents();
                 renderCalendar();
             });
@@ -133,20 +142,14 @@ if (fullCalendar) {
         });
     }
     
-    function saveEvents() {
-        if (!eventStorageKey) {
-            eventStatus.textContent = "Please sign in first.";
-            return false;
-        }
-    
-        try {
-            localStorage.setItem(eventStorageKey, JSON.stringify(events));
-            return true;
-        } catch (error) {
-            eventStatus.textContent =
-                "Unable to save events in this browser.";
-            return false;
-        }
+    function toEvent(row) {
+        return {
+            id: row.id,
+            title: row.title,
+            date: localDateKey(row.starts_at),
+            startsAt: row.starts_at,
+            description: row.description || ""
+        };
     }
 
     function showSelectedDate(year, month, day) {
@@ -318,10 +321,10 @@ if (fullCalendar) {
             );
         });
 
-        eventForm.addEventListener("submit", function(event) {
+        eventForm.addEventListener("submit", async function(event) {
             event.preventDefault();
         
-            if (!eventStorageKey) {
+            if (!currentUser) {
                 eventStatus.textContent = "Please sign in first.";
                 return;
             }
@@ -341,21 +344,23 @@ if (fullCalendar) {
                 return;
             }
         
-            const newEvent = {
-                id: window.crypto?.randomUUID?.() ||
-                    Date.now().toString() + "-" + Math.random(),
-                title: title,
-                date: dayKey,
-                startsAt: instant.toISOString(),
-                description: description
-            };
-        
-            events.push(newEvent);
-        
-            if (!saveEvents()) {
-                events.pop();
+            const { data, error } = await _supabase
+                .from("ceoxb_personal_events")
+                .insert({
+                    title: title,
+                    starts_at: instant.toISOString(),
+                    description: description
+                })
+                .select("id, title, starts_at, description")
+                .single();
+
+            if (error) {
+                eventStatus.textContent =
+                    "Unable to save event: " + error.message;
                 return;
             }
+
+            events.push(toEvent(data));
         
             eventForm.reset();
             eventStatus.textContent = "Personal event added.";
@@ -375,24 +380,18 @@ if (fullCalendar) {
         getCurrentUser().then(async function(user) {
             if (!user) return;
         
-            eventStorageKey = "ceoxb-personal-events-" + user.id;
-        
-            try {
-                const saved = JSON.parse(
-                    localStorage.getItem(eventStorageKey) || "[]"
-                );
-        
-                events = Array.isArray(saved)
-                    ? saved.filter(item =>
-                        item &&
-                        typeof item.id === "string" &&
-                        typeof item.date === "string" &&
-                        typeof item.title === "string" &&
-                        typeof item.startsAt === "string"
-                    )
-                    : [];
-            } catch (error) {
-                events = [];
+            currentUser = user;
+
+            const { data: savedEvents, error: eventsError } = await _supabase
+                .from("ceoxb_personal_events")
+                .select("id, title, starts_at, description")
+                .order("starts_at");
+
+            if (eventsError) {
+                eventStatus.textContent =
+                    "Unable to load personal events: " + eventsError.message;
+            } else {
+                events = (savedEvents || []).map(toEvent);
             }
         
             renderCalendar();

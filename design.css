@@ -2565,9 +2565,20 @@ html[data-theme="dark"] .achievement-celebration-card p {
   color: var(--blue);
 }
 
-.coffee-request-status.cancelled {
+.coffee-request-status.cancelled,
+.coffee-request-status.declined {
   background: var(--background);
   color: var(--muted);
+}
+
+.coffee-request-status.accepted {
+  background: rgba(46, 125, 80, 0.12);
+  color: #2e7d50;
+}
+
+html[data-theme="dark"] .coffee-request-status.accepted {
+  background: rgba(128, 203, 166, 0.16);
+  color: #80cba6;
 }
 
 .coffee-request-message {

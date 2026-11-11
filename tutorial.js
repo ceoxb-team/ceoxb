@@ -249,7 +249,23 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("ceoxb-tutorial-achievement", "unlocked");
             window.dispatchEvent(new Event("ceoxb-achievement-updated"));
             celebrate();
+            saveTutorialBadge();
         }
+    }
+
+    // Keep the badge on the member's profile so it follows them
+    // to other devices (the "seen the tour" flag stays per browser).
+    async function saveTutorialBadge() {
+        if (typeof _supabase === "undefined") return;
+
+        const user = await getCurrentUser();
+
+        if (!user) return;
+
+        await _supabase
+            .from("profiles")
+            .update({ tutorial_completed: true })
+            .eq("id", user.id);
     }
 
     nextButton.addEventListener("click", function () {

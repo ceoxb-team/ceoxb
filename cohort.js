@@ -501,7 +501,7 @@
         event.preventDefault();
 
         const { error } = await db
-          .from("ceoxb_roles")
+          .from("user_roles")
           .upsert({
             user_id: find("role-member").value,
             role: "facilitator"
@@ -582,7 +582,7 @@
       }
       
       const assignedRole = rows(await db
-        .from("ceoxb_roles")
+        .from("user_roles")
         .select("role")
         .eq("user_id", user.id));
 
