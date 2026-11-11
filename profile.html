@@ -33,12 +33,15 @@
     <main class="dashboard">
         <section class="dashboard-header">
             <h1>My Profile</h1>
-            <p>Keep your contact details, company information, and interests up to date.</p>
+            <p>Manage your professional information and how you appear to other members.</p>
         </section>
             <div class="profile-layout">
                 <div class="profile-left-column">
                 <section class="dashboard-card profile-preview-card">
                 <h2>Member Profile Preview</h2>
+                <p class="profile-section-description">
+                    Review the information shown on your member profile.
+                </p>
             
                 <div class="profile-picture-preview">
                     <img id="profile-picture-preview"
@@ -70,11 +73,11 @@
             <section class="profile-achievement-settings dashboard-card">
                 <div class="achievement-section-header">
                     <h2>Achievement Display Settings</h2>
-            
+                    
                     <label class="achievement-switch">
                         <input type="checkbox" id="show-profile-achievements">
                         <span class="achievement-switch-slider"></span>
-                        <span class="sr-only">Display achievements</span>
+                        <span class="sr-only">Display Achievements</span>
                     </label>
                 </div>
             
@@ -86,10 +89,14 @@
                 <p id="achievement-privacy-status" role="status"></p>
             </section>
         </div>
-            <section class="dashboard-card">
-                <h2>Edit Profile</h2>
+            <section class="dashboard-card profile-editor-card">
+                <div class="profile-editor-heading">
+                    <h2>Edit Profile</h2>
+                    <p>Update your information below, then select Save Changes.</p>
+                    <small>* Required information</small>
+                </div>
                 <form id="profile-form" class="profile-form">
-                    <label for="edit-picture">Profile Picture *</label>
+                    <label for="edit-picture">Profile Photo *</label>
                     <div id="picture-drop-zone" class="picture-drop-zone">
                     <div class="picture-upload-icon" aria-hidden="true">+</div>
                     <strong>Upload Your Profile Photo</strong>
@@ -102,7 +109,7 @@
                            aria-label="Choose a profile photo">
                     </div>
                     
-                    <label for="edit-name">Full Name</label>
+                    <label for="edit-name">Full Name *</label>
                     <input type="text" id="edit-name" maxlength="80" required>
 
                     <label for="edit-role">Role</label>
