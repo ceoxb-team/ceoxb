@@ -298,6 +298,96 @@ summary:focus-visible {
   color: white;
 }
 
+.calendar-days .calendar-day {
+  position: relative;
+  padding-bottom: 17px;
+}
+
+.calendar-day.has-personal-events::before,
+.calendar-day.has-cohort-meetings::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.calendar-day.has-personal-events::before {
+  left: calc(50% - 9px);
+  background: #28618c;
+}
+
+.calendar-day.has-cohort-meetings::after {
+  left: calc(50% + 2px);
+  background: #138b83;
+}
+
+.calendar-day.has-personal-events:not(.has-cohort-meetings)::before,
+.calendar-day.has-cohort-meetings:not(.has-personal-events)::after {
+  left: calc(50% - 3.5px);
+}
+
+.calendar-day.today.has-personal-events::before {
+  background: #d5eaff;
+}
+
+.calendar-day.today.has-cohort-meetings::after {
+  background: #7eebce;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.calendar-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.calendar-legend-dot.personal {
+  background: #28618c;
+}
+
+.calendar-legend-dot.cohort {
+  background: #138b83;
+}
+
+.calendar-help-text,
+.calendar-form-help {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.calendar-help-text {
+  margin-top: 12px;
+}
+
+.calendar-form-help {
+  margin: 0 0 20px;
+}
+
+html[data-theme="dark"] .calendar-day.has-personal-events::before {
+  background: #91c9ff;
+}
+
+html[data-theme="dark"] .calendar-day.has-cohort-meetings::after {
+  background: #7eebce;
+}
+
 .connect-search {
   padding: 24px;
 }
@@ -2115,6 +2205,51 @@ html[data-theme="dark"] .achievement-celebration-card p {
   margin: 5px 0 16px;
   color: var(--muted);
   font-size: 12px;
+  line-height: 1.5;
+}
+
+  align-self: start;
+}
+
+.coffee-guide-steps {
+  margin: 24px 0;
+  padding-left: 24px;
+}
+
+.coffee-guide-steps li {
+  margin-bottom: 22px;
+  padding-left: 5px;
+  color: var(--text);
+}
+
+.coffee-guide-steps li strong {
+  font-size: 16px;
+}
+
+.coffee-guide-steps li p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.coffee-guide-card .card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 18px;
+}
+
+@media (max-width: 700px) {
+  .calendar-legend {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .coffee-guide-card {
+    padding: 22px;
+  }
 }
 
 .coffee-requests-section {
