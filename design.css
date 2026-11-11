@@ -109,9 +109,10 @@ body {
 }
 
 .section-heading h2 {
-  font-size: 23px;
+  font-size: clamp(21px, 2vw, 25px);
+  line-height: 1.35;
   margin: 0;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.4px;
 }
 
 .section-heading a {
@@ -135,6 +136,17 @@ body {
   padding: 26px;
 }
 
+.dashboard-card > h2:first-child {
+  margin-bottom: 18px;
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.dashboard-card form label {
+  font-weight: 600;
+  color: var(--text);
+}
+
 .dashboard-card h2 {
   margin-top: 0;
 }
@@ -147,11 +159,21 @@ body {
 .card-link,
 .signin-button,
 .application-next {
-  background: var(--navy);
-  color: white;
-  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 20px;
+  background: #28618c;
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
   text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .card-link:hover,
@@ -314,7 +336,12 @@ summary:focus-visible {
 .discussion-form select,
 .discussion-form textarea {
   border: 1px solid #ccd8e4;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--white);
+  color: var(--text);
 }
 
 .dashboard button,
@@ -699,7 +726,6 @@ body > header {
   }
 }
 
-/* CEO XB Discussions */
 
 .discussion-feed .section-heading {
   margin-bottom: 22px;
@@ -3388,7 +3414,7 @@ html[data-theme="dark"] .signin-apply-button:hover {
   background: #315170;
 }
 
-/* Dark mode page backgrounds */
+
 html[data-theme="dark"],
 html[data-theme="dark"] body {
   background: #101b2a;
@@ -3404,7 +3430,7 @@ html[data-theme="dark"] .auth-page {
   color: #edf4fa;
 }
 
-/* Headings */
+
 html[data-theme="dark"] .dashboard-header h1,
 html[data-theme="dark"] .dashboard-header h2,
 html[data-theme="dark"] .section-heading h2,
@@ -3412,14 +3438,13 @@ html[data-theme="dark"] .hero h1 {
   color: #f1f6fc;
 }
 
-/* Paragraphs */
 html[data-theme="dark"] .dashboard-header p,
 html[data-theme="dark"] .section-heading p,
 html[data-theme="dark"] .hero p {
   color: #b0c0ce;
 }
 
-/* Cards */
+
 html[data-theme="dark"] .dashboard-card,
 html[data-theme="dark"] .calendar-dashboard-card,
 html[data-theme="dark"] .connect-search,
@@ -3430,7 +3455,7 @@ html[data-theme="dark"] .learn-topic-card {
   border-color: #33495e;
 }
 
-/* Card text */
+
 html[data-theme="dark"] .dashboard-card h2,
 html[data-theme="dark"] .dashboard-card h3,
 html[data-theme="dark"] .learn-topic-card h3 {
