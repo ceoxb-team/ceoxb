@@ -18,7 +18,7 @@
         <div class="nav-links">
             <a href="dashboard.html">Dashboard</a>
             <a href="cohorts.html">Cohorts</a>
-            <a href="calendar.html">Schedule</a>
+            <a href="calendar.html" aria-current="page">Schedule</a>
             <a href="connect.html">Community</a>
         
             <details class="account-menu">
@@ -35,13 +35,16 @@
 
     <main class="dashboard">
         <section class="dashboard-header">
-            <h1>My Calendar</h1>
+            <h1>Schedule</h1>
             <p>
-                Keep track of your events,
-                meetings, and coffee chats.
+                Manage your calendar, mandatory cohort meetings,
+                and optional coffee chats.
             </p>
         </section>
-
+        <nav class="section-subnav" aria-label="Schedule sections">
+            <a href="calendar.html" aria-current="page">Calendar</a>
+            <a href="coffee.html">Coffee Chats (1:1)</a>
+        </nav>
         <div class="full-calendar-layout">
             <section class="calendar-dashboard-card">
                 <div class="full-calendar-header">
