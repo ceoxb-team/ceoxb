@@ -41,11 +41,8 @@
     </p>
 
     <div class="cohorts-hero-actions">
-      <a href="calendar.html" class="cohorts-primary-link">
-        View Schedule
-      </a>
       <a href="coffee.html" class="cohorts-secondary-link">
-        Coffee Chats
+        Explore Coffee Chats
       </a>
     </div>
   </section>
@@ -55,14 +52,37 @@
   </div>
 
   <div class="cohort-stack">
-    <section class="cohort-panel">
-      <h2>Current Cohort</h2>
-      <div id="cohort-current">Checking assignment...</div>
-      <div id="cohort-meetings"></div>
-      <p>
-        View your required cohort meetings above.
-        <a href="calendar.html">Open your personal calendar</a>.
-      </p>
+    <section class="cohort-panel cohort-current-card">
+      <div class="cohort-card-header">
+        <div>
+          <span class="cohort-label">YOUR COHORT</span>
+          <h2>Current Cohort</h2>
+          <p>Your space to connect, collaborate, and grow.</p>
+        </div>
+
+        <div class="cohort-header-icon" aria-hidden="true">👥</div>
+      </div>
+
+      <div class="cohort-current-details">
+        <div id="cohort-current" role="status">
+          Loading your cohort...
+        </div>
+      </div>
+
+      <div class="cohort-meetings-section">
+        <div class="cohort-meetings-heading">
+          <div>
+            <h3>Upcoming Meetings</h3>
+            <p>Stay on track with your cohort sessions.</p>
+          </div>
+
+          <a href="calendar.html" class="cohort-schedule-btn">
+            View Schedule
+          </a>
+        </div>
+
+        <div id="cohort-meetings"></div>
+      </div>
     </section>
 
     <section class="cohort-panel">
