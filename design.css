@@ -569,6 +569,115 @@ html[data-theme="dark"] .section-subnav a[aria-current="page"] {
   padding: 30px;
 }
 
+.profile-editor-card {
+  padding: 30px;
+}
+
+.profile-editor-heading {
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-editor-heading h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+  color: var(--text);
+}
+
+.profile-editor-heading p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.profile-editor-heading small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.profile-section-description {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.profile-field-hint {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.profile-editor-card .profile-form label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.profile-editor-card .profile-form input:not([type="file"]),
+.profile-editor-card .profile-form textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.profile-editor-card .profile-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.profile-editor-card .picture-drop-zone {
+  padding: 28px 18px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.profile-editor-card .picture-drop-zone strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.profile-editor-card .picture-drop-zone small {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.profile-save-button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 28px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#profile-result {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .profile-editor-card,
+  .profile-preview-card {
+    padding: 22px;
+  }
+}
+
 .picture-drop-zone {
   padding: 20px;
   background: #f8fbfd;
