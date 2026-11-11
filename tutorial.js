@@ -4,44 +4,26 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             href: "dashboard.html",
             icon: "🏠",
-            title: "Your CEO XB Dashboard",
-            text: "Your home base for updates, achievements, and community activity."
+            title: "Dashboard",
+            text: "Your monthly updates, achievements, and next meeting."
+        },
+        {
+            href: "cohorts.html",
+            icon: "👥",
+            title: "Cohorts",
+            text: "Mandatory monthly meetings, private chat, and facilitator notes."
         },
         {
             href: "calendar.html",
             icon: "📅",
-            title: "Stay on Schedule",
-            text: "Check your calendar and discover upcoming opportunities."
-        },
-        {
-            href: "learn.html",
-            icon: "🎓",
-            title: "Level Up with Learn",
-            text: "Explore Mini MBA lessons and practical resources for growth."
+            title: "Schedule",
+            text: "Your calendar and optional one-on-one coffee chats."
         },
         {
             href: "connect.html",
             icon: "🤝",
-            title: "Meet Your Community",
-            text: "Discover fellow CEOs, build relationships, and find shared interests."
-        },
-        {
-            href: "coffee.html",
-            icon: "☕",
-            title: "Make Time to Connect",
-            text: "Explore coffee chats and opportunities for one-on-one conversations."
-        },
-        {
-            href: "discuss.html",
-            icon: "💬",
-            title: "Join the Discussion",
-            text: "Ask questions, share wins, and exchange ideas with your peers."
-        },
-        {
-            href: "profile.html",
-            icon: "✨",
-            title: "Make Your Profile Shine",
-            text: "Complete your profile so other CEOs can get to know you."
+            title: "Community",
+            text: "Members, discussions, and learning resources."
         }
     ];
 
