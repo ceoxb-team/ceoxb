@@ -1,5 +1,5 @@
 // Receives membership applications from onboarding_files/application-review.js.
-// Checks the Turnstile captcha and validates every field before saving.
+// Checks the reCAPTCHA checkbox and validates every field before saving.
 // The database only accepts application inserts from this function.
 
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
@@ -39,22 +39,25 @@ function reply(status: number, body: Record<string, unknown>) {
   });
 }
 
-// Returns false for a bad token or when Cloudflare can't be reached
+// Returns false for a bad token or when Google can't be reached
 async function verifyCaptcha(secret: string, token: string, ip: string | null) {
-  const form = new FormData();
-  form.append("secret", secret);
-  form.append("response", token);
+  const form = new URLSearchParams({ secret: secret, response: token });
   if (ip) form.append("remoteip", ip);
 
   try {
     const response = await fetch(
-      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      "https://www.google.com/recaptcha/api/siteverify",
       { method: "POST", body: form, signal: AbortSignal.timeout(5000) },
     );
 
     if (!response.ok) return false;
 
     const result = await response.json();
+
+    if (result.success !== true) {
+      console.error("Captcha rejected:", result["error-codes"], result.hostname);
+    }
+
     return result.success === true;
   } catch (error) {
     console.error("Captcha check failed:", error);
@@ -71,10 +74,10 @@ Deno.serve(async (request) => {
     return reply(405, { error: "Method not allowed." });
   }
 
-  const captchaSecret = Deno.env.get("TURNSTILE_SECRET_KEY");
+  const captchaSecret = Deno.env.get("RECAPTCHA_SECRET_KEY");
 
   if (!captchaSecret) {
-    console.error("TURNSTILE_SECRET_KEY is not set.");
+    console.error("RECAPTCHA_SECRET_KEY is not set.");
     return reply(500, {
       error: "Unable to submit your application. Please try again later.",
     });
@@ -117,11 +120,14 @@ Deno.serve(async (request) => {
   const token = typeof body.captchaToken === "string" ? body.captchaToken : "";
   const ip = request.headers.get("cf-connecting-ip");
 
+  // reCAPTCHA tokens are often over 2,000 characters
   if (
-    !token || token.length > 2048 ||
+    !token || token.length > 10000 ||
     !(await verifyCaptcha(captchaSecret, token, ip))
   ) {
-    return reply(400, { error: "Please complete the captcha and try again." });
+    return reply(400, {
+      error: "Please check the \"I'm not a robot\" box and try again.",
+    });
   }
 
   const supabase = createClient(

@@ -70,10 +70,10 @@ submitButton.addEventListener("click", async function () {
     }
 
     const captchaToken =
-      typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
+      typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
 
     if (!captchaToken) {
-      throw new Error("Please complete the captcha.");
+      throw new Error("Please check the \"I'm not a robot\" box.");
     }
 
     // Sent to the submit-application Edge Function, which checks the
@@ -106,8 +106,8 @@ submitButton.addEventListener("click", async function () {
       "Unable to submit your application: " + error.message;
 
     // Each captcha token works once, so get a fresh one for a retry
-    if (typeof turnstile !== "undefined") {
-      turnstile.reset();
+    if (typeof grecaptcha !== "undefined") {
+      grecaptcha.reset();
     }
 
     submitButton.disabled = false;
