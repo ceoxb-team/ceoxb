@@ -1,6 +1,6 @@
 # Gemini AI assistants
 
-Implemented on `backend-rachit`:
+Implemented on `backend-ai-incorporation-rachit`:
 
 - Dashboard: **Improve my wording** turns the three monthly update fields into a reviewable draft. **Use this draft** fills the fields; only the existing Save button writes to the database. Cancel, errors, and edits during generation preserve the member's notes.
 - Coffee Chats: accepted requests have **Help me prepare with AI**, an optional goal, a 15-minute agenda, and three conversation starters. Drafts are not saved or sent to the other participant.
