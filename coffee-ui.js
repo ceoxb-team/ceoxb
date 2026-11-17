@@ -354,6 +354,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 card.appendChild(actions);
             }
 
+            if (request.status === "accepted") {
+                window.CEOXBAI.attachCoffeeAssistant(card, request);
+            }
+
             list.appendChild(card);
         });
     }

@@ -94,6 +94,26 @@
                         </div>
                     </div>
         
+                    <div class="ai-assistant" id="monthly-ai-assistant">
+                        <h3>Polish your notes with AI</h3>
+                        <p>Write rough notes in all three fields, then review a suggested version before saving.</p>
+                        <label class="ai-consent">
+                            <input type="checkbox" id="monthly-ai-consent">
+                            Send these three fields to Google Gemini to improve the wording.
+                        </label>
+                        <p class="ai-notice">Google may use free-tier inputs and responses to improve its products. Use sample data for this prototype and avoid confidential information.</p>
+                        <button type="button" id="monthly-ai-generate" class="cohort-edit-btn">Improve my wording</button>
+                        <p id="monthly-ai-status" role="status" class="learn-note"></p>
+                        <div id="monthly-ai-preview" class="ai-draft" hidden>
+                            <h4>Suggested monthly update</h4>
+                            <div id="monthly-ai-draft-text"></div>
+                            <p class="ai-notice">Review for accuracy. Using this draft fills your fields; it does not save your update.</p>
+                            <div class="ai-actions">
+                                <button type="button" id="monthly-ai-use" class="cohort-edit-btn">Use this draft</button>
+                                <button type="button" id="monthly-ai-cancel" class="cohort-edit-btn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="cohort-save-btn">
                         Save Monthly Update
                     </button>
@@ -217,6 +237,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
     <script src="supabase.js"></script>
     <script src="script.js"></script>
+    <script src="ai-assistant.js"></script>
     <script src="monthly-update.js"></script>
     <script src="tutorial.js"></script>
     <script src="achievements.js"></script>

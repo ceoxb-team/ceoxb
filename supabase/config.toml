@@ -4,3 +4,7 @@ project_id = "ceoxb"
 [functions.submit-application]
 # Public form endpoint: protected by the Turnstile captcha instead of a JWT
 verify_jwt = false
+
+[functions.ai-assistant]
+# User-facing endpoint; handler also verifies the user and approved-member role.
+verify_jwt = true
