@@ -1015,18 +1015,22 @@ body > header {
   align-items: center;
   text-align: center;
   padding: 24px 12px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: #f9fbfd;
+  /* border: 1px solid var(--border); */
+  /* border-radius: 14px; */
+  background: #ffffff;
   gap: 7px;
 }
+
+.reward-badge img {
+  width: 100%;
+  height: 100%;}
 
 .reward-icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 62px;
-  height: 62px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   font-size: 30px;
   background: #e7edf3;
@@ -1054,7 +1058,7 @@ body > header {
 }
 
 .reward-badge.earned {
-  background: #fffaf0;
+  background: #ffffff;
   border-color: #ebd49f;
 }
 

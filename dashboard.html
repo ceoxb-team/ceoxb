@@ -4,212 +4,235 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CEO XB - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="design.css">
-</head>
-    
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="design.css" />
+  </head>
+
+  <body>
     <header>
-        <nav class="navbar">
-            <a href="dashboard.html" class="logo">
-                <img src="imgs/logo.svg" alt="CEO XB">
-            </a>
-        
+      <nav class="navbar">
+        <a href="dashboard.html" class="logo">
+          <img src="imgs/logo.svg" alt="CEO XB" />
+        </a>
+
         <div class="nav-links">
-            <a href="dashboard.html" aria-current="page">Dashboard</a>
-            <a href="cohorts.html">Cohorts</a>
-            <a href="calendar.html">Schedule</a>
-            <a href="connect.html">Community</a>
-        
-            <details class="account-menu">
-                <summary>Account</summary>
-                <div class="account-menu-panel">
-                    <a href="profile.html">My Profile</a>
-                    <a href="#" id="signout">Sign Out</a>
-                </div>
-            </details>
+          <a href="dashboard.html" aria-current="page">Dashboard</a>
+          <a href="cohorts.html">Cohorts</a>
+          <a href="calendar.html">Schedule</a>
+          <a href="connect.html">Community</a>
+
+          <details class="account-menu">
+            <summary>Account</summary>
+            <div class="account-menu-panel">
+              <a href="profile.html">My Profile</a>
+              <a href="#" id="signout">Sign Out</a>
+            </div>
+          </details>
         </div>
-        </nav>
+      </nav>
     </header>
     <main class="dashboard">
-        <section class="dashboard-header">
-            <div class="dashboard-welcome-row">
-                <div>
-                    <h1 id="dashboard-welcome">Welcome Back!</h1>
-                    <p>Review your monthly update, upcoming schedule, and progress.</p>
-                </div>
-        
-                <button type="button" id="replay-tour" class="tour-replay">
-                    Help & Tour
-                </button>
-            </div>
-        </section>
-        <section class="dashboard-card dashboard-quick-access">
+      <section class="dashboard-header">
+        <div class="dashboard-welcome-row">
           <div>
-              <h2>Quick Access</h2>
-              <p>Go directly to the information you need.</p>
+            <h1 id="dashboard-welcome">Welcome Back!</h1>
+            <p>Review your monthly update, upcoming schedule, and progress.</p>
           </div>
-      
-          <div class="dashboard-quick-links">
-              <a href="cohorts.html">My Cohort</a>
-              <a href="calendar.html">My Schedule</a>
-              <a href="connect.html">Member Directory</a>
+
+          <button type="button" id="replay-tour" class="tour-replay">
+            Help & Tour
+          </button>
+        </div>
+      </section>
+      <section class="dashboard-card dashboard-quick-access">
+        <div>
+          <h2>Quick Access</h2>
+          <p>Go directly to the information you need.</p>
+        </div>
+
+        <div class="dashboard-quick-links">
+          <a href="cohorts.html">My Cohort</a>
+          <a href="calendar.html">My Schedule</a>
+          <a href="connect.html">Member Directory</a>
+        </div>
+      </section>
+
+      <section class="dashboard-section cohort-update-section">
+        <div class="section-heading">
+          <div>
+            <h2>Monthly Update</h2>
+            <p>
+              Share your biggest win, current priority, and where you need
+              support.
+            </p>
           </div>
-        </section>
+          <span id="cohort-update-month"></span>
+        </div>
 
-        <section class="dashboard-section cohort-update-section">
-            <div class="section-heading">
-                <div>
-                    <h2>Monthly Update</h2>
-                    <p>Share your biggest win, current priority, and where you need support.</p>
-                </div>
-                <span id="cohort-update-month"></span>
-            </div>
-        
-            <div class="dashboard-card cohort-update-card">
-                <form id="cohort-update-form">
-                    <div class="cohort-update-fields">
-                        <div>
-                            <label for="cohort-win">Your Win</label>
-                            <p>What moved your business forward?</p>
-                            <textarea id="cohort-win" rows="3"
-                                maxlength="500" required
-                                placeholder="Share a recent achievement..."></textarea>
-                        </div>
-        
-                        <div>
-                            <label for="cohort-focus">Your Focus</label>
-                            <p>What's your top priority?</p>
-                            <textarea id="cohort-focus" rows="3"
-                                maxlength="500" required
-                                placeholder="Describe what you're working on..."></textarea>
-                        </div>
-        
-                        <div>
-                            <label for="cohort-ask">Your Ask</label>
-                            <p>Where could you use peer support?</p>
-                            <textarea id="cohort-ask" rows="3"
-                                maxlength="500" required
-                                placeholder="What advice or connection would help?"></textarea>
-                        </div>
-                    </div>
-        
-                    <button type="submit" class="cohort-save-btn">
-                        Save Monthly Update
-                    </button>
-                </form>
-        
-                <div id="cohort-update-summary" hidden>
-                    <div id="cohort-update-saved-text"></div>
-                    <button type="button" id="cohort-update-edit"
-                            class="cohort-edit-btn">
-                        Edit Update
-                    </button>
-                </div>
-        
-                <p id="cohort-update-status" role="status"
-                   class="learn-note"></p>
-            </div>
-        </section>
-        
-        <section class="dashboard-section dashboard-events">
-            <div class="section-heading">
-                <h2>Upcoming Schedule</h2>
-                <a href="calendar.html" class="recommendation-button section-action-button">
-                        View Coffee Chats
-                </a>
-            </div>
-        
-            <div class="dashboard-card dashboard-event-card">
-                <div class="dashboard-event-icon">▦</div>
-                
-                <div class="dashboard-event-content">
-                    <div id="dashboard-upcoming-events">
-                        <p>Loading your coffee chat...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class="dashboard-card cohort-update-card">
+          <form id="cohort-update-form">
+            <div class="cohort-update-fields">
+              <div>
+                <label for="cohort-win">Your Win</label>
+                <p>What moved your business forward?</p>
+                <textarea
+                  id="cohort-win"
+                  rows="3"
+                  maxlength="500"
+                  required
+                  placeholder="Share a recent achievement..."
+                ></textarea>
+              </div>
 
-        <section class="dashboard-section achievements-section">
-            <div class="section-heading">
-                <h2>Your Achievements</h2>
-                <a href="profile.html" class="recommendation-button section-action-button">
-                    Edit Profile
-                </a>
+              <div>
+                <label for="cohort-focus">Your Focus</label>
+                <p>What's your top priority?</p>
+                <textarea
+                  id="cohort-focus"
+                  rows="3"
+                  maxlength="500"
+                  required
+                  placeholder="Describe what you're working on..."
+                ></textarea>
+              </div>
+
+              <div>
+                <label for="cohort-ask">Your Ask</label>
+                <p>Where could you use peer support?</p>
+                <textarea
+                  id="cohort-ask"
+                  rows="3"
+                  maxlength="500"
+                  required
+                  placeholder="What advice or connection would help?"
+                ></textarea>
+              </div>
             </div>
 
-            <div class="achievements-layout">
-                <div class="dashboard-card completion-card">
-                    <div class="achievement-heading">
-                        <span class="achievement-kicker">
-                            GETTING STARTED
-                        </span>
-                        <span id="profile-progress-count">0 of 7</span>
-                    </div>
+            <button type="submit" class="cohort-save-btn">
+              Save Monthly Update
+            </button>
+          </form>
 
-                    <h3>Complete your profile</h3>
-                    <p>Help your peers get to know you.</p>
+          <div id="cohort-update-summary" hidden>
+            <div id="cohort-update-saved-text"></div>
+            <button
+              type="button"
+              id="cohort-update-edit"
+              class="cohort-edit-btn"
+            >
+              Edit Update
+            </button>
+          </div>
 
-                    <div class="completion-bar"
-                         id="profile-progress-bar"
-                         role="progressbar"
-                         aria-label="Profile completion"
-                         aria-valuemin="0"
-                         aria-valuemax="100"
-                         aria-valuenow="0">
-                        <div id="profile-progress-fill"></div>
-                    </div>
+          <p id="cohort-update-status" role="status" class="learn-note"></p>
+        </div>
+      </section>
 
-                    <p id="profile-progress-message" role="status">
-                        Checking your progress...
-                    </p>
+      <section class="dashboard-section dashboard-events">
+        <div class="section-heading">
+          <h2>Upcoming Schedule</h2>
+          <a
+            href="calendar.html"
+            class="recommendation-button section-action-button"
+          >
+            View Coffee Chats
+          </a>
+        </div>
 
-                    <a href="profile.html" class="achievement-link">
-                        Update Profile
-                    </a>
-                </div>
+        <div class="dashboard-card dashboard-event-card">
+          <div class="dashboard-event-icon">▦</div>
 
-                <div class="dashboard-card badge-collection">
-                    <div class="achievement-heading">
-                        <h3>Achievement Badges</h3>
-                        <span id="earned-badge-count">0 / 4 earned</span>
-                    </div>
-
-                    <div class="badge-grid">
-                        <div class="reward-badge locked" id="badge-profile">
-                            <span class="reward-icon">✦</span>
-                            <strong>Getting Started</strong>
-                            <small>Complete your profile</small>
-                            <span class="reward-status">Locked</span>
-                        </div>
-
-                        <div class="reward-badge locked" id="badge-coffee">
-                            <span class="reward-icon">☕</span>
-                            <strong>First Connection</strong>
-                            <small>Complete a coffee chat</small>
-                            <span class="reward-status">Not tracked yet</span>
-                        </div>
-
-                        <div class="reward-badge locked" id="badge-learning">
-                            <span class="reward-icon">▤</span>
-                            <strong>Active Learner</strong>
-                            <small>Complete a learning module</small>
-                            <span class="reward-status">Not tracked yet</span>
-                        </div>
-
-                        <div class="reward-badge locked" id="badge-tutorial">
-                            <span class="reward-icon">🎓</span>
-                            <strong>Welcome Aboard</strong>
-                            <small>Complete the CEO XB introduction</small>
-                            <span class="reward-status">Locked</span>
-                        </div>
-                    </div>
-                </div>
+          <div class="dashboard-event-content">
+            <div id="dashboard-upcoming-events">
+              <p>Loading your coffee chat...</p>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-section achievements-section">
+        <div class="section-heading">
+          <h2>Your Achievements</h2>
+          <a
+            href="profile.html"
+            class="recommendation-button section-action-button"
+          >
+            Edit Profile
+          </a>
+        </div>
+
+        <div class="achievements-layout">
+          <div class="dashboard-card completion-card">
+            <div class="achievement-heading">
+              <span class="achievement-kicker"> GETTING STARTED </span>
+              <span id="profile-progress-count">0 of 7</span>
+            </div>
+
+            <h3>Complete your profile</h3>
+            <p>Help your peers get to know you.</p>
+
+            <div
+              class="completion-bar"
+              id="profile-progress-bar"
+              role="progressbar"
+              aria-label="Profile completion"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div id="profile-progress-fill"></div>
+            </div>
+
+            <p id="profile-progress-message" role="status">
+              Checking your progress...
+            </p>
+
+            <a href="profile.html" class="achievement-link"> Update Profile </a>
+          </div>
+
+          <div class="dashboard-card badge-collection">
+            <div class="achievement-heading">
+              <h3>Achievement Badges</h3>
+              <span id="earned-badge-count">0 / 4 earned</span>
+            </div>
+
+            <div class="badge-grid">
+              <div class="reward-badge locked" id="badge-coffee">
+                <span class="reward-icon"
+                  ><img src="imgs/firstConnection.svg" alt=""
+                /></span>
+                <strong>First Connection</strong>
+                <small>Completed coffee chat</small>
+                <!-- <span class="reward-status">Not tracked yet</span> -->
+              </div>
+              <div class="reward-badge locked" id="badge-tutorial">
+                <span class="reward-icon"
+                  ><img src="imgs/welcomeBadge.svg" alt=""
+                /></span>
+                <strong>Welcome Aboard</strong>
+                <small>Completed CEO XB introduction</small>
+                <!-- <span class="reward-status">Locked</span> -->
+              </div>
+              <div class="reward-badge locked" id="badge-profile">
+                <span class="reward-icon">✦</span>
+                <strong>Getting Started</strong>
+                <small>Complete your profile</small>
+                <span class="reward-status">Locked</span>
+              </div>
+
+              <div class="reward-badge locked" id="badge-learning">
+                <span class="reward-icon">▤</span>
+                <strong>Active Learner</strong>
+                <small>Complete a learning module</small>
+                <span class="reward-status">Not tracked yet</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-    
+
     <footer>
       <p>CEO XB</p>
     </footer>
@@ -221,6 +244,5 @@
     <script src="tutorial.js"></script>
     <script src="achievements.js"></script>
     <script src="theme.js"></script>
-    
-</body>
+  </body>
 </html>
