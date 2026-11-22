@@ -4652,3 +4652,136 @@ html[data-theme="dark"] .account-menu-panel {
 html[data-theme="dark"] .account-menu-panel a {
   color: #eef5ff;
 }
+
+/* Admin: application review (admin.html) */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.admin-tabs button {
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-tabs button:hover {
+  background: var(--soft-blue);
+}
+
+.admin-tabs button[aria-selected="true"] {
+  background: var(--soft-blue);
+  border-color: var(--blue);
+  font-weight: 700;
+}
+
+.admin-status {
+  min-height: 1.5em;
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.admin-application-list {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-application h2 {
+  margin-bottom: 4px;
+}
+
+.admin-application-role {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+.admin-application-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 4px 24px;
+}
+
+.admin-application-details p {
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-application-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-application-actions button {
+  min-height: 44px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-approve {
+  border: none;
+  background: var(--navy);
+  color: white;
+}
+
+.admin-approve:hover {
+  background: var(--dark-navy);
+}
+
+.admin-decline {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.admin-decline:hover {
+  background: var(--soft-blue);
+}
+
+.admin-application-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-badge {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.admin-badge-approved {
+  background: #e3f4e8;
+  color: #1d6b34;
+}
+
+.admin-badge-declined {
+  background: #f1f3f5;
+  color: #555f6b;
+}
+
+html[data-theme="dark"] .admin-badge-approved {
+  background: #1d3b29;
+  color: #9fdcb2;
+}
+
+html[data-theme="dark"] .admin-badge-declined {
+  background: #2a3846;
+  color: #c3cfda;
+}
+
+.admin-empty {
+  color: var(--muted);
+}

@@ -7,7 +7,7 @@ async function getCurrentUser() {
 const pageName = window.location.pathname.split("/").pop().replace(/\.html$/, "");
 
 const memberPages = ["dashboard", "learn", "connect", "coffee",
-    "discuss", "profile", "calendar", "cohorts"];
+    "discuss", "profile", "calendar", "cohorts", "admin"];
 
 // Send visitors who aren't signed-in, approved members to sign in.
 // The database enforces this too; this just avoids showing empty pages.
@@ -32,8 +32,38 @@ if (memberPages.includes(pageName)) {
                 "onboarding_files/signin.html#error=" +
                 (error ? "access_check_failed" : "not_approved")
             );
+            return;
         }
+
+        showAdminLink();
     });
+}
+
+// Admins get an "Admin" link in the account menu (the page itself is
+// protected by the database; this only controls what's shown)
+async function showAdminLink() {
+    const menu = document.querySelector(".account-menu-panel");
+
+    if (!menu || menu.querySelector(".admin-menu-link")) {
+        return;
+    }
+
+    const { data: isAdmin } = await _supabase.rpc("is_admin");
+
+    if (isAdmin !== true) {
+        return;
+    }
+
+    const link = document.createElement("a");
+    link.href = "admin.html";
+    link.className = "admin-menu-link";
+    link.textContent = "Admin";
+
+    if (pageName === "admin") {
+        link.setAttribute("aria-current", "page");
+    }
+
+    menu.prepend(link);
 }
 
 const signout = document.getElementById("signout");

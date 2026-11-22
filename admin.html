@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEO XB - Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="design.css">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <a href="dashboard.html" class="logo">
+      <img src="imgs/logo.svg" alt="CEO XB">
+    </a>
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="cohorts.html">Cohorts</a>
+      <a href="calendar.html">Schedule</a>
+      <a href="connect.html">Community</a>
+      <details class="account-menu">
+        <summary>Account</summary>
+        <div class="account-menu-panel">
+          <a href="profile.html">My Profile</a>
+          <a href="#" id="signout">Sign Out</a>
+        </div>
+      </details>
+    </div>
+  </nav>
+</header>
+
+<main class="dashboard admin-page">
+  <section class="dashboard-header">
+    <h1>Applications</h1>
+    <p>Review CEOs who applied to join. Approving sends them an invite email.</p>
+  </section>
+
+  <div class="admin-tabs" role="tablist" aria-label="Application status">
+    <button type="button" role="tab" id="tab-pending"
+            aria-selected="true" data-status="pending">Pending</button>
+    <button type="button" role="tab" id="tab-reviewed"
+            aria-selected="false" data-status="reviewed">Reviewed</button>
+  </div>
+
+  <p id="admin-status" class="admin-status" role="status" aria-live="polite"></p>
+
+  <section id="application-list" class="admin-application-list"></section>
+</main>
+
+<footer><p>CEO XB</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+<script src="admin.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>
